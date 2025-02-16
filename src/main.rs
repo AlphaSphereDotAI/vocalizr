@@ -1,15 +1,15 @@
+use anyhow::{Error, Result};
 use candle_core::{Device, Tensor, D};
-use candle_huggingface::transformers::models::bark::{
-    BarkConfig, BarkModel, BarkTextConfig, BarkTextModel,
-    BarkCoarseConfig, BarkCoarseModel, BarkFineConfig, BarkFineModel,
-};
-use candle_nn::{VarBuilder, Module, linear};
 use candle_hub::{api::sync::ApiBuilder, hf_hub_download};
+use candle_huggingface::transformers::models::bark::{
+    BarkCoarseConfig, BarkCoarseModel, BarkConfig, BarkFineConfig, BarkFineModel, BarkModel,
+    BarkTextConfig, BarkTextModel,
+};
+use candle_nn::{linear, Module, VarBuilder};
 use hf_hub_rust::api::sync::Api;
-use anyhow::{Result, Error};
 use hound::{WavSpec, WavWriter};
-use tokenizers::{Tokenizer};
 use std::path::PathBuf;
+use tokenizers::Tokenizer;
 
 // Utility function to download model weights from Hugging Face Hub
 fn load_model_from_hub(
@@ -22,7 +22,6 @@ fn load_model_from_hub(
     let model_path = api.model(repo_id).get(filename)?;
     BarkModel::new(&model_path, vb, device)
 }
-
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -45,20 +44,16 @@ async fn main() -> Result<()> {
     let fine_config_path = api.model(model_repo).get(fine_config_filename)?;
     let tokenizer_path = api.model(model_repo).get(tokenizer_filename)?;
 
-
     // --- 2. Load Model Configurations ---
     let text_config = BarkTextConfig::load(&text_config_path)?;
     let coarse_config = BarkCoarseConfig::load(&coarse_config_path)?;
     let fine_config = BarkFineConfig::load(&fine_config_path)?;
 
-
     // --- 3. Load Tokenizer ---
     let tokenizer = Tokenizer::from_file(tokenizer_path).map_err(Error::msg)?;
 
-
     // --- 4. Prepare VarBuilder for Model Weights ---
     let vb = VarBuilder::zeros(candle_core::Layout::cpu()); // Use CPU for now, adjust if using GPU
-
 
     // --- 5. Instantiate and Load Model Weights (Text, Coarse, Fine) ---
     let text_model = {
@@ -76,10 +71,8 @@ async fn main() -> Result<()> {
         BarkFineModel::new(&vb_fine, &fine_config)?
     };
 
-
     // --- 6. Text to Generate ---
     let text_prompt = "Hello from Rust using Bark!";
-
 
     // --- 7. Tokenize Input Text ---
     let encoded = tokenizer.encode(text_prompt, false).map_err(Error::msg)?;
@@ -89,7 +82,6 @@ async fn main() -> Result<()> {
 
     let text_tokens_tensor = Tensor::from_vec(text_tokens, (1, text_len), &device)?; // (batch_size, seq_len)
     println!("Text Tokens Tensor shape: {:?}", text_tokens_tensor.shape());
-
 
     // --- 8. Run Text Model ---
     let text_output = text_model.forward(&text_tokens_tensor)?;
@@ -103,22 +95,22 @@ async fn main() -> Result<()> {
     let seq_len = text_len; // or determine sequence length based on text_output shape
     let text_embedding_dim = text_config.text_n_embd as usize; // Typically 1024 for Bark-small
 
-
-    let semantic_input = Tensor::zeros((batch_size, seq_len, coarse_config.semantic_n_embd as usize), candle_core::DType::F32, &device)?; // Placeholder zeros for semantic input
+    let semantic_input = Tensor::zeros(
+        (batch_size, seq_len, coarse_config.semantic_n_embd as usize),
+        candle_core::DType::F32,
+        &device,
+    )?; // Placeholder zeros for semantic input
     println!("Semantic Input Shape: {:?}", semantic_input.shape());
-
 
     // --- 10. Concatenate Text Embedding and Semantic Input ---
     let coarse_input = Tensor::cat(&[&text_output, &semantic_input], D::Last)?;
     println!("Coarse Input Shape: {:?}", coarse_input.shape());
     // Expected shape: (batch_size, seq_len, text_config.text_n_embd + coarse_config.semantic_n_embd)
 
-
     // --- 11. Run Coarse Model ---
     let coarse_output = coarse_model.forward(&coarse_input)?;
     println!("Coarse Model Output Shape: {:?}", coarse_output.shape());
     // Expected shape: (batch_size, seq_len, coarse_config.coarse_n_vocab) - e.g., (1, seq_len, 10248) (vocabulary of coarse codes)
-
 
     // --- 12.  Prepare Input for Fine Model (Coarse Output - Placeholder) ---
     // In Bark, fine model takes the quantized coarse output. For simplicity, let's take argmax to get discrete coarse tokens
@@ -126,13 +118,11 @@ async fn main() -> Result<()> {
     println!("Coarse Tokens Shape: {:?}", coarse_tokens.shape());
     // Expected shape: (batch_size, seq_len)
 
-
     // --- 13. Run Fine Model ---
     // Note: Fine model generation typically involves autoregressive sampling, this is a simplified forward pass.
     let fine_output = fine_model.forward(&coarse_tokens)?;
     println!("Fine Model Output Shape: {:?}", fine_output.shape());
     // Expected shape: (batch_size, seq_len, fine_config.fine_n_vocab) - e.g., (1, seq_len, 8192) (vocabulary of fine codes)
-
 
     // --- 14.  Decode and Convert to Audio (Simplified - Placeholder) ---
     // **Important:** This is a highly simplified placeholder for audio generation.
@@ -143,15 +133,18 @@ async fn main() -> Result<()> {
 
     // For now, let's take the argmax of the fine output as a very rough "audio" signal.
     let audio_signal_placeholder = fine_output.argmax(D::Last)?;
-    println!("Placeholder Audio Signal Shape: {:?}", audio_signal_placeholder.shape());
+    println!(
+        "Placeholder Audio Signal Shape: {:?}",
+        audio_signal_placeholder.shape()
+    );
     let audio_signal_cpu = audio_signal_placeholder.to_device(&Device::Cpu)?; // Move to CPU for WAV writing
 
     // Convert to i16 for WAV (very basic conversion, adjust as needed for actual audio)
-    let audio_data_i16: Vec<i16> = audio_signal_cpu.to_vec1::<i64>()?
+    let audio_data_i16: Vec<i16> = audio_signal_cpu
+        .to_vec1::<i64>()?
         .iter()
-        .map(|&val| (val as i16) ) // Very basic casting - may need proper scaling/normalization
+        .map(|&val| (val as i16)) // Very basic casting - may need proper scaling/normalization
         .collect();
-
 
     // --- 15. Save to WAV File (Placeholder audio) ---
     let spec = WavSpec {
@@ -169,7 +162,6 @@ async fn main() -> Result<()> {
 
     println!("Placeholder audio saved to bark_output_placeholder.wav");
     println!("Bark example finished (placeholder audio generation).");
-
 
     Ok(())
 }
