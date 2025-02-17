@@ -1,4 +1,4 @@
-FROM ghcr.io/prefix-dev/pixi:jammy-cuda-12.6.3
+FROM ghcr.io/prefix-dev/pixi:noble-cuda-12.6.3
 
 SHELL ["/bin/bash", "-c"]
 
