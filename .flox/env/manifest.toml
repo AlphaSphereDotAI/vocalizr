@@ -25,6 +25,8 @@ uv.pkg-path = "uv"
 ## -------------------------------------------------------------------
 [vars]
 # INTRO_MESSAGE = "It's gettin' Flox in here"
+PORT = "8001"
+HOST = ""
 
 
 ## Activation Hook ---------------------------------------------------
@@ -99,3 +101,8 @@ zsh = '''
 systems = ["aarch64-darwin", "aarch64-linux", "x86_64-darwin", "x86_64-linux"]
 # Uncomment to disable CUDA detection.
 # cuda-detection = false
+
+[containerize.config]
+working-dir = "/app"
+cmd = ["uv", "run", "fastapi", "dev", "--host", "$HOST", "--port", "$PORT"]
+exposed-ports = ["8001"]
