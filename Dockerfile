@@ -20,7 +20,7 @@ COPY .python-version .
 RUN pixi global install uv && \
     uv python install $(cat .python-version) && \
     uv sync && \
-    uv run huggingface-cli download suno/bark-small
+    uv run huggingface-cli download suno/bark-small --quiet
 
 COPY . .
 
