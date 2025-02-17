@@ -8,9 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     UV_NO_CACHE=true \
     PATH="/root/.pixi/bin:${PATH}"
 
-RUN apt-get update && \
-    apt-get full-upgrade -y && \
-    apt-get autoremove && \
+RUN apt-get autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
