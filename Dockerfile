@@ -28,16 +28,16 @@ WORKDIR /app
 COPY --from=build /build/main ./
 
 ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
-RUN tar xf kokoro-en-v0_19.tar.bz2 && \
-    rm kokoro-en-v0_19.tar.bz2
+RUN tar xf ./kokoro-en-v0_19.tar.bz2 && \
+    rm ./kokoro-en-v0_19.tar.bz2
 
 ## copy runtime assets which may or may not exist
-COPY --from=build /build/Rocket.tom[l] ./static
-COPY --from=build /build/stati[c] ./static
-COPY --from=build /build/template[s] ./templates
+# COPY --from=build /build/Rocket.tom[l] ./static
+# COPY --from=build /build/stati[c] ./static
+# COPY --from=build /build/template[s] ./templates
 
 ## ensure the container listens globally on port 8080
-ENV ROCKET_ADDRESS=0.0.0.0 \
-    ROCKET_PORT=8080
+# ENV ROCKET_ADDRESS=0.0.0.0 \
+#     ROCKET_PORT=8080
 
 CMD ./main
