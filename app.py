@@ -21,8 +21,8 @@ app = FastAPI(
 async def is_alive() -> JSONResponse:
     return HTMLResponse(
         content=open(file=settings.assets.index, mode="r").read(),
-    status_code=200,
-    media_type="text/html",
+        status_code=200,
+        media_type="text/html",
     )
 
 
