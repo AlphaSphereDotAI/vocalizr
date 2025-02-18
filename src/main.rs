@@ -15,7 +15,7 @@ fn main() {
     // 6->am_michael, 7->bf_emma, 8->bf_isabella, 9->bm_george, 10->bm_lewis
     let sid = 0;
     let audio = tts
-        .create("Hello! My name is Mohamed Hisham!", sid, speed = 1.0)
+        .create("Hello! My name is Mohamed Hisham!", sid, 1.0)
         .unwrap();
     sherpa_rs::write_audio_file("audio.wav", &audio.samples, audio.sample_rate).unwrap();
     println!("Created audio.wav")
