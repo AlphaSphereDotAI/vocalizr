@@ -7,6 +7,10 @@
         "pkg-path": "uv"
       }
     },
+    "vars": {
+      "HOST": "",
+      "PORT": "8001"
+    },
     "hook": {
       "on-activate": "  # Setup a Python virtual environment\n\n  export PYTHON_DIR=\".venv\"\n  if [ ! -d \"$PYTHON_DIR\" ]; then\n    echo \"Creating python virtual environment in $PYTHON_DIR\"\n    uv venv\n  fi\n\n  uv sync\n\n  source \"$PYTHON_DIR/bin/activate\"\n"
     },
@@ -39,9 +43,9 @@
           "fastapi",
           "dev",
           "--host",
-          "0.0.0.0",
+          "$HOST",
           "--port",
-          "8001"
+          "$PORT"
         ],
         "working-dir": "/app"
       }
