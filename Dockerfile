@@ -19,6 +19,9 @@ RUN --mount=type=cache,target=/build/target \
     cargo build --release; \
     objcopy --compress-debug-sections target/release/$pkg ./main
 
+ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
+
+RUN tar xf ./kokoro-en-v0_19.tar.bz2
 
 FROM docker.io/debian:stable-slim
 
@@ -27,14 +30,11 @@ WORKDIR /app
 ## copy the main binary
 COPY --from=build /build/main ./
 
-ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
-RUN tar xf ./kokoro-en-v0_19.tar.bz2 && \
-    rm ./kokoro-en-v0_19.tar.bz2
-
 ## copy runtime assets which may or may not exist
 # COPY --from=build /build/Rocket.tom[l] ./static
 # COPY --from=build /build/stati[c] ./static
 # COPY --from=build /build/template[s] ./templates
+COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 
 ## ensure the container listens globally on port 8080
 # ENV ROCKET_ADDRESS=0.0.0.0 \
