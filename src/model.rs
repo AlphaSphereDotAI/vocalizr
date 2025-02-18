@@ -1,6 +1,6 @@
 pub use sherpa_rs::tts::{KokoroTts, KokoroTtsConfig};
 
-fn generate() {
+pub fn generate() {
     let config = KokoroTtsConfig {
         model: "./kokoro-en-v0_19/model.onnx".to_string(),
         voices: "./kokoro-en-v0_19/voices.bin".into(),
