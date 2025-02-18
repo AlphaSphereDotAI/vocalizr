@@ -1522,6 +1522,7 @@ name = "voice_generator"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "serde",
  "sherpa-rs",
 ]
 

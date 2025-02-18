@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4.9.0"
+serde = { version = "1.0.217", features = ["derive"] }
 sherpa-rs = { version = "0.6.5", default-features = false, features = [
     "cuda",
     "tts",
