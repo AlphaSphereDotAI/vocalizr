@@ -32,6 +32,7 @@ jobs:
                   tags: |
                       type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
                       type=raw,value=dev-{{date 'YYYYMMDD'}},enable=${{ github.ref != format('refs/heads/{0}', 'main') }}
+                      type=sha,enable=false
             - name: Build and push App Docker image
               id: push
               uses: docker/build-push-action@v6.9.0
