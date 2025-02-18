@@ -9,10 +9,14 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PATH="/root/.pixi/bin:${PATH}"
 
 RUN apt-get update && \
-    apt-get full-upgrade -y && \
+    apt-get install -y cmake clang llvm alsa-utils libasound2-dev && \
     apt-get autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
+RUN tar xf kokoro-en-v0_19.tar.bz2 && \
+    rm kokoro-en-v0_19.tar.bz2
 
 COPY pyproject.toml .
 
