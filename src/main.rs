@@ -1,22 +1,33 @@
-pub use sherpa_rs::tts::{KokoroTts, KokoroTtsConfig};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use model::generate;
 
-fn main() {
-    let config = KokoroTtsConfig {
-        model: "./kokoro-en-v0_19/model.onnx".to_string(),
-        voices: "./kokoro-en-v0_19/voices.bin".into(),
-        tokens: "./kokoro-en-v0_19/tokens.txt".into(),
-        data_dir: "./kokoro-en-v0_19/espeak-ng-data".into(),
-        length_scale: 1.0,
-        ..Default::default()
-    };
-    let mut tts = KokoroTts::new(config);
-
-    // 0->af, 1->af_bella, 2->af_nicole, 3->af_sarah, 4->af_sky, 5->am_adam
-    // 6->am_michael, 7->bf_emma, 8->bf_isabella, 9->bm_george, 10->bm_lewis
-    let sid = 0;
-    let audio = tts
-        .create("Hello! My name is Mohamed Hisham!", sid, 1.0)
-        .unwrap();
-    sherpa_rs::write_audio_file("audio.wav", &audio.samples, audio.sample_rate).unwrap();
-    println!("Created audio.wav")
+#[get("/")]
+async fn hello() -> impl Responder {
+    HttpResponse::Ok().body("Hello world!")
 }
+
+#[post("/echo")]
+async fn echo(req_body: String) -> impl Responder {
+    HttpResponse::Ok().body(req_body)
+}
+
+async fn manual_hello() -> impl Responder {
+    HttpResponse::Ok().body("Hey there!")
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .service(hello)
+            .service(echo)
+            .route("/hey", web::get().to(manual_hello))
+    })
+    .bind(("0.0.0.0", 8001))?
+    .run()
+    .await
+}
+
+// fn main() {
+//     generate();
+// }

@@ -1,0 +1,6 @@
+target
+.cargo
+.flox
+.github
+**/*.sh
+**/*.tar.gz
