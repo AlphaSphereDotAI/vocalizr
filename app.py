@@ -5,7 +5,7 @@ from typing import Any
 from chatacter.model import generate_audio
 from chatacter.settings import Settings, get_settings
 from fastapi import FastAPI
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
 
 warnings.filterwarnings(action="ignore")
 global settings
@@ -19,10 +19,10 @@ app = FastAPI(
 
 @app.get(path="/")
 async def is_alive() -> JSONResponse:
-    return JSONResponse(
-        content={
-            "message": "Chatacter Voice Generator is alive!",
-        },
+    return HTMLResponse(
+        content=open(file=settings.assets.index, mode="r").read(),
+    status_code=200,
+    media_type="text/html",
     )
 
 

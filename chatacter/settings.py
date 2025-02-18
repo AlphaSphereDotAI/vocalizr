@@ -5,6 +5,7 @@ class AssetsSettings(BaseModel):
     audio: str = "./assets/audio/"
     image: str = "./assets/image/"
     video: str = "./assets/video/"
+    index: str = "./assets/index.html"
 
 
 class BarkSettings(BaseModel):
