@@ -11,6 +11,11 @@ RUN --mount=type=cache,target=/build/target \
     --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \
     set -eux; \
+    apt-get update; \
+    apt-get install -y cmake clang llvm alsa-utils libasound2-dev; \
+    apt-get autoremove; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/*; \
     cargo build --release; \
     objcopy --compress-debug-sections target/release/$pkg ./main
 
