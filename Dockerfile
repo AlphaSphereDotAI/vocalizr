@@ -1,5 +1,7 @@
 FROM docker.io/rust:slim AS build
 
+SHELL ["/bin/bash", "-c"]
+
 ## cargo package name: customize here or provide via --build-arg
 ARG pkg=voice_generator
 
@@ -24,6 +26,8 @@ ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en
 RUN tar xf ./kokoro-en-v0_19.tar.bz2
 
 FROM docker.io/debian:stable-slim AS prod
+
+SHELL ["/bin/bash", "-c"]
 
 WORKDIR /app
 
