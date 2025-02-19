@@ -1,4 +1,8 @@
-use actix_web::{get, http::header::ContentType, web, App, HttpResponse, HttpServer, Responder};
+use actix_files::NamedFile;
+use actix_web::{
+    get, http::header::ContentType, middleware::Logger, web, App, HttpResponse, HttpServer,
+    Responder,
+};
 use serde::Deserialize;
 use sherpa_rs::tts::{KokoroTts, KokoroTtsConfig};
 use sherpa_rs::write_audio_file;
@@ -17,7 +21,15 @@ async fn hello() -> impl Responder {
 }
 
 #[get("/generate")]
-async fn generate(params: web::Query<GenerateParams>) -> impl Responder {
+async fn generate(params: web::Query<GenerateParams>) -> actix_web::Result<NamedFile> {
+    if params.text.trim().is_empty() {
+        return HttpResponse::BadRequest().json("Text cannot be empty");
+    };
+
+    if !(0..=10).contains(&params.speaker_id) {
+        return HttpResponse::BadRequest().json("Speaker ID must be between 0 and 10");
+    };
+
     let config: KokoroTtsConfig = KokoroTtsConfig {
         model: "./kokoro-en-v0_19/model.onnx".to_string(),
         voices: "./kokoro-en-v0_19/voices.bin".into(),
@@ -32,18 +44,21 @@ async fn generate(params: web::Query<GenerateParams>) -> impl Responder {
     // 6->am_michael, 7->bf_emma, 8->bf_isabella, 9->bm_george, 10->bm_lewis
 
     let audio = tts.create(&params.text, params.speaker_id, 1.0).unwrap();
-
-    write_audio_file("audio.wav", &audio.samples, audio.sample_rate);
-
-    HttpResponse::Ok()
-        .content_type(ContentType::json())
-        .body("Created audio.wav")
+    let _ = write_audio_file("assets/audio.wav", &audio.samples, audio.sample_rate);
+    Ok(NamedFile::open("assets/audio.wav")?)
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(hello).service(generate))
-        .bind(("0.0.0.0", 8001))?
-        .run()
-        .await
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+    log::info!("starting HTTP server at http://localhost:8080");
+    HttpServer::new(|| {
+        App::new()
+            .service(hello)
+            .service(generate)
+            .wrap(Logger::default())
+    })
+    .bind(("0.0.0.0", 8001))?
+    .run()
+    .await
 }
