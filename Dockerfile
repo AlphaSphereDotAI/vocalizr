@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/build/target \
     --mount=type=cache,target=/usr/local/cargo/git \
     set -eux; \
     apt-get update; \
-    apt-get install --no-install-recommends -y cmake clang llvm alsa-utils libasound2-dev lbzip2; \
+    apt-get install -y cmake clang llvm alsa-utils libasound2-dev lbzip2; \
     apt-get autoremove; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
@@ -25,7 +25,7 @@ ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en
 
 RUN tar xf ./kokoro-en-v0_19.tar.bz2
 
-FROM docker.io/debian:stable-slim AS prod
+FROM docker.io/debian:stable-slim AS runtime
 
 SHELL ["/bin/bash", "-c"]
 
