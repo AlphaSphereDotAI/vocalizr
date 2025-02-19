@@ -14,18 +14,22 @@ RUN --mount=type=cache,target=/build/target \
     --mount=type=cache,target=/usr/local/cargo/git \
     set -eux; \
     apt-get update; \
-    apt-get install -y cmake clang llvm alsa-utils libasound2-dev lbzip2; \
+    apt-get install -y build-essential cmake clang llvm alsa-utils libasound2-dev lbzip2; \
     apt-get autoremove; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
     cargo build --release; \
     objcopy --compress-debug-sections target/release/$pkg ./main
 
+ARG MODEL_CHECKSUM="d21f1843ead42c1b036d2a164777596a9235e1b02f464b8f3d322972b5372b85"
+
 ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
 
-RUN tar xf ./kokoro-en-v0_19.tar.bz2
+RUN echo "$MODEL_CHECKSUM  ./kokoro-en-v0_19.tar.bz2" | sha256sum -c - && \
+    tar xf ./kokoro-en-v0_19.tar.bz2 && \
+    rm ./kokoro-en-v0_19.tar.bz2
 
-FROM docker.io/debian:stable-slim AS runtime
+FROM docker.io/debian:stable-slim AS prod
 
 SHELL ["/bin/bash", "-c"]
 
