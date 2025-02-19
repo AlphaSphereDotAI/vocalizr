@@ -44,4 +44,4 @@ COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 # ENV ROCKET_ADDRESS=0.0.0.0 \
 #     ROCKET_PORT=8080
 
-CMD ./main
+CMD ["./main"]
