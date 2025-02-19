@@ -21,13 +21,17 @@ async fn hello() -> impl Responder {
 }
 
 #[get("/generate")]
-async fn generate(params: web::Query<GenerateParams>) -> actix_web::Result<NamedFile> {
+async fn generate(
+    params: web::Query<GenerateParams>,
+) -> actix_web::Result<NamedFile, actix_web::Error> {
     if params.text.trim().is_empty() {
-        return HttpResponse::BadRequest().json("Text cannot be empty");
+        return Err(actix_web::error::ErrorBadRequest("Text cannot be empty"));
     };
 
     if !(0..=10).contains(&params.speaker_id) {
-        return HttpResponse::BadRequest().json("Speaker ID must be between 0 and 10");
+        return Err(actix_web::error::ErrorBadRequest(
+            "Speaker ID must be between 0 and 10",
+        ));
     };
 
     let config: KokoroTtsConfig = KokoroTtsConfig {
