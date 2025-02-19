@@ -21,9 +21,7 @@ async fn hello() -> impl Responder {
 }
 
 #[get("/generate")]
-async fn generate(
-    params: web::Query<GenerateParams>,
-) -> actix_web::Result<NamedFile, actix_web::Error> {
+async fn generate(params: web::Query<GenerateParams>) -> impl Responder {
     if params.text.trim().is_empty() {
         return Err(actix_web::error::ErrorBadRequest("Text cannot be empty"));
     };
@@ -47,7 +45,7 @@ async fn generate(
     // 6->am_michael, 7->bf_emma, 8->bf_isabella, 9->bm_george, 10->bm_lewis
     let audio = tts.create(&params.text, params.speaker_id, 1.0).unwrap();
     let _ = write_audio_file("assets/audio.wav", &audio.samples, audio.sample_rate);
-    Ok(NamedFile::open("assets/audio.wav")?)
+    Ok(NamedFile::open_async("assets/audio.wav").await)
 }
 
 #[actix_web::main]
