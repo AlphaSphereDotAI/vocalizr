@@ -39,10 +39,8 @@ async fn generate(params: web::Query<GenerateParams>) -> actix_web::Result<Named
         ..Default::default()
     };
     let mut tts = KokoroTts::new(config);
-
     // 0->af, 1->af_bella, 2->af_nicole, 3->af_sarah, 4->af_sky, 5->am_adam
     // 6->am_michael, 7->bf_emma, 8->bf_isabella, 9->bm_george, 10->bm_lewis
-
     let audio = tts.create(&params.text, params.speaker_id, 1.0).unwrap();
     let _ = write_audio_file("assets/audio.wav", &audio.samples, audio.sample_rate);
     Ok(NamedFile::open("assets/audio.wav")?)
