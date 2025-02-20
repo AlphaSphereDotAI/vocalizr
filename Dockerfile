@@ -34,9 +34,14 @@ SHELL ["/bin/bash", "-c"]
 
 WORKDIR /app
 
+RUN addgroup -S chatacter \
+    && adduser -S chatacter -G chatacter
+
 ## copy the main binary
 COPY --from=build /build/main ./
 ## copy the model
 COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
+
+USER chatacter
 
 CMD ["./main"]
