@@ -4,8 +4,9 @@ use actix_web::{
     Responder,
 };
 use serde::Deserialize;
-use sherpa_rs::tts::{KokoroTts, KokoroTtsConfig};
+use sherpa_rs::tts::{KokoroTts, KokoroTtsConfig, TtsAudio};
 use sherpa_rs::write_audio_file;
+use uuid::Uuid;
 
 #[derive(Deserialize)]
 struct GenerateParams {
@@ -43,9 +44,19 @@ async fn generate(params: web::Json<GenerateParams>) -> impl Responder {
     let mut tts = KokoroTts::new(config);
     // 0->af, 1->af_bella, 2->af_nicole, 3->af_sarah, 4->af_sky, 5->am_adam
     // 6->am_michael, 7->bf_emma, 8->bf_isabella, 9->bm_george, 10->bm_lewis
-    let audio = tts.create(&params.text, params.speaker_id, 1.0).unwrap();
-    let _ = write_audio_file("assets/audio.wav", &audio.samples, audio.sample_rate);
-    Ok(NamedFile::open_async("assets/audio.wav").await)
+    let audio: TtsAudio = tts
+        .create(&params.text, params.speaker_id, 1.0)
+        .map_err(actix_web::error::ErrorInternalServerError)?;
+
+    let filename = format!("assets/{}.wav", Uuid::new_v4());
+    if let Err(e) = write_audio_file(&filename, &audio.samples, audio.sample_rate) {
+        log::info!("Error writing audio file: {:?}", e);
+        return Err(actix_web::error::ErrorInternalServerError(format!(
+            "Error writing audio file: {:?}",
+            e
+        )));
+    }
+    Ok(NamedFile::open_async(&filename).await?)
 }
 
 #[actix_web::main]
