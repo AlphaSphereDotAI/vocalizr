@@ -18,7 +18,7 @@ struct GenerateParams {
 async fn hello() -> impl Responder {
     HttpResponse::Ok()
         .content_type(ContentType::html())
-        .body("Hello world!")
+        .body("Welcome to the Chatacter's Voice Generator API")
 }
 
 #[post("/generate")]
