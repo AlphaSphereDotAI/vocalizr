@@ -34,7 +34,8 @@ SHELL ["/bin/bash", "-c"]
 
 WORKDIR /app
 
-RUN addgroup -S chatacter \
+RUN set -eux; \
+    addgroup -S chatacter \
     && adduser -S chatacter -G chatacter
 
 ## copy the main binary
