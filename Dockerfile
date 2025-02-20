@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/build/target \
     --mount=type=cache,target=/usr/local/cargo/git \
     set -eux; \
     apt-get update; \
-    apt-get install -y build-essential cmake clang llvm alsa-utils libasound2-dev lbzip2; \
+    apt-get install -y --no-install-recommends build-essential cmake clang llvm alsa-utils libasound2-dev lbzip2; \
     apt-get autoremove; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
