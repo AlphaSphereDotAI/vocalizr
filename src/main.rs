@@ -1,6 +1,6 @@
 use actix_files::NamedFile;
 use actix_web::{
-    get, http::header::ContentType, middleware::Logger, web, App, HttpResponse, HttpServer,
+    get, http::header::ContentType, middleware::Logger, post, web, App, HttpResponse, HttpServer,
     Responder,
 };
 use serde::Deserialize;
@@ -20,8 +20,8 @@ async fn hello() -> impl Responder {
         .body("Hello world!")
 }
 
-#[get("/generate")]
-async fn generate(params: web::Query<GenerateParams>) -> impl Responder {
+#[post("/generate")]
+async fn generate(params: web::Json<GenerateParams>) -> impl Responder {
     if params.text.trim().is_empty() {
         return Err(actix_web::error::ErrorBadRequest("Text cannot be empty"));
     };
