@@ -35,8 +35,8 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /app
 
 RUN set -eux; \
-    addgroup -S chatacter \
-    && adduser -S chatacter -G chatacter
+    addgroup --system chatacter \
+    && adduser --system chatacter --group chatacter
 
 ## copy the main binary
 COPY --from=build /build/main ./
