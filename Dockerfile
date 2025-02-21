@@ -36,7 +36,7 @@ WORKDIR /app
 
 RUN set -eux; \
     addgroup --system chatacter \
-    && adduser --system chatacter --group chatacter
+    && adduser --system chatacter --ingroup chatacter
 
 ## copy the main binary
 COPY --from=build /build/main ./
