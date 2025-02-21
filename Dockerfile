@@ -9,6 +9,7 @@ WORKDIR /build
 
 COPY . .
 
+# skipcq: DOK-DL3008
 RUN --mount=type=cache,target=/build/target \
     --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \
