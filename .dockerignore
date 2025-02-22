@@ -1,6 +1,7 @@
-target
-.cargo
-.flox
-.github
+target/
+.cargo/
+.flox/
+.github/
+.vscode/
 **/*.sh
 **/*.tar.gz
