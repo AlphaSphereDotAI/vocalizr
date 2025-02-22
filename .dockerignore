@@ -3,5 +3,7 @@ target/
 .flox/
 .github/
 .vscode/
+README.md
+renovate.json
 **/*.sh
 **/*.tar.gz
