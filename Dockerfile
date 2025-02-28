@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=/build/target \
 
 ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
 
-RUN echo "d21f1843ead42c1b036d2a164777596a9235e1b02f464b8f3d322972b5372b85  ./kokoro-en-v0_19.tar.bz2" | sha256sum -c - && \
+RUN echo "d21f1843ead42c1b036d2a164777596a9235e1b02f464b8f3d322972b5372b85  ./kokoro-en-v0_19.tar.bz2" | sha256sum -c -; \
     tar xf ./kokoro-en-v0_19.tar.bz2
 
 FROM docker.io/debian:stable-slim AS prod
