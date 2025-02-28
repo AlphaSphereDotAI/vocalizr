@@ -16,9 +16,7 @@ RUN --mount=type=cache,target=/build/target \
     apt-get autoremove; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
-    cargo build --release; \
-
-COPY ./target/release/** ./
+    cargo build --release
 
 ENV MODEL_CHECKSUM="d21f1843ead42c1b036d2a164777596a9235e1b02f464b8f3d322972b5372b85"
 
@@ -38,7 +36,7 @@ RUN set -eux; \
     && adduser --system chatacter --ingroup chatacter
 
 ## copy the main binary
-COPY --from=build /build/** ./
+COPY --from=build /build/target/release/** ./
 ## copy the model
 COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 
