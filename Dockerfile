@@ -7,7 +7,7 @@ WORKDIR /build
 COPY . .
 
 # skipcq: DOK-DL3008
-RUN --mount=type=cache,target=/build/target \
+RUN --mount=type=cache,target=/build/target/release \
     --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \
     set -eux; \
@@ -34,7 +34,7 @@ RUN set -eux; \
     && adduser --system chatacter --ingroup chatacter
 
 ## copy the main binary
-COPY --from=build /build/target/release/* ./
+COPY --from=build /build/target/release/** ./
 ## copy the model## copy the model
 COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 
