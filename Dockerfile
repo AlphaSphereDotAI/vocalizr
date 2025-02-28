@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/build/target \
     rm -rf /var/lib/apt/lists/*; \
     cargo build --release; \
     mkdir -p ./tmp; \
-    cp ./target/release/** ./tmp
+    cp -r ./target/release/** ./tmp
 
 ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
 
