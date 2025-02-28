@@ -2,9 +2,6 @@ FROM docker.io/rust:slim AS build
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-## cargo package name: customize here or provide via --build-arg
-ARG pkg=voice_generator
-
 WORKDIR /build
 
 COPY . .
@@ -20,7 +17,7 @@ RUN --mount=type=cache,target=/build/target \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
     cargo build --release; \
-    objcopy --compress-debug-sections "target/release/$pkg" ./main
+    objcopy --compress-debug-sections target/release/* ./
 
 ARG MODEL_CHECKSUM="d21f1843ead42c1b036d2a164777596a9235e1b02f464b8f3d322972b5372b85"
 
@@ -40,10 +37,10 @@ RUN set -eux; \
     && adduser --system chatacter --ingroup chatacter
 
 ## copy the main binary
-COPY --from=build /build/main ./
+COPY --from=build /build/* ./
 ## copy the model
 COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 
 USER chatacter
 
-CMD ["./main"]
+CMD ["./voice_generator"]
