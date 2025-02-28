@@ -681,7 +681,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33d852cb9b869c2a9b3df2f71a3074817f01e1844f839a144f5fcef059a4eb5d"
 dependencies = [
  "libc",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -1438,7 +1438,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -1525,9 +1525,9 @@ dependencies = [
 
 [[package]]
 name = "sherpa-rs"
-version = "0.6.5"
+version = "0.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bb7fcc8b8515470392f625b33ff76a94cff6c160dbe3eaf4975afecb62715bac"
+checksum = "8fba1bc44f084763ea11303ddfc12a920f9dc502607c8fd4e29556c3e2cf5f2e"
 dependencies = [
  "eyre",
  "hound",
@@ -1537,9 +1537,9 @@ dependencies = [
 
 [[package]]
 name = "sherpa-rs-sys"
-version = "0.6.5"
+version = "0.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68a278c53c798f0f91223b3a4dab43e25ba8ddfa43019a2b175fbafc4754c8cd"
+checksum = "65c2f8410a2375ba1a3db48cd387e743bc7a047549b0cd1172a5cf656feb554a"
 dependencies = [
  "bindgen",
  "cmake",
@@ -1632,7 +1632,7 @@ dependencies = [
  "getrandom 0.3.1",
  "once_cell",
  "rustix",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
