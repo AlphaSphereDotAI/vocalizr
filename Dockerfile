@@ -33,9 +33,10 @@ RUN set -eux; \
     addgroup --system chatacter \
     && adduser --system chatacter --ingroup chatacter
 
+RUN --from=build ls -la /build
 ## copy the main binary
-COPY --from=build /build/target/release/** ./
-## copy the model
+COPY --from=build /build/target/release/* ./
+## copy the model## copy the model
 COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 
 USER chatacter
