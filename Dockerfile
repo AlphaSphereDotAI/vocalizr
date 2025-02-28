@@ -7,7 +7,7 @@ WORKDIR /build
 COPY . .
 
 # skipcq: DOK-DL3008
-RUN --mount=type=cache,target=/build/target/release \
+RUN --mount=type=cache,target=/build/target \
     --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/cargo/git \
     set -eux; \
@@ -16,7 +16,9 @@ RUN --mount=type=cache,target=/build/target/release \
     apt-get autoremove; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*; \
-    cargo build --release
+    cargo build --release; \
+    mkdir -p ./tmp; \
+    cp ./target/release/** ./tmp
 
 ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
 
@@ -34,7 +36,7 @@ RUN set -eux; \
     && adduser --system chatacter --ingroup chatacter
 
 ## copy the main binary
-COPY --from=build /build/target/release/** ./
+COPY --from=build /build/tmp/** ./
 ## copy the model## copy the model
 COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
 

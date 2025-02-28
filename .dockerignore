@@ -3,5 +3,3 @@
 .vscode/
 README.md
 renovate.json
-**/*.sh
-**/*.tar.gz
