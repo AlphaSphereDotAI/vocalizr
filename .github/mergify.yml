@@ -1,3 +1,10 @@
+merge_protections:
+  - name: Only merge with chore(deps)
+    description: ""
+    if:
+      - base = main
+    success_conditions:
+      - "title ~= ^chore\\(deps\\):"
 pull_request_rules:
   - name: Automatically merge Renovate PRs
     conditions:
