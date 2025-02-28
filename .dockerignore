@@ -1,5 +1,3 @@
-target/
-.cargo/
 .flox/
 .github/
 .vscode/
