@@ -1,11 +1,7 @@
-pull_request_rules:
-  - name: Automatically merge Renovate PRs
-    conditions:
-      - author = renovate[bot]
-    actions:
-      queue:
-queue_rules:
-  - queue_branch_merge_method: fast-forward
-    allow_queue_branch_edit: true
-    update_method: merge
-    name: default
+merge_protections:
+  - name: Only merge with chore(deps)
+    description: ""
+    if:
+      - base = main
+    success_conditions:
+      - "title ~= ^chore\\(deps\\):"
