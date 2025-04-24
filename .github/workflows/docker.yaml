@@ -35,7 +35,7 @@ jobs:
                       type=sha,enable=false
             - name: Build and push App Docker image
               id: push
-              uses: docker/build-push-action@v6.15.0
+              uses: docker/build-push-action@v6.16.0
               with:
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
