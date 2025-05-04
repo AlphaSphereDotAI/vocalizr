@@ -3,7 +3,6 @@ variable "IMAGE" {
 }
 
 target "default" {
-  name = "chatacter_backend_voice_generator"
   context    = "."
   tags       = ["${IMAGE}:latest"] #,"${IMAGE}:dev"]
   dockerfile = "Dockerfile"
