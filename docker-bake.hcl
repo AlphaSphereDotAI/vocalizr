@@ -1,5 +1,5 @@
 variable "IMAGE" {
-  default = "ghcr.io/AlphaSphereDotAI/chatacter_backend_voice_generator"
+  default = "ghcr.io/alphaspheredotai/chatacter_backend_voice_generator"
 }
 
 target "default" {
