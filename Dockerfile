@@ -6,7 +6,7 @@ WORKDIR /app
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
 
-RUN apt-get -qq -y install espeak-ng
+RUN apt-get update && apt-get -qq -y install espeak-ng
 
 # Install the project's dependencies using the lockfile and settings
 RUN --mount=type=cache,target=/root/.cache/uv \
