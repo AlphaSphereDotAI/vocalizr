@@ -2,3 +2,5 @@ tmp/
 .venv/
 .ruff_cache/
 .mypy_cache/
+__pycache__/
+src/voice_generator/__pycache__/
