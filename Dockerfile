@@ -3,15 +3,14 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 WORKDIR /app
 
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
-ENV DEBIAN_FRONTEND=noninteractive \
-    UV_NO_CACHE=true \
-    UV_COMPILE_BYTECODE=1 \
+ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
 
 # Install the project's dependencies using the lockfile and settings
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-install-project --no-dev
 
 COPY . /app

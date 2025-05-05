@@ -1,5 +1,5 @@
 [project]
-name = "voice_generator"
+name = "voice-generator"
 version = "0.1.0"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
