@@ -1,9 +1,8 @@
-import os
 import random
 import gradio as gr
 from gradio import Error
 from typing import LiteralString
-from torch import cuda
+from torch import cuda, zeros
 from kokoro import KModel, KPipeline
 
 CUDA_AVAILABLE: bool = cuda.is_available()
@@ -74,7 +73,7 @@ def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
                 audio = forward_gpu(ps, ref_s, speed)
             else:
                 audio = models[False](ps, ref_s, speed)
-        except gr.exceptions.Error as e:
+        except Error as e:
             if use_gpu:
                 gr.Warning(e.message)
                 gr.Info("Switching to CPU")
@@ -84,7 +83,7 @@ def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
         yield 24000, audio.numpy()
         if first:
             first = False
-            yield 24000, torch.zeros(1).numpy()
+            yield 24000, zeros(1).numpy()
 
 
 with open("en.txt", "r") as r:
@@ -93,16 +92,6 @@ with open("en.txt", "r") as r:
 
 def get_random_quote():
     return random.choice(random_quotes)
-
-
-def get_gatsby():
-    with open("gatsby5k.md", "r") as r:
-        return r.read().strip()
-
-
-def get_frankenstein():
-    with open("frankenstein5k.md", "r") as r:
-        return r.read().strip()
 
 
 CHOICES = {
@@ -163,7 +152,7 @@ with gr.Blocks() as generate_tab:
         gr.Markdown(TOKEN_NOTE)
         predict_btn = gr.Button("Predict", variant="secondary", visible=False)
 
-STREAM_NOTE = [
+STREAM_NOTE: list[str] = [
     "⚠️ There is an unknown Gradio bug that might yield no audio the first time you click `Stream`."
 ]
 if CHAR_LIMIT is not None:
@@ -171,7 +160,7 @@ if CHAR_LIMIT is not None:
     STREAM_NOTE.append(
         "🚀 Want more characters? You can [use Kokoro directly](https://huggingface.co/hexgrad/Kokoro-82M#usage) or duplicate this space:"
     )
-STREAM_NOTE = "\n\n".join(STREAM_NOTE)
+STREAM_NOTE: str = "\n\n".join(STREAM_NOTE)
 
 with gr.Blocks() as stream_tab:
     out_stream = gr.Audio(
@@ -184,16 +173,7 @@ with gr.Blocks() as stream_tab:
         gr.Markdown(STREAM_NOTE)
         gr.DuplicateButton()
 
-BANNER_TEXT = """
-[***Kokoro*** **is an open-weight TTS model with 82 million parameters.**](https://huggingface.co/hexgrad/Kokoro-82M)
-
-This demo only showcases English, but you can directly use the model to access other languages.
-"""
-API_OPEN = os.getenv("SPACE_ID") != "hexgrad/Kokoro-TTS"
-API_NAME = None if API_OPEN else False
 with gr.Blocks() as app:
-    with gr.Row():
-        gr.Markdown(BANNER_TEXT, container=True)
     with gr.Row():
         with gr.Column():
             text = gr.Textbox(
@@ -216,37 +196,23 @@ with gr.Blocks() as app:
                 )
             speed = gr.Slider(minimum=0.5, maximum=2, value=1, step=0.1, label="Speed")
             random_btn = gr.Button("🎲 Random Quote 💬", variant="secondary")
-            with gr.Row():
-                gatsby_btn = gr.Button("🥂 Gatsby 📕", variant="secondary")
-                frankenstein_btn = gr.Button("💀 Frankenstein 📗", variant="secondary")
         with gr.Column():
             gr.TabbedInterface([generate_tab, stream_tab], ["Generate", "Stream"])
-    random_btn.click(fn=get_random_quote, inputs=[], outputs=[text], api_name=API_NAME)
-    gatsby_btn.click(fn=get_gatsby, inputs=[], outputs=[text], api_name=API_NAME)
-    frankenstein_btn.click(
-        fn=get_frankenstein, inputs=[], outputs=[text], api_name=API_NAME
-    )
+    random_btn.click(fn=get_random_quote, inputs=[], outputs=[text])
     generate_btn.click(
         fn=generate_first,
         inputs=[text, voice, speed, use_gpu],
         outputs=[out_audio, out_ps],
-        api_name=API_NAME,
     )
-    tokenize_btn.click(
-        fn=tokenize_first, inputs=[text, voice], outputs=[out_ps], api_name=API_NAME
-    )
+    tokenize_btn.click(fn=tokenize_first, inputs=[text, voice], outputs=[out_ps])
     stream_event = stream_btn.click(
-        fn=generate_all,
-        inputs=[text, voice, speed, use_gpu],
-        outputs=[out_stream],
-        api_name=API_NAME,
+        fn=generate_all, inputs=[text, voice, speed, use_gpu], outputs=[out_stream]
     )
     stop_btn.click(fn=None, cancels=stream_event)
-    predict_btn.click(
-        fn=predict, inputs=[text, voice, speed], outputs=[out_audio], api_name=API_NAME
-    )
+    predict_btn.click(fn=predict, inputs=[text, voice, speed], outputs=[out_audio])
 
 if __name__ == "__main__":
-    app.queue(api_open=API_OPEN).launch(
-        show_api=API_OPEN, ssr_mode=True, mcp_server=True
+    app.launch(
+        ssr_mode=True,
+        mcp_server=True,
     )
