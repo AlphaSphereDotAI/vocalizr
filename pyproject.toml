@@ -5,6 +5,7 @@ description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "black>=25.1.0",
     "gradio>=5.29.0",
     "kokoro>=0.9.4",
 ]
@@ -12,7 +13,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "mypy>=1.15.0",
-    "pyright>=1.1.400",
+    "pylint>=3.3.7",
+    "pyrefly>=0.13.1",
 ]
 
 [typos.default.extend-words]

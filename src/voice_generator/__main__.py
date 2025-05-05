@@ -19,7 +19,6 @@ pipelines["b"].g2p.lexicon.golds["kokoro"] = "kˈQkəɹQ"
 def forward_gpu(ps, ref_s, speed):
     return models[True](ps, ref_s, speed)
 
-
 def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
     pipeline = pipelines[voice[0]]
