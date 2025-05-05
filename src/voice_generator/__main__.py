@@ -1,19 +1,9 @@
-from kokoro import KModel, KPipeline
-import gradio as gr
 import os
 import random
+import gradio as gr
 import torch
-from src.voice_generator import CUDA_AVAILABLE, CHAR_LIMIT
-
-models = {
-    gpu: KModel().to("cuda" if gpu else "cpu").eval()
-    for gpu in [False] + ([True] if CUDA_AVAILABLE else [])
-}
-pipelines = {
-    lang_code: KPipeline(lang_code=lang_code, model=False) for lang_code in "ab"
-}
-pipelines["a"].g2p.lexicon.golds["kokoro"] = "kˈOkəɹO"
-pipelines["b"].g2p.lexicon.golds["kokoro"] = "kˈQkəɹQ"
+from gradio import Error
+from src.voice_generator import CHAR_LIMIT, CUDA_AVAILABLE, models, pipelines
 
 
 def forward_gpu(ps, ref_s, speed):
@@ -32,7 +22,7 @@ def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
                 audio = forward_gpu(ps, ref_s, speed)
             else:
                 audio = models[False](ps, ref_s, speed)
-        except gr.exceptions.Error as e:
+        except Error as e:
             if use_gpu:
                 gr.Warning(str(e))
                 gr.Info(
@@ -40,7 +30,7 @@ def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
                 )
                 audio = models[False](ps, ref_s, speed)
             else:
-                raise gr.Error(e.message)
+                raise Error(e.message)
         return (24000, audio.numpy()), ps
     return None, ""
 
