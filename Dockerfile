@@ -7,7 +7,7 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
 
 RUN apt-get update && \
-    apt-get -qq -y install espeak-ng && \
+    apt-get install -qq -y --no-install-recommends espeak-ng && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
