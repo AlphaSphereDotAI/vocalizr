@@ -1,12 +1,13 @@
 name: Spelling
 on: [pull_request, push]
-permissions:
-  contents: read
-env:
-  CLICOLOR: 1
 jobs:
   spelling:
     name: Spell Check with Typos
+    env:
+      UV_CACHE_DIR: /tmp/.uv-cache
+      CLICOLOR: 1
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository

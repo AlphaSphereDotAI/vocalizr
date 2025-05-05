@@ -2,6 +2,8 @@ name: Pylint
 on: [push]
 jobs:
   build:
+    env:
+      UV_CACHE_DIR: /tmp/.uv-cache
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
