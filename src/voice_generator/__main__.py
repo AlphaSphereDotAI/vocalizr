@@ -3,10 +3,8 @@ import gradio as gr
 import os
 import random
 import torch
+from src.voice_generator import CUDA_AVAILABLE, CHAR_LIMIT
 
-CUDA_AVAILABLE = torch.cuda.is_available()
-
-CHAR_LIMIT = 5000
 models = {
     gpu: KModel().to("cuda" if gpu else "cpu").eval()
     for gpu in [False] + ([True] if CUDA_AVAILABLE else [])
