@@ -2049,13 +2049,13 @@ name = "voice-generator"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "black" },
     { name = "gradio" },
     { name = "kokoro" },
 ]
 
 [package.dev-dependencies]
 dev = [
+    { name = "black" },
     { name = "mypy" },
     { name = "pylint" },
     { name = "pyrefly" },
@@ -2065,13 +2065,13 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "black", specifier = ">=25.1.0" },
     { name = "gradio", specifier = ">=5.29.0" },
     { name = "kokoro", specifier = ">=0.9.4" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "black", specifier = ">=25.1.0" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pylint", specifier = ">=3.3.7" },
     { name = "pyrefly", specifier = ">=0.13.1" },
