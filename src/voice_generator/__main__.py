@@ -80,11 +80,11 @@ def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
                 audio = models[False](ps, ref_s, speed)
         except gr.exceptions.Error as e:
             if use_gpu:
-                gr.Warning(str(e))
+                gr.Warning(e.message)
                 gr.Info("Switching to CPU")
                 audio = models[False](ps, ref_s, speed)
             else:
-                raise gr.Error(e)
+                raise gr.Error(e.message)
         yield 24000, audio.numpy()
         if first:
             first = False
