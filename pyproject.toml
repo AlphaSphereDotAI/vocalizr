@@ -5,7 +5,7 @@ description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "gradio>=5.29.0",
+    "gradio[mcp]>=5.29.0",
     "kokoro>=0.9.4",
     "pip>=25.1.1",
 ]

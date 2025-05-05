@@ -1,9 +1,23 @@
 import os
 import random
 import gradio as gr
-import torch
 from gradio import Error
-from src.voice_generator import CHAR_LIMIT, CUDA_AVAILABLE, models, pipelines
+from typing import LiteralString
+from torch import cuda
+from kokoro import KModel, KPipeline
+
+CUDA_AVAILABLE: bool = cuda.is_available()
+CHAR_LIMIT: int = 5000
+
+models: dict[bool, KModel] = {
+    gpu: KModel().to("cuda" if gpu else "cpu").eval()
+    for gpu in [False] + ([True] if CUDA_AVAILABLE else [])
+}
+pipelines: dict[LiteralString, KPipeline] = {
+    lang_code: KPipeline(lang_code=lang_code, model=False) for lang_code in "ab"
+}
+pipelines["a"].g2p.lexicon.golds["kokoro"] = "kˈOkəɹO"
+pipelines["b"].g2p.lexicon.golds["kokoro"] = "kˈQkəɹQ"
 
 
 def forward_gpu(ps, ref_s, speed):
@@ -74,7 +88,7 @@ def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
 
 
 with open("en.txt", "r") as r:
-    random_quotes = [line.strip() for line in r]
+    random_quotes: list[str] = [line.strip() for line in r]
 
 
 def get_random_quote():
