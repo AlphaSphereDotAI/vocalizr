@@ -8,6 +8,7 @@ that only need the shared constants (e.g. docs builders, CI linters).
 # `torch` is optional: gracefully fall back to CPU-only mode when it is absent.
 try:
     import torch
+
     CUDA_AVAILABLE: bool = torch.cuda.is_available()
 except ModuleNotFoundError:  # pragma: no cover – torch optional
     torch = None  # type: ignore
