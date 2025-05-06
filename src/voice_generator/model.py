@@ -1,3 +1,12 @@
+"""
+Voice generation model functions.
+
+This module provides the core functionality for text-to-speech generation,
+including token generation, audio synthesis, and streaming capabilities.
+"""
+
+import random
+from typing import Any
 import gradio as gr
 from gradio import Error
 from kokoro import KPipeline
@@ -13,6 +22,17 @@ def forward_gpu(ps, ref_s, speed) -> Any:
 
 
 def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
+    """Generate audio for the first segment of the input text.
+
+    Args:
+        text: Input text to convert to speech
+        voice: Voice identifier
+        speed: Speech speed multiplier
+        use_gpu: Whether to use GPU for generation
+
+    Returns:
+        tuple: ((sample_rate, audio_numpy), phoneme_sequence)
+    """
     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
     pipeline: KPipeline = pipelines[voice[0]]
     pack: FloatTensor = pipeline.load_voice(voice)
@@ -21,7 +41,7 @@ def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
         ref_s: Tensor = pack[len(ps) - 1]
         try:
             if use_gpu:
-                audio = forward_gpu(ps, ref_s, speed)
+                audio = forward_gpu(ps, ref_s, speed).cpu()
             else:
                 audio = MODELS[False](ps, ref_s, speed)
         except Error as e:
@@ -30,10 +50,10 @@ def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
                 gr.Info(
                     "Retrying with CPU. To avoid this error, change Hardware to CPU."
                 )
-                audio = MODELS[False](ps, ref_s, speed)
+                audio = MODELS[False](ps, ref_s, speed).cpu()
             else:
-                raise Error(e.message) from e
-        return (24000, audio.numpy()), ps
+                raise Error(str(e)) from e
+        return (24000, audio.cpu().numpy()), ps
     return None, ""
 
 
