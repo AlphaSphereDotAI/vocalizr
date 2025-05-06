@@ -5,7 +5,7 @@ This module provides the core functionality for text-to-speech generation,
 including token generation, audio synthesis, and streaming capabilities.
 """
 
-import random
+from random import choice
 from typing import Any
 import gradio as gr
 import torch
@@ -77,21 +77,21 @@ def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
         ref_s = pack[len(ps) - 1]
         try:
             if use_gpu:
-                audio = forward_gpu(ps, ref_s, speed)
+                audio = forward_gpu(ps, ref_s, speed).cpu()
             else:
                 audio = MODELS[False](ps, ref_s, speed)
         except Error as e:
             if use_gpu:
-                gr.Warning(e.message)
+                gr.Warning(str(e))
                 gr.Info("Switching to CPU")
-                audio = MODELS[False](ps, ref_s, speed)
+                audio = MODELS[False](ps, ref_s, speed).cpu()
             else:
-                raise gr.Error(e.message)
-        yield 24000, audio.numpy()
+                raise gr.Error(str(e)) from e
+        yield 24000, audio.cpu().numpy()
         if first:
             first = False
             yield 24000, torch.zeros(1).numpy()
 
 
-def get_random_quote():
-    return random.choice(random_quotes)
+def get_random_quote() -> str:
+    return choice(random_quotes)

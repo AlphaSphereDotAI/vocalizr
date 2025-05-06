@@ -1,6 +1,6 @@
+from gradio import Blocks
 from voice_generator.gui import app_block
 from voice_generator import DEBUG, ADDRESS, PORT
-from gradio import Blocks
 
 
 def main() -> None:
@@ -18,7 +18,7 @@ def main() -> None:
         enable_monitoring=True,
         show_error=True,
         server_name=ADDRESS,
-        server_port=PORT,
+        server_port=int(PORT),
     )
 
 
