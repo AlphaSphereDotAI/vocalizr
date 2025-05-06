@@ -1,50 +1,50 @@
+"""
+Gradio-based graphical user interface for the voice generation application.
+
+This module defines the UI components and layout for the voice generator, including
+text input, voice selection, and audio output. It connects UI elements to backend
+functions for generating speech and fetching random quotes.
+"""
+
 from gradio import (
-    Blocks,
-    Audio,
-    Button,
-    Textbox,
-    Dropdown,
-    Slider,
-    Markdown,
     Accordion,
-    Row,
+    Audio,
+    Blocks,
+    Button,
     Column,
+    Dropdown,
+    Markdown,
+    Row,
+    Slider,
     TabbedInterface,
+    Textbox,
 )
-from voice_generator import (
-    CUDA_AVAILABLE,
-    CHAR_LIMIT,
-    STREAM_NOTE,
-    TOKEN_NOTE,
-    CHOICES,
-)
-from voice_generator.model import (
-    generate,
-    get_random_quote,
-    # tokenize_first,
-    # generate_all,
-)
+from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE, STREAM_NOTE
+from voice_generator.model import generate, get_random_quote
 
 
-def generate_tab_block():
+def generate_tab_block() -> tuple[Blocks, Audio, Button]:
+    """Create and return the Generate tab UI components.
+
+    Returns:
+        tuple: (generate_tab, out_audio, generate_btn) containing the tab block
+        and its interactive components
+    """
     with Blocks() as generate_tab:
         out_audio: Audio = Audio(
             label="Output Audio", interactive=False, streaming=False, autoplay=True
         )
         generate_btn: Button = Button("Generate", variant="primary")
-        # with Accordion("Output Tokens", open=True):
-        #     out_ps: Textbox = Textbox(
-        #         interactive=False,
-        #         show_label=False,
-        #         info="Tokens used to generate the audio, up to 510 context length.",
-        #     )
-        #     tokenize_btn: Button = Button("Tokenize", variant="secondary")
-        #     Markdown(TOKEN_NOTE)
-        #     predict_btn: Button = Button("Predict", variant="secondary", visible=False)
-    return generate_tab, out_audio, generate_btn  # , out_ps, tokenize_btn, predict_btn
+    return generate_tab, out_audio, generate_btn
 
 
-def stream_tab_block():
+def stream_tab_block() -> tuple[Blocks, Audio, Button, Button]:
+    """Create and return the Stream tab UI components.
+
+    Returns:
+        tuple: (stream_tab, out_stream, stream_btn, stop_btn) containing the tab block
+        and its interactive components
+    """
     with Blocks() as stream_tab:
         out_stream: Audio = Audio(
             label="Output Audio Stream",
