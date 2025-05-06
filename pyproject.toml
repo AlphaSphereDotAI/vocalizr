@@ -26,6 +26,7 @@ dev = [
     "typos>=1.32.0",
     "black>=25.1.0",
     "pyright>=1.1.400",
+    "watchfiles>=1.0.5",
 ]
 
 [tool.typos.default.extend-words]
@@ -35,8 +36,8 @@ Chatacter = "Chatacter"
 python_interpreter = ".venv/Scripts/python"
 
 [tool.mypy]
-ignore_missing_imports = true
 disable = ["E1101"]
+ignore_missing_imports = true
 
 [tool.uv.sources]
 en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }

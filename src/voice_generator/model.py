@@ -1,97 +1,72 @@
 """
 Voice generation model functions.
-
 This module provides the core functionality for text-to-speech generation,
 including token generation, audio synthesis, and streaming capabilities.
 """
 
 from random import choice
-from typing import Any
-import gradio as gr
-import torch
 from gradio import Error
-from kokoro import KPipeline
-from torch import FloatTensor, Tensor
-from voice_generator import CHAR_LIMIT, CUDA_AVAILABLE, MODELS, pipelines, random_quotes
+from numpy import ndarray
+from voice_generator import CHAR_LIMIT, PIPELINE, random_quotes
 
 
-def forward_gpu(ps, ref_s, speed) -> Any:
-    return MODELS[True](ps, ref_s, speed)
-
-
-def generate_first(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
-    """Generate audio for the first segment of the input text.
-
+def generate(text: str, voice="af_heart", speed=1) -> tuple[int, ndarray]:
+    """Generate audio for the input text.
     Args:
         text: Input text to convert to speech
         voice: Voice identifier
         speed: Speech speed multiplier
-        use_gpu: Whether to use GPU for generation
-
     Returns:
         tuple: ((sample_rate, audio_numpy), phoneme_sequence)
     """
     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
-    pipeline: KPipeline = pipelines[voice[0]]
-    pack: FloatTensor = pipeline.load_voice(voice)
-    use_gpu = use_gpu and CUDA_AVAILABLE
-    for _, ps, _ in pipeline(text, voice, speed):
-        ref_s: Tensor = pack[len(ps) - 1]
-        try:
-            if use_gpu:
-                audio = forward_gpu(ps, ref_s, speed).cpu()
-            else:
-                audio = MODELS[False](ps, ref_s, speed)
-        except Error as e:
-            if use_gpu:
-                gr.Warning(str(e))
-                gr.Info(
-                    "Retrying with CPU. To avoid this error, change Hardware to CPU."
-                )
-                audio = MODELS[False](ps, ref_s, speed).cpu()
-            else:
-                raise Error(str(e)) from e
-        return (24000, audio.cpu().numpy()), ps
-    return None, ""
+    try:
+        for _, _, audio in PIPELINE(text, voice, speed):
+            audio_numpy: ndarray = audio.numpy()
+            return (24000, audio_numpy)
+    except Error as e:
+        raise Error(str(e)) from e
+    raise RuntimeError("No audio generated")
 
 
-# Arena API
-def predict(text, voice="af_heart", speed=1):
-    return generate_first(text, voice, speed, use_gpu=False)[0]
+# def tokenize_first(text, voice="af_heart") -> FloatTensor | str | None:
+#     pipeline: KPipeline = pipelines[voice[0]]
+#     for _, phonemes, _ in pipeline(text, voice):
+#         return phonemes
+#     return ""
 
-
-def tokenize_first(text, voice="af_heart"):
-    pipeline = pipelines[voice[0]]
-    for _, ps, _ in pipeline(text, voice):
-        return ps
-    return ""
-
-
-def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
-    text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
-    pipeline = pipelines[voice[0]]
-    pack = pipeline.load_voice(voice)
-    use_gpu = use_gpu and CUDA_AVAILABLE
-    first = True
-    for _, ps, _ in pipeline(text, voice, speed):
-        ref_s = pack[len(ps) - 1]
-        try:
-            if use_gpu:
-                audio = forward_gpu(ps, ref_s, speed).cpu()
-            else:
-                audio = MODELS[False](ps, ref_s, speed)
-        except Error as e:
-            if use_gpu:
-                gr.Warning(str(e))
-                gr.Info("Switching to CPU")
-                audio = MODELS[False](ps, ref_s, speed).cpu()
-            else:
-                raise gr.Error(str(e)) from e
-        yield 24000, audio.cpu().numpy()
-        if first:
-            first = False
-            yield 24000, torch.zeros(1).numpy()
+# def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
+#     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
+#     pipeline: KPipeline = pipelines[voice[0]]
+#     pack = pipeline.load_voice(voice)
+#     use_gpu = use_gpu and CUDA_AVAILABLE
+#     first = True
+#     for _, phonemes, _ in pipeline(text, voice, speed):
+#         ref_s = pack[len(phonemes) - 1]
+#         try:
+#             if use_gpu:
+#                 audio = forward_gpu(phonemes, ref_s, speed).cpu()
+#             else:
+#                 audio = MODELS[False](phonemes, ref_s, speed)
+#         except Error as e:
+#             if use_gpu:
+#                 gr.Warning(str(e))
+#                 gr.Info("Switching to CPU")
+#                 audio = MODELS[False](phonemes, ref_s, speed).cpu()
+#             else:
+#                 raise gr.Error(str(e)) from e
+#         yield 24000, audio.cpu().numpy()
+#         if first:
+#             first = False
+#             yield 24000, torch.zeros(1).numpy()
 
 
 def get_random_quote() -> str:
     return choice(random_quotes)
+
+
+if __name__ == "__main__":
+    _, n = generate(text="hi")
+    print(n)
+    print(type(n))
+    print(n.dtype)

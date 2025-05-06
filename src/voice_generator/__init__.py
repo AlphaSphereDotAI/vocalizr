@@ -7,33 +7,20 @@ necessary data for the application.
 
 from pathlib import Path
 from os import getenv
+from kokoro import KPipeline
+from torch import cuda
+from dotenv import load_dotenv
+from loguru import logger
 
-try:
-    from kokoro import KModel, KPipeline
-    import torch
-    from dotenv import load_dotenv
-except ImportError as e:
-    raise ImportError(
-        "Required dependencies 'dotenv', 'kokoro' and 'torch' not found."
-    ) from e
 load_dotenv()
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
 DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
-ADDRESS: str = getenv(key="ADDRESS", default="localhost")
-PORT: str = getenv(key="PORT", default="8080")
-CUDA_AVAILABLE: bool = torch.cuda.is_available()
+CUDA_AVAILABLE: bool = cuda.is_available()
 CHAR_LIMIT: int = 5000
+PIPELINE: KPipeline = KPipeline(lang_code="a")
 
-MODELS: dict[bool, KModel] = {
-    gpu: KModel().to("cuda" if gpu else "cpu").eval()
-    for gpu in [False] + ([True] if CUDA_AVAILABLE else [])
-}
-pipelines: dict[str, KPipeline] = {
-    lang_code: KPipeline(lang_code=lang_code, model=False) for lang_code in "ab"
-}
-pipelines["a"].g2p.lexicon.golds["kokoro"] = "kˈOkəɹO"
-pipelines["b"].g2p.lexicon.golds["kokoro"] = "kˈQkəɹQ"
+logger.info(f"CUDA Avalible: {CUDA_AVAILABLE}")
 
 try:
     with open(BASE_DIR / "en.txt", "r", encoding="utf-8") as r:
@@ -71,14 +58,6 @@ CHOICES: dict[str, str] = {
     "🇬🇧 🚹 Lewis": "bm_lewis",
     "🇬🇧 🚹 Daniel": "bm_daniel",
 }
-
-for v in CHOICES.values():
-    try:
-        pipelines[v[0]].load_voice(v)
-    except Exception as e:  # pylint: disable=broad-except
-        import warnings
-
-        warnings.warn(f"Failed to preload voice {v}: {e}")
 
 TOKEN_NOTE = """
 💡 Customize pronunciation with Markdown link syntax and /slashes/ like `[Kokoro](/kˈOkəɹO/)`

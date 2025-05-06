@@ -1,6 +1,5 @@
 from gradio import Blocks
 from voice_generator.gui import app_block
-from voice_generator import DEBUG, ADDRESS, PORT
 
 
 def main() -> None:
@@ -12,12 +11,9 @@ def main() -> None:
     app: Blocks = app_block()
     app.launch(
         mcp_server=True,
-        debug=DEBUG,
         show_api=True,
         enable_monitoring=True,
         show_error=True,
-        server_name=ADDRESS,
-        server_port=int(PORT),
     )
 
 
