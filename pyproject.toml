@@ -10,6 +10,13 @@ dependencies = [
     "pip>=25.1.1",
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+voice_generator = "voice_generator.__main__:main"
+
 [dependency-groups]
 dev = [
     "mypy>=1.15.0",
@@ -25,3 +32,6 @@ Chatacter = "Chatacter"
 
 [tool.pyrefly]
 python_interpreter = ".venv/Scripts/python"
+
+[tool.pylint]
+disable = ["E1101"]
