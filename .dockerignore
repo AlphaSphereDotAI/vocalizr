@@ -3,3 +3,7 @@
 .vscode/
 README.md
 renovate.json
+tmp/
+.ruff_cache/
+.mypy_cache/
+**/__pycache__/

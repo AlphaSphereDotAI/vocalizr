@@ -2,6 +2,9 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 
 WORKDIR /app
 
+RUN addgroup -S nonroot \
+    && adduser -S nonroot -G nonroot
+
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
@@ -25,6 +28,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Place executables in the environment at the front of the path
 ENV PATH=/app/.venv/bin:$PATH
 
+USER nonroot
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 

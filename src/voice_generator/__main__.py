@@ -1,5 +1,5 @@
 from voice_generator.gui import app_block
-from voice_generator import DEBUG
+from voice_generator import DEBUG, ADDRESS, PORT
 from gradio import Blocks
 
 
@@ -17,8 +17,8 @@ def main() -> None:
         show_api=True,
         enable_monitoring=True,
         show_error=True,
-        server_name="0.0.0.0" if not DEBUG else "localhost",
-        server_port=8080,
+        server_name=ADDRESS,
+        server_port=PORT,
     )
 
 

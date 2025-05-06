@@ -19,7 +19,8 @@ except ImportError as e:
 load_dotenv()
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
-DEBUG: bool = getenv(key="DEBUG", default="True").lower() == "true"
+DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
+ADDRESS: str = getenv(key="ADDRESS", default="localhost")
 PORT: str = getenv(key="PORT", default="8080")
 CUDA_AVAILABLE: bool = torch.cuda.is_available()
 CHAR_LIMIT: int = 5000
