@@ -5,17 +5,17 @@ This module sets up the voice generation models, pipelines, and loads
 necessary data for the application.
 """
 
-# Use defensive imports for optional heavyweight dependencies
+from pathlib import Path
+
 try:
     from kokoro import KModel, KPipeline
-    from torch import cuda
-except ImportError:
-    print("Required dependencies 'kokoro' and 'torch' not found.")
-from pathlib import Path
+    import torch
+except ImportError as e:
+    raise ImportError("Required dependencies 'kokoro' and 'torch' not found.") from e
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
 
-CUDA_AVAILABLE: bool = cuda.is_available()
+CUDA_AVAILABLE: bool = torch.cuda.is_available()
 CHAR_LIMIT: int = 5000
 
 MODELS: dict[bool, KModel] = {
