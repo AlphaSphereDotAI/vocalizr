@@ -21,10 +21,11 @@ voice_generator = "voice_generator.__main__:main"
 dev = [
     "mypy>=1.15.0",
     "pylint>=3.3.7",
-    "pyrefly>=0.13.1",
+    "pyrefly>=0.14.0",
     "ruff>=0.11.8",
     "typos>=1.32.0",
     "black>=25.1.0",
+    "pyright>=1.1.400",
 ]
 
 [tool.typos.default.extend-words]
