@@ -1,5 +1,19 @@
-from kokoro import KModel, KPipeline
-from torch import cuda
+"""
+Core constants and initialization for the Voice Generator package.
+
+This module sets up the voice generation models, pipelines, and loads
+necessary data for the application.
+"""
+
+# Use defensive imports for optional heavyweight dependencies
+try:
+    from kokoro import KModel, KPipeline
+    from torch import cuda
+except ImportError:
+    raise ImportError(
+        "Required dependencies 'kokoro' and 'torch' not found. "
+        "Please install them with: pip install kokoro torch"
+    )
 from pathlib import Path
 
 BASE_DIR: Path = Path(__file__).parent
