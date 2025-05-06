@@ -54,6 +54,14 @@ def stream_tab_block() -> tuple[Blocks, Audio, Button, Button]:
 
 
 def app_block() -> gr.Blocks:
+    """Create and return the main application interface.
+
+    Assembles both Generate and Stream tabs into a complete UI with shared input controls.
+    Connects UI components to their respective backend functions.
+
+    Returns:
+        gr.Blocks: The complete Gradio application interface
+    """
     generate_tab, out_audio, generate_btn, out_ps, tokenize_btn, predict_btn = (
         generate_tab_block()
     )
@@ -63,7 +71,10 @@ def app_block() -> gr.Blocks:
             with gr.Column():
                 text: Textbox = gr.Textbox(
                     label="Input Text",
-                    info=f"Up to ~500 characters per Generate, or {'∞' if CHAR_LIMIT is None else CHAR_LIMIT} characters per Stream",
+                    info=(
+                        f"Up to ~500 characters per Generate, or "
+                        f"{'∞' if CHAR_LIMIT is None else CHAR_LIMIT} characters per Stream"
+                    ),
                 )
                 with gr.Row():
                     voice: Dropdown = gr.Dropdown(

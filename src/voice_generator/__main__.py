@@ -3,6 +3,11 @@ from gradio import Blocks
 
 
 def main() -> None:
+    """Launch the Gradio voice generation web application.
+
+    Starts a web server with server-side rendering, multi-client processing,
+    and debug mode enabled. The server listens on all interfaces on port 8080.
+    """
     app: Blocks = app_block()
     app.launch(
         ssr_mode=True,

@@ -10,10 +10,7 @@ try:
     from kokoro import KModel, KPipeline
     from torch import cuda
 except ImportError:
-    raise ImportError(
-        "Required dependencies 'kokoro' and 'torch' not found. "
-        "Please install them with: pip install kokoro torch"
-    )
+    print("Required dependencies 'kokoro' and 'torch' not found.")
 from pathlib import Path
 
 BASE_DIR: Path = Path(__file__).parent
