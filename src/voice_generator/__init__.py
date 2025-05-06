@@ -1,5 +1,8 @@
 from kokoro import KModel, KPipeline
 from torch import cuda
+from pathlib import Path
+
+BASE_DIR: Path = Path(__file__).parent
 
 CUDA_AVAILABLE: bool = cuda.is_available()
 CHAR_LIMIT: int = 5000
@@ -14,10 +17,11 @@ pipelines: dict[str, KPipeline] = {
 pipelines["a"].g2p.lexicon.golds["kokoro"] = "kˈOkəɹO"
 pipelines["b"].g2p.lexicon.golds["kokoro"] = "kˈQkəɹQ"
 
-
-with open("en.txt", "r") as r:
-    random_quotes: list[str] = [line.strip() for line in r]
-
+try:
+    with open(BASE_DIR / "en.txt", "r", encoding="utf-8") as r:
+        random_quotes: list[str] = [line.strip() for line in r]
+except FileNotFoundError:
+    print(f"Missing required text file: {BASE_DIR / 'en.txt'}")
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",
@@ -49,13 +53,19 @@ CHOICES: dict[str, str] = {
     "🇬🇧 🚹 Lewis": "bm_lewis",
     "🇬🇧 🚹 Daniel": "bm_daniel",
 }
+
 for v in CHOICES.values():
-    pipelines[v[0]].load_voice(v)
+    try:
+        pipelines[v[0]].load_voice(v)
+    except Exception as e:  # pylint: disable=broad-except
+        import warnings
+
+        warnings.warn(f"Failed to preload voice {v}: {e}")
 
 TOKEN_NOTE = """
 💡 Customize pronunciation with Markdown link syntax and /slashes/ like `[Kokoro](/kˈOkəɹO/)`
 
-💬 To adjust intonation, try punctuation `;:,.!?—…"()“”` or stress `ˈ` and `ˌ`
+💬 To adjust intonation, try punctuation `;:,.!?—…"()""` or stress `ˈ` and `ˌ`
 
 ⬇️ Lower stress `[1 level](-1)` or `[2 levels](-2)`
 
