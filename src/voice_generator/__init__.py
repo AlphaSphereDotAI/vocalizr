@@ -6,15 +6,21 @@ necessary data for the application.
 """
 
 from pathlib import Path
+from os import getenv
 
 try:
     from kokoro import KModel, KPipeline
     import torch
+    from dotenv import load_dotenv
 except ImportError as e:
-    raise ImportError("Required dependencies 'kokoro' and 'torch' not found.") from e
+    raise ImportError(
+        "Required dependencies 'dotenv', 'kokoro' and 'torch' not found."
+    ) from e
+load_dotenv()
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
-
+DEBUG: bool = getenv(key="DEBUG", default="True").lower() == "true"
+PORT: str = getenv(key="PORT", default="8080")
 CUDA_AVAILABLE: bool = torch.cuda.is_available()
 CHAR_LIMIT: int = 5000
 
@@ -31,8 +37,8 @@ pipelines["b"].g2p.lexicon.golds["kokoro"] = "kˈQkəɹQ"
 try:
     with open(BASE_DIR / "en.txt", "r", encoding="utf-8") as r:
         random_quotes: list[str] = [line.strip() for line in r]
-except FileNotFoundError:
-    raise FileNotFoundError(f"Missing required text file: {BASE_DIR / 'en.txt'}")
+except FileNotFoundError as e:
+    raise FileNotFoundError(f"Missing required text file: {BASE_DIR / 'en.txt'}") from e
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",

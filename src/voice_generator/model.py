@@ -8,13 +8,11 @@ including token generation, audio synthesis, and streaming capabilities.
 import random
 from typing import Any
 import gradio as gr
+import torch
 from gradio import Error
 from kokoro import KPipeline
-import torch
-from voice_generator import CUDA_AVAILABLE, CHAR_LIMIT, MODELS, pipelines, random_quotes
 from torch import FloatTensor, Tensor
-from typing import Any
-import random
+from voice_generator import CHAR_LIMIT, CUDA_AVAILABLE, MODELS, pipelines, random_quotes
 
 
 def forward_gpu(ps, ref_s, speed) -> Any:
