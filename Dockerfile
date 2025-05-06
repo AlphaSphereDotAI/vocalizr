@@ -2,8 +2,7 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 
 WORKDIR /app
 
-RUN addgroup -S nonroot \
-    && adduser -S nonroot -G nonroot
+RUN groupadd nonroot && useradd -g nonroot nonroot
 
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
