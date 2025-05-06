@@ -1,4 +1,5 @@
 import gradio as gr
+from gradio import Blocks, Audio, Button, Textbox, Dropdown, Slider
 from voice_generator import (
     CUDA_AVAILABLE,
     CHAR_LIMIT,
@@ -6,7 +7,6 @@ from voice_generator import (
     TOKEN_NOTE,
     CHOICES,
 )
-from gradio import Blocks, Audio, Button, Textbox, Dropdown, Slider
 from voice_generator.model import (
     generate_first,
     get_random_quote,

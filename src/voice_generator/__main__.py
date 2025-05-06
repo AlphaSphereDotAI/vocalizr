@@ -11,7 +11,6 @@ def main() -> None:
     """
     app: Blocks = app_block()
     app.launch(
-        ssr_mode=True,
         mcp_server=True,
         debug=DEBUG,
         show_api=True,
