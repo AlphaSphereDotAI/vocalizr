@@ -13,7 +13,7 @@ except ImportError:
     print("Required dependencies 'kokoro' and 'torch' not found.")
 from pathlib import Path
 
-BASE_DIR: Path = Path(__file__).parent
+BASE_DIR: Path = Path(__file__).parent.parent.parent
 
 CUDA_AVAILABLE: bool = cuda.is_available()
 CHAR_LIMIT: int = 5000
@@ -32,7 +32,7 @@ try:
     with open(BASE_DIR / "en.txt", "r", encoding="utf-8") as r:
         random_quotes: list[str] = [line.strip() for line in r]
 except FileNotFoundError:
-    print(f"Missing required text file: {BASE_DIR / 'en.txt'}")
+    raise FileNotFoundError(f"Missing required text file: {BASE_DIR / 'en.txt'}")
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",
