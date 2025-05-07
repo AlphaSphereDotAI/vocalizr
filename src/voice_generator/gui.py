@@ -11,7 +11,7 @@ from gradio import (
 )
 
 from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE
-from voice_generator.model import generate
+from voice_generator.model import generate_audio_for_text
 
 
 def app_block() -> Blocks:
@@ -65,7 +65,7 @@ def app_block() -> Blocks:
                 )
                 generate_btn: Button = Button("Generate", variant="primary")
         generate_btn.click(
-            fn=generate,
+            fn=generate_audio_for_text,
             inputs=[text, voice, speed, save_file],
             outputs=[out_audio],
         )

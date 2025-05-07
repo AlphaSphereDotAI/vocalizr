@@ -29,7 +29,7 @@ def save_file_wav(audio: ndarray) -> None:
         raise OSError(f"Failed to save audio to {filename}: {e}") from e
 
 
-def generate(
+def generate_audio_for_text(
     text: str, voice="af_heart", speed=1, save_file: bool = False
 ) -> tuple[int, ndarray]:
     """Generate audio for the input text.
