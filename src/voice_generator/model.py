@@ -9,7 +9,7 @@ from os import makedirs
 
 
 def save_file_wav(audio: ndarray) -> None:
-    makedirs(name='results',exist_ok=True)
+    makedirs(name="results", exist_ok=True)
     filename = f"{BASE_DIR}/results/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
     try:
         logger.info(f"Saving audio to {filename}")
