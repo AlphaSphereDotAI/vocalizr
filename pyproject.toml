@@ -1,0 +1,47 @@
+[project]
+name = "voice-generator"
+version = "0.1.0"
+description = "Voice Generator part of the Chatacter Backend"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "en-core-web-sm",
+    "gradio[mcp]>=5.29.0",
+    "kokoro>=0.9.4",
+    "soundfile>=0.13.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+voice_generator = "voice_generator.__main__:main"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pylint>=3.3.7",
+    "pyrefly>=0.14.0",
+    "ruff>=0.11.8",
+    "typos>=1.32.0",
+    "black>=25.1.0",
+    "pyright>=1.1.400",
+    "watchfiles>=1.0.5",
+]
+
+[tool.typos.default.extend-words]
+Chatacter = "Chatacter"
+
+[tool.pyrefly]
+python_interpreter = ".venv/Scripts/python"
+
+[tool.mypy]
+disable = ["E1101"]
+ignore_missing_imports = true
+
+[tool.pylint]
+disable = ["E1101", "C0114"]
+
+[tool.uv.sources]
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }

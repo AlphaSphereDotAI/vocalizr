@@ -1,45 +1,35 @@
-FROM docker.io/rust:slim AS build
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-WORKDIR /build
-
-COPY . .
-
-# skipcq: DOK-DL3008
-RUN --mount=type=cache,target=/build/target \
-    --mount=type=cache,target=/usr/local/cargo/registry \
-    --mount=type=cache,target=/usr/local/cargo/git \
-    set -eux; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends alsa-utils build-essential clang cmake lbzip2 libasound2-dev llvm; \
-    apt-get autoremove; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/*; \
-    cargo build --release; \
-    mkdir -p ./tmp; \
-    cp -r ./target/release/** ./tmp
-
-ADD https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2 ./kokoro-en-v0_19.tar.bz2
-
-RUN echo "d21f1843ead42c1b036d2a164777596a9235e1b02f464b8f3d322972b5372b85  ./kokoro-en-v0_19.tar.bz2" | sha256sum -c -; \
-    tar xf ./kokoro-en-v0_19.tar.bz2
-
-FROM docker.io/debian:stable-slim AS prod
-
-SHELL ["/bin/bash", "-c"]
+FROM ghcr.io/astral-sh/uv:debian-slim
 
 WORKDIR /app
 
-RUN set -eux; \
-    addgroup --system chatacter \
-    && adduser --system chatacter --ingroup chatacter
+RUN groupadd nonroot && useradd -g nonroot nonroot
 
-## copy the main binary
-COPY --from=build /build/tmp/** ./
-## copy the model## copy the model
-COPY --from=build /build/kokoro-en-v0_19 ./kokoro-en-v0_19
+# Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
 
-USER chatacter
+# skipcq: DOK-DL3008
+RUN apt-get update && \
+    apt-get install -qq -y --no-install-recommends espeak-ng && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-CMD ["./voice_generator"]
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=.python-version,target=.python-version \
+    uv sync --frozen --no-install-project --no-dev
+
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev;
+
+# Place executables in the environment at the front of the path
+ENV PATH=/app/.venv/bin:$PATH
+
+USER nonroot
+# Reset the entrypoint, don't invoke `uv`
+ENTRYPOINT []
+
+CMD ["python", "src/voice_generator"]
