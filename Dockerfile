@@ -8,6 +8,7 @@ RUN groupadd nonroot && useradd -g nonroot nonroot
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
 
+# skipcq: DOK-DL3008
 RUN apt-get update && \
     apt-get install -qq -y --no-install-recommends espeak-ng && \
     apt-get clean && \
