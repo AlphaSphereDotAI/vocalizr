@@ -6,12 +6,17 @@ from voice_generator import CHAR_LIMIT, PIPELINE, BASE_DIR
 from datetime import datetime
 
 
-def save_file_wav(audio: ndarray):
-    write(
-        f"{BASE_DIR}/{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}.wav",
-        audio,
-        24000,
-    )
+def save_file_wav(audio: ndarray) -> None:
+    try:
+        write(
+            f"{BASE_DIR}/{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}.wav",
+            audio,
+            24000,
+        )
+    except OSError as e:
+        raise OSError(
+            f"Failed to save audio to {f'{BASE_DIR}/{datetime.now().strftime("%Y-%m-%d_%H:%M:%S")}.wav'}: {e}"
+        ) from e
 
 
 def generate(
