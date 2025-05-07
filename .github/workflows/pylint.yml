@@ -1,5 +1,5 @@
 name: Pylint
-on: [push]
+on: [ push ]
 jobs:
   build:
     env:
@@ -21,4 +21,4 @@ jobs:
       - name: Install the project
         run: uv sync --locked --all-extras --dev
       - name: Analysing the code with Pylint
-        run: uv run pylint $(git ls-files '*.py') --output-format=colorized
+        run: uv run pylint $(git ls-files '*.py') --output-format=github
