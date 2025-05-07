@@ -2,11 +2,16 @@ from gradio import Error
 from numpy import ndarray
 from soundfile import write
 from torch import Tensor
-from voice_generator import CHAR_LIMIT, PIPELINE
+from voice_generator import CHAR_LIMIT, PIPELINE, BASE_DIR
+from datetime import datetime
 
 
-def save_file_wav(audio: ndarray, filename: str = "voice.wav"):
-    write(filename, audio, 24000)
+def save_file_wav(audio: ndarray):
+    write(
+        f"{BASE_DIR}/{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}.wav",
+        audio,
+        24000,
+    )
 
 
 def generate(

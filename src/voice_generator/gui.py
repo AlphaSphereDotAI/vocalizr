@@ -1,11 +1,3 @@
-"""
-Gradio-based graphical user interface for the voice generation application.
-
-This module defines the UI components and layout for the voice generator, including
-text input, voice selection, and audio output. It connects UI elements to backend
-functions for generating speech and fetching random quotes.
-"""
-
 from gradio import (
     Accordion,
     Audio,
@@ -21,7 +13,7 @@ from gradio import (
     Checkbox,
 )
 from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE, STREAM_NOTE
-from voice_generator.model import generate, get_random_quote
+from voice_generator.model import generate
 
 
 def generate_tab_block() -> tuple[Blocks, Audio, Button]:
@@ -106,14 +98,8 @@ def app_block() -> Blocks:
                     step=0.1,
                     label="Speed",
                 )
-                random_btn: Button = Button("🎲 Random Quote 💬", variant="secondary")
             with Column():
                 TabbedInterface([generate_tab, stream_tab], ["Generate", "Stream"])
-        random_btn.click(
-            fn=get_random_quote,
-            inputs=[],
-            outputs=[text],
-        )
         generate_btn.click(
             fn=generate,
             inputs=[text, voice, speed, save_file],

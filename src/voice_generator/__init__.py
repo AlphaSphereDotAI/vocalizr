@@ -1,10 +1,3 @@
-"""
-Core constants and initialization for the Voice Generator package.
-
-This module sets up the voice generation models, pipelines and loads
-necessary data for the application.
-"""
-
 from pathlib import Path
 from os import getenv
 from kokoro import KPipeline
@@ -21,12 +14,6 @@ CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="5000"))
 PIPELINE: KPipeline = KPipeline(lang_code="a")
 
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
-
-try:
-    with open(BASE_DIR / "en.txt", "r", encoding="utf-8") as r:
-        random_quotes: list[str] = [line.strip() for line in r]
-except FileNotFoundError as e:
-    raise FileNotFoundError(f"Missing required text file: {BASE_DIR / 'en.txt'}") from e
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",
