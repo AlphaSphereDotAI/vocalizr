@@ -7,24 +7,37 @@ including token generation, audio synthesis, and streaming capabilities.
 from random import choice
 from gradio import Error
 from numpy import ndarray
+from torch import Tensor
+from soundfile import write
 from voice_generator import CHAR_LIMIT, PIPELINE, random_quotes
 
-def generate(text: str, voice="af_heart", speed=1) -> tuple[int, ndarray]:
+
+def save_file_wav(audio: ndarray, filename: str = "voice.wav"):
+    write(filename, audio, 24000)
+
+
+def generate(
+    text: str, voice="af_heart", speed=1, save_file: bool = False
+) -> tuple[int, ndarray]:
     """Generate audio for the input text.
-     
+
     :param text:  Input text to convert to speech
     :param voice: Voice identifier
     :param speed: Speech speed multiplier
-    :return: tuple containing the audio sample rate and raw audio data.
+    :param save_file: If to save the audio file to disk.
+    :return: Tuple containing the audio sample rate and raw audio data.
     """
     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
     try:
         for _, _, audio in PIPELINE(text, voice, speed):
-            audio_numpy: ndarray = audio.numpy()  # pyright: ignore [reportAttributeAccessIssue, reportOptionalMemberAccess]
-            return 24000, audio_numpy
+            audio = Tensor(audio).numpy()
+            if save_file:
+                save_file_wav(audio)
+            return 24000, audio
     except Error as e:
         raise Error(str(e)) from e
     raise RuntimeError("No audio generated")
+
 
 # def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
 #     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]

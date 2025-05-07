@@ -8,6 +8,7 @@ dependencies = [
     "en-core-web-sm",
     "gradio[mcp]>=5.29.0",
     "kokoro>=0.9.4",
+    "soundfile>=0.13.1",
 ]
 
 [build-system]

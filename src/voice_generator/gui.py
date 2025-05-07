@@ -18,6 +18,7 @@ from gradio import (
     Slider,
     TabbedInterface,
     Textbox,
+    Checkbox,
 )
 from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE, STREAM_NOTE
 from voice_generator.model import generate, get_random_quote
@@ -88,15 +89,22 @@ def app_block() -> Blocks:
                         label="Voice",
                         info="Quality and availability vary by language",
                     )
-                    use_gpu: Dropdown = Dropdown(
+                    Dropdown(
                         choices=[("GPU 🚀", True), ("CPU 🐌", False)],
                         value=CUDA_AVAILABLE,
                         label="Hardware",
                         info="GPU is usually faster, but has a usage quota",
                         interactive=CUDA_AVAILABLE,
                     )
+                    save_file = Checkbox(
+                        label="Save Audio", info="Save audio to local storage"
+                    )
                 speed: Slider = Slider(
-                    minimum=0.5, maximum=2, value=1, step=0.1, label="Speed",
+                    minimum=0.5,
+                    maximum=2,
+                    value=1,
+                    step=0.1,
+                    label="Speed",
                 )
                 random_btn: Button = Button("🎲 Random Quote 💬", variant="secondary")
             with Column():
@@ -108,7 +116,7 @@ def app_block() -> Blocks:
         )
         generate_btn.click(
             fn=generate,
-            inputs=[text, voice, speed],
+            inputs=[text, voice, speed, save_file],
             outputs=[out_audio],
         )
         # tokenize_btn.click(
