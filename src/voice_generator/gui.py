@@ -17,9 +17,6 @@ from voice_generator.model import generate_audio_for_text
 def app_block() -> Blocks:
     """Create and return the main application interface.
 
-    Assembles both Generate and Stream tabs into a complete UI with shared input controls.
-    Connects UI components to their respective backend functions.
-
     :return: Blocks: The complete Gradio application interface
     """
     with Blocks() as app:
