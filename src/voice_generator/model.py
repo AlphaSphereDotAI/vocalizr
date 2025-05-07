@@ -9,31 +9,22 @@ from gradio import Error
 from numpy import ndarray
 from voice_generator import CHAR_LIMIT, PIPELINE, random_quotes
 
-
 def generate(text: str, voice="af_heart", speed=1) -> tuple[int, ndarray]:
     """Generate audio for the input text.
-    Args:
-        text: Input text to convert to speech
-        voice: Voice identifier
-        speed: Speech speed multiplier
-    Returns:
-        tuple: ((sample_rate, audio_numpy), phoneme_sequence)
+     
+    :param text:  Input text to convert to speech
+    :param voice: Voice identifier
+    :param speed: Speech speed multiplier
+    :return: tuple containing the audio sample rate and raw audio data.
     """
     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
     try:
         for _, _, audio in PIPELINE(text, voice, speed):
-            audio_numpy: ndarray = audio.numpy()
-            return (24000, audio_numpy)
+            audio_numpy: ndarray = audio.numpy()  # pyright: ignore [reportAttributeAccessIssue, reportOptionalMemberAccess]
+            return 24000, audio_numpy
     except Error as e:
         raise Error(str(e)) from e
     raise RuntimeError("No audio generated")
-
-
-# def tokenize_first(text, voice="af_heart") -> FloatTensor | str | None:
-#     pipeline: KPipeline = pipelines[voice[0]]
-#     for _, phonemes, _ in pipeline(text, voice):
-#         return phonemes
-#     return ""
 
 # def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
 #     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]

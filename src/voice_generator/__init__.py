@@ -1,7 +1,7 @@
 """
 Core constants and initialization for the Voice Generator package.
 
-This module sets up the voice generation models, pipelines, and loads
+This module sets up the voice generation models, pipelines and loads
 necessary data for the application.
 """
 
@@ -20,7 +20,7 @@ CUDA_AVAILABLE: bool = cuda.is_available()
 CHAR_LIMIT: int = 5000
 PIPELINE: KPipeline = KPipeline(lang_code="a")
 
-logger.info(f"CUDA Avalible: {CUDA_AVAILABLE}")
+logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
 
 try:
     with open(BASE_DIR / "en.txt", "r", encoding="utf-8") as r:

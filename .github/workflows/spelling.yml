@@ -1,5 +1,5 @@
 name: Spelling
-on: [pull_request, push]
+on: [ pull_request, push ]
 jobs:
   spelling:
     name: Spell Check with Typos

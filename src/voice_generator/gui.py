@@ -28,7 +28,7 @@ def generate_tab_block() -> tuple[Blocks, Audio, Button]:
 
     Returns:
         tuple: (generate_tab, out_audio, generate_btn) containing the tab block
-        and its interactive components
+        and its interactive components.
     """
     with Blocks() as generate_tab:
         out_audio: Audio = Audio(
@@ -43,7 +43,7 @@ def stream_tab_block() -> tuple[Blocks, Audio, Button, Button]:
 
     Returns:
         tuple: (stream_tab, out_stream, stream_btn, stop_btn) containing the tab block
-        and its interactive components
+        and its interactive components.
     """
     with Blocks() as stream_tab:
         out_stream: Audio = Audio(
@@ -83,20 +83,20 @@ def app_block() -> Blocks:
                 )
                 with Row():
                     voice: Dropdown = Dropdown(
-                        list(CHOICES.items()),
+                        choices=list(CHOICES.items()),
                         value="af_heart",
                         label="Voice",
                         info="Quality and availability vary by language",
                     )
                     use_gpu: Dropdown = Dropdown(
-                        [("GPU 🚀", True), ("CPU 🐌", False)],
+                        choices=[("GPU 🚀", True), ("CPU 🐌", False)],
                         value=CUDA_AVAILABLE,
                         label="Hardware",
                         info="GPU is usually faster, but has a usage quota",
                         interactive=CUDA_AVAILABLE,
                     )
                 speed: Slider = Slider(
-                    minimum=0.5, maximum=2, value=1, step=0.1, label="Speed"
+                    minimum=0.5, maximum=2, value=1, step=0.1, label="Speed",
                 )
                 random_btn: Button = Button("🎲 Random Quote 💬", variant="secondary")
             with Column():
