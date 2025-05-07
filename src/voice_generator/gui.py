@@ -28,8 +28,11 @@ def app_block() -> Blocks:
                 text: Textbox = Textbox(
                     label="Input Text",
                     info=(
-                        f"Up to ~500 characters per Generate, or "
-                        f"{'∞' if CHAR_LIMIT is None else CHAR_LIMIT} characters per Stream"
+                        f"""
+                         Up to ~500 characters per Generate,
+                         or {"∞" if CHAR_LIMIT is None else CHAR_LIMIT}
+                         characters per Stream
+                        """
                     ),
                 )
                 with Row():
