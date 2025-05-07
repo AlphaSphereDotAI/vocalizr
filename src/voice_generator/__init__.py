@@ -17,7 +17,7 @@ load_dotenv()
 BASE_DIR: Path = Path(__file__).parent.parent.parent
 DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
 CUDA_AVAILABLE: bool = cuda.is_available()
-CHAR_LIMIT: int = 5000
+CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="5000"))
 PIPELINE: KPipeline = KPipeline(lang_code="a")
 
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
