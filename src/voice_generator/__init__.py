@@ -57,13 +57,3 @@ TOKEN_NOTE = """
 
 ⬆️ Raise stress 1 level `[or](+2)` 2 levels (only works on less stressed, usually short words)
 """
-
-_STREAM_NOTE: list[str] = [
-    "⚠️ There is an unknown Gradio bug that might yield no audio the first time you click `Stream`."
-]
-if CHAR_LIMIT is not None:
-    _STREAM_NOTE.append(f"✂️ Each stream is capped at {CHAR_LIMIT} characters.")
-    _STREAM_NOTE.append(
-        "🚀 Want more characters? You can [use Kokoro directly](https://huggingface.co/hexgrad/Kokoro-82M#usage) or duplicate this space:"
-    )
-STREAM_NOTE: str = "\n\n".join(_STREAM_NOTE)

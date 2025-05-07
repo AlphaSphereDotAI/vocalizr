@@ -1,56 +1,16 @@
 from gradio import (
-    Accordion,
     Audio,
     Blocks,
     Button,
     Column,
     Dropdown,
-    Markdown,
     Row,
     Slider,
-    TabbedInterface,
     Textbox,
     Checkbox,
 )
-from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE, STREAM_NOTE
+from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE
 from voice_generator.model import generate
-
-
-def generate_tab_block() -> tuple[Blocks, Audio, Button]:
-    """Create and return the Generate tab UI components.
-
-    Returns:
-        tuple: (generate_tab, out_audio, generate_btn) containing the tab block
-        and its interactive components.
-    """
-    with Blocks() as generate_tab:
-        out_audio: Audio = Audio(
-            label="Output Audio", interactive=False, streaming=False, autoplay=True
-        )
-        generate_btn: Button = Button("Generate", variant="primary")
-    return generate_tab, out_audio, generate_btn
-
-
-def stream_tab_block() -> tuple[Blocks, Audio, Button, Button]:
-    """Create and return the Stream tab UI components.
-
-    Returns:
-        tuple: (stream_tab, out_stream, stream_btn, stop_btn) containing the tab block
-        and its interactive components.
-    """
-    with Blocks() as stream_tab:
-        out_stream: Audio = Audio(
-            label="Output Audio Stream",
-            interactive=False,
-            streaming=True,
-            autoplay=True,
-        )
-        with Row():
-            stream_btn: Button = Button("Stream", variant="primary")
-            stop_btn: Button = Button("Stop", variant="stop")
-        with Accordion("Note", open=True):
-            Markdown(STREAM_NOTE)
-        return stream_tab, out_stream, stream_btn, stop_btn
 
 
 def app_block() -> Blocks:
@@ -62,8 +22,6 @@ def app_block() -> Blocks:
     Returns:
         Blocks: The complete Gradio application interface
     """
-    generate_tab, out_audio, generate_btn = generate_tab_block()
-    stream_tab, out_stream, stream_btn, stop_btn = stream_tab_block()
     with Blocks() as app:
         with Row():
             with Column():
@@ -99,24 +57,16 @@ def app_block() -> Blocks:
                     label="Speed",
                 )
             with Column():
-                TabbedInterface([generate_tab, stream_tab], ["Generate", "Stream"])
+                out_audio: Audio = Audio(
+                    label="Output Audio",
+                    interactive=False,
+                    streaming=False,
+                    autoplay=True,
+                )
+                generate_btn: Button = Button("Generate", variant="primary")
         generate_btn.click(
             fn=generate,
             inputs=[text, voice, speed, save_file],
             outputs=[out_audio],
         )
-        # tokenize_btn.click(
-        #     fn=tokenize_first,
-        #     inputs=[text, voice],
-        #     outputs=[out_ps],
-        # )
-        # stream_event = stream_btn.click(
-        #     fn=generate_all,
-        #     inputs=[text, voice, speed, use_gpu],
-        #     outputs=[out_stream],
-        # )
-        # stop_btn.click(
-        #     fn=None,
-        #     cancels=stream_event,
-        # )
     return app
