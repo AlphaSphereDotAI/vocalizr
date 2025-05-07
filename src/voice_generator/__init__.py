@@ -47,13 +47,3 @@ CHOICES: dict[str, str] = {
     "🇬🇧 🚹 Lewis": "bm_lewis",
     "🇬🇧 🚹 Daniel": "bm_daniel",
 }
-
-TOKEN_NOTE = """
-💡 Customize pronunciation with Markdown link syntax and /slashes/ like `[Kokoro](/kˈOkəɹO/)`
-
-💬 To adjust intonation, try punctuation `;:,.!?—…"()""` or stress `ˈ` and `ˌ`
-
-⬇️ Lower stress `[1 level](-1)` or `[2 levels](-2)`
-
-⬆️ Raise stress 1 level `[or](+2)` 2 levels (only works on less stressed, usually short words)
-"""

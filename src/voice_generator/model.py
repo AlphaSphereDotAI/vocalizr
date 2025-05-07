@@ -5,10 +5,12 @@ from torch import Tensor
 from voice_generator import CHAR_LIMIT, PIPELINE, BASE_DIR
 from datetime import datetime
 from loguru import logger
+from os import makedirs
 
 
 def save_file_wav(audio: ndarray) -> None:
-    filename = f"{BASE_DIR}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
+    makedirs(name='results',exist_ok=True)
+    filename = f"{BASE_DIR}/results/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
     try:
         logger.info(f"Saving audio to {filename}")
         write(filename, audio, 24000)
