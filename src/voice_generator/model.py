@@ -9,9 +9,10 @@ from gradio import Error
 from numpy import ndarray
 from voice_generator import CHAR_LIMIT, PIPELINE, random_quotes
 
+
 def generate(text: str, voice="af_heart", speed=1) -> tuple[int, ndarray]:
     """Generate audio for the input text.
-     
+
     :param text:  Input text to convert to speech
     :param voice: Voice identifier
     :param speed: Speech speed multiplier
@@ -25,6 +26,7 @@ def generate(text: str, voice="af_heart", speed=1) -> tuple[int, ndarray]:
     except Error as e:
         raise Error(str(e)) from e
     raise RuntimeError("No audio generated")
+
 
 # def generate_all(text, voice="af_heart", speed=1, use_gpu=CUDA_AVAILABLE):
 #     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]

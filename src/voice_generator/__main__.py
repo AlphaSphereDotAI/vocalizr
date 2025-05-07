@@ -1,6 +1,7 @@
 from gradio import Blocks
 from voice_generator.gui import app_block
 
+
 def main() -> None:
     """Launch the Gradio voice generation web application."""
     app: Blocks = app_block()
@@ -10,6 +11,7 @@ def main() -> None:
         enable_monitoring=True,
         show_error=True,
     )
+
 
 if __name__ == "__main__":
     main()

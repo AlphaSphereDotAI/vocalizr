@@ -96,7 +96,11 @@ def app_block() -> Blocks:
                         interactive=CUDA_AVAILABLE,
                     )
                 speed: Slider = Slider(
-                    minimum=0.5, maximum=2, value=1, step=0.1, label="Speed",
+                    minimum=0.5,
+                    maximum=2,
+                    value=1,
+                    step=0.1,
+                    label="Speed",
                 )
                 random_btn: Button = Button("🎲 Random Quote 💬", variant="secondary")
             with Column():
