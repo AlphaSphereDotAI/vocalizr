@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.2.2
       - name: Restore uv cache
         uses: actions/cache@v4.2.3
         with:
