@@ -2,6 +2,7 @@ from gradio import Blocks
 from voice_generator.gui import app_block
 from os import getenv
 
+
 def main() -> None:
     """Launch the Gradio voice generation web application."""
     app: Blocks = app_block()
