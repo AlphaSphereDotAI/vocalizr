@@ -2,13 +2,14 @@ from gradio import (
     Audio,
     Blocks,
     Button,
+    Checkbox,
     Column,
     Dropdown,
     Row,
     Slider,
     Textbox,
-    Checkbox,
 )
+
 from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE
 from voice_generator.model import generate
 

@@ -1,9 +1,10 @@
-from pathlib import Path
 from os import getenv
-from kokoro import KPipeline
-from torch import cuda
+from pathlib import Path
+
 from dotenv import load_dotenv
+from kokoro import KPipeline
 from loguru import logger
+from torch import cuda
 
 load_dotenv()
 

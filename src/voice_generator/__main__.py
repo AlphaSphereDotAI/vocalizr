@@ -1,5 +1,6 @@
 from gradio import Blocks
-from voice_generator import SERVER_NAME, SERVER_PORT, DEBUG
+
+from voice_generator import DEBUG, SERVER_NAME, SERVER_PORT
 from voice_generator.gui import app_block
 
 
