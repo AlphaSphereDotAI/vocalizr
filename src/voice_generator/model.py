@@ -16,7 +16,7 @@ def save_file_wav(audio: ndarray) -> None:
 
     :param audio: Data to save.
     :return: None
-    :raise OSError: If an error occurs while saving the file. 
+    :raise OSError: If an error occurs while saving the file.
     """
     makedirs(name="results", exist_ok=True)
     filename = f"{BASE_DIR}/results/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
@@ -37,7 +37,7 @@ def generate(
     :param speed: Speech speed multiplier
     :param save_file: If to save the audio file to disk.
     :return: Tuple containing the audio sample rate and raw audio data.
-    :raise Error: If an error occurs during generation. 
+    :raise Error: If an error occurs during generation.
     """
     text = text if CHAR_LIMIT is None else text.strip()[:CHAR_LIMIT]
     try:
