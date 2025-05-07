@@ -19,8 +19,7 @@ def app_block() -> Blocks:
     Assembles both Generate and Stream tabs into a complete UI with shared input controls.
     Connects UI components to their respective backend functions.
 
-    Returns:
-        Blocks: The complete Gradio application interface
+    :return: Blocks: The complete Gradio application interface
     """
     with Blocks() as app:
         with Row():

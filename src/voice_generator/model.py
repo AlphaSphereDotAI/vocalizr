@@ -9,7 +9,15 @@ from os import makedirs
 
 
 def save_file_wav(audio: ndarray) -> None:
-    makedirs(name='results',exist_ok=True)
+    """Save audio data to a WAV file in the 'results' directory.
+
+    Creates a timestamped WAV file in the 'results' directory with
+    the provided audio data at a fixed sample rate of 24,000 Hz.
+
+    :param audio: Audio data to save.
+    :return: None
+    """
+    makedirs(name="results", exist_ok=True)
     filename = f"{BASE_DIR}/results/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
     try:
         logger.info(f"Saving audio to {filename}")
