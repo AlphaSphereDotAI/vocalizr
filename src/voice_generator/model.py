@@ -6,19 +6,14 @@ from voice_generator import CHAR_LIMIT, PIPELINE, BASE_DIR
 from datetime import datetime
 from loguru import logger
 
+
 def save_file_wav(audio: ndarray) -> None:
     filename = f"{BASE_DIR}/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
     try:
         logger.info(f"Saving audio to {filename}")
-        write(
-            filename,
-            audio,
-            24000,
-        )
+        write(filename, audio, 24000)
     except OSError as e:
-        raise OSError(
-            f"Failed to save audio to {filename}: {e}"
-        ) from e
+        raise OSError(f"Failed to save audio to {filename}: {e}") from e
 
 
 def generate(
