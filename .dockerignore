@@ -1,7 +1,6 @@
 .flox/
 .github/
 .vscode/
-README.md
 renovate.json
 tmp/
 .ruff_cache/
