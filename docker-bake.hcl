@@ -2,11 +2,11 @@ variable "IMAGE" {
   default = "ghcr.io/alphaspheredotai/chatacter_backend_voice_generator"
 }
 
-target "default" {
+target "build" {
   context    = "."
   tags       = ["${IMAGE}:latest"] #,"${IMAGE}:dev"]
   dockerfile = "Dockerfile"
-  platforms  = ["linux/amd64", "linux/arm64"]
+#  platforms  = ["linux/amd64", "linux/arm64"]
   labels = {
     "org.opencontainers.image.source" = "https://github.com/AlphaSphereDotAI/chatacter_backend_voice_generator"
   }
@@ -18,4 +18,9 @@ target "default" {
     }
   ]
   output = [{ type = "registry" }]
+}
+
+target "check" {
+  inherits = ["build"]
+  call = "check"
 }
