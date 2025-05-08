@@ -1,5 +1,5 @@
 [project]
-name = "voice-generator"
+name = "vocalizr"
 version = "0.1.0"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
@@ -16,7 +16,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.scripts]
-voice_generator = "voice_generator.__main__:main"
+vocalizr = "vocalizr.__main__:main"
 
 [dependency-groups]
 dev = [
@@ -28,6 +28,7 @@ dev = [
     "black>=25.1.0",
     "pyright>=1.1.400",
     "watchfiles>=1.0.5",
+    "huggingface-hub[hf-transfer]>=0.31.1",
 ]
 
 [tool.typos.default.extend-words]

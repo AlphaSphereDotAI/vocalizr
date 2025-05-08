@@ -32,4 +32,4 @@ USER nonroot
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 
-CMD ["python", "src/voice_generator"]
+CMD ["python", "src/vocalizr"]

@@ -1,5 +1,5 @@
 variable "IMAGE" {
-  default = "ghcr.io/alphaspheredotai/chatacter_backend_voice_generator"
+  default = "ghcr.io/alphaspheredotai/vocalizr"
 }
 
 target "build" {
@@ -8,7 +8,7 @@ target "build" {
   dockerfile = "Dockerfile"
 #  platforms  = ["linux/amd64", "linux/arm64"]
   labels = {
-    "org.opencontainers.image.source" = "https://github.com/AlphaSphereDotAI/chatacter_backend_voice_generator"
+    "org.opencontainers.image.source" = "https://github.com/AlphaSphereDotAI/vocalizr"
   }
   cache_from = [{ type = "gha" }]
   cache_to = [

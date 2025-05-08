@@ -7,7 +7,7 @@ from numpy import ndarray
 from soundfile import write
 from torch import Tensor
 
-from voice_generator import BASE_DIR, CHAR_LIMIT, PIPELINE
+from vocalizr import BASE_DIR, CHAR_LIMIT, PIPELINE
 
 
 def save_file_wav(audio: ndarray) -> None:

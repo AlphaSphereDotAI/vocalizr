@@ -1,0 +1,43 @@
+name: Push to huggingface
+on: [push]
+jobs:
+  Sync:
+    runs-on: ubuntu-latest
+    env:
+      HF_HUB_ENABLE_HF_TRANSFER: 1
+      UV_CACHE_DIR: /tmp/.uv-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: Restore uv cache
+        uses: actions/cache@v4.2.3
+        with:
+          path: /tmp/.uv-cache
+          key: uv-${{ runner.os }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            uv-${{ runner.os }}-${{ hashFiles('uv.lock') }}
+            uv-${{ runner.os }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6.0.1
+        with:
+          enable-cache: true
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+      - name: Remove Unnecessary Files
+        run: |
+          rm -rd .github
+          rm .gitignore
+          rm .dockerignore
+          rm .python-version
+          rm docker-bake.hcl
+          rm renovate.json
+      - name: Login to HuggingFace Hub
+        uses: osbm/huggingface-login@v0.0.2
+        with:
+          username: MH0386
+          key: ${{ secrets.HF_TOKEN }}
+          add_to_git_credentials: true
+      - name: Check if logged in
+        run: uv run huggingface-cli whoami
+      - name: Upload
+        run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space

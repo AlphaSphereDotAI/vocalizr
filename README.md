@@ -1,1 +1,1 @@
-# Voice Generator part of the Chatacter Backend
+# Vocalizr: Voice Generator part of the Chatacter Backend

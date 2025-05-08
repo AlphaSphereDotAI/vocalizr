@@ -10,8 +10,8 @@ from gradio import (
     Textbox,
 )
 
-from voice_generator import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE
-from voice_generator.model import generate_audio_for_text
+from vocalizr import CHAR_LIMIT, CHOICES, CUDA_AVAILABLE
+from vocalizr.model import generate_audio_for_text
 
 
 def app_block() -> Blocks:
