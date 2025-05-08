@@ -1,4 +1,4 @@
-name: Push to huggingface
+name: Push to HuggingFace
 on:
   push:
 jobs:
