@@ -1,5 +1,6 @@
 name: Push to huggingface
-on: [push]
+on:
+  push:
 jobs:
   Sync:
     runs-on: ubuntu-latest
