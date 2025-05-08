@@ -3,7 +3,8 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_CACHE_DIR=/home/nonroot/.cache/uv
+    UV_CACHE_DIR=/home/nonroot/.cache/uv \
+    UV_NO_CACHE=1
 
 RUN groupadd nonroot && \
     useradd -g nonroot nonroot && \
@@ -31,5 +32,7 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     uv sync --frozen --no-dev;
 
 USER nonroot
+
+ENTRYPOINT [  ]
 
 CMD ["uv", "run", "src/vocalizr"]
