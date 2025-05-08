@@ -26,12 +26,6 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev;
 
-# Place executables in the environment at the front of the path
-ENV PATH=/app/.venv/bin:$PATH
-
 USER nonroot
 
-# Reset the entrypoint, don't invoke `uv`
-ENTRYPOINT []
-
-CMD ["python", "src/vocalizr"]
+CMD ["uv", "run", "src/vocalizr"]
