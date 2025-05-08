@@ -28,7 +28,6 @@ jobs:
           rm -rd .github
           rm -rd .idea
           rm -rd .venv
-          rm .gitignore
           rm docker-bake.hcl
           rm renovate.json
       - name: Login to HuggingFace Hub
