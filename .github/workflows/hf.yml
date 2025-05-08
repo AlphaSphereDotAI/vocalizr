@@ -26,9 +26,9 @@ jobs:
       - name: Remove Unnecessary Files
         run: |
           rm -rd .github
+          rm -rd .idea
+          rm -rd .venv
           rm .gitignore
-          rm .dockerignore
-          rm .python-version
           rm docker-bake.hcl
           rm renovate.json
       - name: Login to HuggingFace Hub
