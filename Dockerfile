@@ -1,12 +1,16 @@
 FROM ghcr.io/astral-sh/uv:debian-slim
 
-WORKDIR /app
-
 RUN groupadd nonroot && useradd -g nonroot nonroot
+
+WORKDIR /home/app
+
+RUN mkdir -p /home/nonroot/.cache/uv && \
+    chown -R nonroot:nonroot /home/nonroot
 
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+    UV_LINK_MODE=copy \
+    UV_CACHE_DIR=/home/nonroot/.cache/uv
 
 # skipcq: DOK-DL3008
 RUN apt-get update && \
@@ -21,7 +25,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-install-project --no-dev
 
-COPY . /app
+COPY . /home/app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev;
