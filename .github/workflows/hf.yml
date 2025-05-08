@@ -26,7 +26,6 @@ jobs:
         run: |
           rm -rd .github
           rm -rd .idea
-          rm -rd .venv
           rm docker-bake.hcl
           rm renovate.json
           rm .deepsource.toml
