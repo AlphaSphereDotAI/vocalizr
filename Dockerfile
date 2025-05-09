@@ -17,7 +17,8 @@ RUN apt-get update && \
 
 RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
-    uv pip install -r pyproject.toml --python $(cat .python-version)
+    uv python install $(cat .python-version) \
+    uv pip install -r pyproject.toml
 
 COPY . /app
 
