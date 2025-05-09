@@ -3,8 +3,7 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_CACHE_DIR=/home/nonroot/.cache/uv \
-    UV_NO_CACHE=1
+    UV_CACHE_DIR=/home/nonroot/.cache/uv
 
 RUN groupadd nonroot && \
     useradd -g nonroot nonroot && \
@@ -12,6 +11,8 @@ RUN groupadd nonroot && \
     chown -R nonroot:nonroot /home/nonroot
 
 WORKDIR /home/nonroot/app
+
+USER nonroot
 
 # skipcq: DOK-DL3008
 RUN apt-get update && \
@@ -29,9 +30,7 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
 COPY . /home/nonroot/app
 
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
-    uv sync --frozen --no-dev;
-
-USER nonroot
+    uv sync --frozen --no-dev
 
 ENTRYPOINT [  ]
 
