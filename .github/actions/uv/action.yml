@@ -15,4 +15,4 @@ runs:
       uses: astral-sh/setup-uv@v6.0.1
     - name: Install the project
       shell: bash
-      run: uv sync --frozen --all-extras --dev
+      run: uv sync --frozen
