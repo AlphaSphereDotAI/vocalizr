@@ -12,13 +12,13 @@ RUN groupadd nonroot && \
 
 WORKDIR /home/nonroot/app
 
-USER nonroot
-
 # skipcq: DOK-DL3008
 RUN apt-get update && \
     apt-get install -qq -y --no-install-recommends espeak-ng && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+USER nonroot
 
 # Install the project's dependencies using the lockfile and settings
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
