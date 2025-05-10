@@ -3,8 +3,9 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_CACHE_DIR=/home/nonroot/.cache/uv \
-    GRADIO_SERVER_PORT=8080
+    UV_CACHE_DIR=/root/.cache/uv \
+    GRADIO_SERVER_PORT=8080 \
+    PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
 
