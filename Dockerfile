@@ -16,10 +16,7 @@ WORKDIR /app
 
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
-    mkdir -p /app/.cache/uv && \
     chown -R vocalizr:vocalizr /app
-
-USER vocalizr
 
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=uv.lock,target=uv.lock \
@@ -34,6 +31,8 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-dev
+
+USER vocalizr
 
 ENV PATH="/app/.venv/bin:$PATH"
 
