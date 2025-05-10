@@ -31,8 +31,7 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
 FROM debian:bookworm-slim AS production
 
 RUN groupadd vocalizr && \
-    useradd --gid vocalizr --shell /bin/bash vocalizr && \
-    chown -R vocalizr:vocalizr /app
+    useradd --gid vocalizr --shell /bin/bash vocalizr
 
 COPY --from=builder --chown=vocalizr:vocalizr /app /app
 
