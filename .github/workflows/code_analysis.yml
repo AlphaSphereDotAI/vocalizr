@@ -60,6 +60,6 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: quickview,recommendations,cves
-          image: ghcr.io/alphaspheredotai/vocalizr
+          image: registry://ghcr.io/alphaspheredotai/vocalizr
           dockerhub-user: mh0386
           dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
