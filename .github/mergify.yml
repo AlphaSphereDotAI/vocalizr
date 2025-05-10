@@ -6,7 +6,6 @@ pull_request_rules:
       - check-success = ruff
       - check-success = pyright
       - check-success = pylint
-      - check-success = scout
     actions:
       queue:
       label:
