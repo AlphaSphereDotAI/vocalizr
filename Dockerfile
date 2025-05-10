@@ -23,6 +23,9 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
 COPY /src /app/src
 
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-dev
 
 ENV PATH="/app/.venv/bin:$PATH"
