@@ -8,6 +8,9 @@ pull_request_rules:
       - check-success = pylint
     actions:
       queue:
+      label:
+        add:
+          - dependencies
 queue_rules:
   - queue_branch_merge_method: fast-forward
     allow_queue_branch_edit: true
