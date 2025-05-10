@@ -31,6 +31,8 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-dev
 
+RUN chmod -R 777 /app/.venv
+
 ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE ${GRADIO_SERVER_PORT}
