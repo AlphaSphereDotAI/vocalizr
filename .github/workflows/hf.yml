@@ -2,7 +2,7 @@ name: Push to HuggingFace
 on:
   push:
 jobs:
-  Sync:
+  huggingface:
     runs-on: ubuntu-latest
     env:
       HF_HUB_ENABLE_HF_TRANSFER: 1

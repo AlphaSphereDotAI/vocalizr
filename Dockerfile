@@ -31,11 +31,13 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
 FROM debian:bookworm-slim AS production
 
 RUN groupadd vocalizr && \
-    useradd --gid vocalizr --shell /bin/bash vocalizr
+    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
 
-COPY --from=builder --chown=vocalizr:vocalizr /app /app
+WORKDIR /home/vocalizr/app
 
-ENV PATH="/app/.venv/bin:$PATH" \
+COPY --from=builder --chown=vocalizr:vocalizr /app/src /home/vocalizr/app
+
+ENV PATH="/home/vocalizr/app/.venv/bin:$PATH" \
     GRADIO_SERVER_PORT=8080
 
 USER vocalizr
@@ -44,4 +46,4 @@ EXPOSE ${GRADIO_SERVER_PORT}
 
 ENTRYPOINT [  ]
 
-CMD ["python", "src/vocalizr"]
+CMD ["python", "vocalizr"]
