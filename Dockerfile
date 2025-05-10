@@ -1,10 +1,10 @@
-FROM ghcr.io/astral-sh/uv:debian-slim
+FROM ghcr.io/astral-sh/uv:debian-slim AS builder
 
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_CACHE_DIR=/root/.cache/uv \
-    GRADIO_SERVER_PORT=8080
+    UV_PYTHON_PREFERENCE=only-managed 
 
 # skipcq: DOK-DL3008
 RUN apt-get update && \
@@ -14,17 +14,13 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-RUN groupadd vocalizr && \
-    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
-    chown -R vocalizr:vocalizr /app
-
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-install-project --no-dev
 
-COPY --chown=vocalizr:vocalizr . /app
+COPY . /app
 
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=uv.lock,target=uv.lock \
@@ -32,9 +28,18 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-dev
 
-USER vocalizr
+FROM debian:bookworm-slim AS production
 
-ENV PATH="/app/.venv/bin:$PATH"
+RUN groupadd vocalizr && \
+    useradd --gid vocalizr --shell /bin/bash vocalizr && \
+    chown -R vocalizr:vocalizr /app
+
+COPY --from=builder --chown=vocalizr:vocalizr /app /app
+
+ENV PATH="/app/.venv/bin:$PATH" \
+    GRADIO_SERVER_PORT=8080
+
+USER vocalizr
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
