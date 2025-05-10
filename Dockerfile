@@ -4,13 +4,14 @@ FROM ghcr.io/astral-sh/uv:debian-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_CACHE_DIR=/root/.cache/uv \
-    UV_PYTHON_PREFERENCE=only-managed 
+    UV_PYTHON_PREFERENCE=only-managed \
+    UV_PYTHON_INSTALL_DIR=/python
 
-# skipcq: DOK-DL3008
-RUN apt-get update && \
-    apt-get install -qq -y --no-install-recommends espeak-ng && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# # skipcq: DOK-DL3008
+# RUN apt-get update && \
+#     apt-get install -qq -y --no-install-recommends espeak-ng && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -33,11 +34,12 @@ FROM debian:bookworm-slim AS production
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
 
-WORKDIR /home/vocalizr/app
+WORKDIR /app
 
-COPY --from=builder --chown=vocalizr:vocalizr /app /home/vocalizr/app
+COPY --from=builder --chown=python:python /python /python
+COPY --from=builder --chown=vocalizr:vocalizr /app /app
 
-ENV PATH="/home/vocalizr/app/.venv/Scripts:$PATH" \
+ENV PATH="/app/.venv/Scripts:$PATH" \
     GRADIO_SERVER_PORT=8080
 
 USER vocalizr
