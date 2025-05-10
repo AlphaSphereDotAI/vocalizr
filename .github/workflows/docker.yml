@@ -33,3 +33,10 @@ jobs:
         with:
           files: docker-bake.hcl
           targets: build
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: quickview,recommendations,cves
+          dockerhub-user: mh0386
+          dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
