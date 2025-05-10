@@ -55,11 +55,16 @@ jobs:
   scout:
     runs-on: ubuntu-latest
     steps:
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/alphaspheredotai/vocalizr
       - name: Docker Scout
         id: docker-scout
         uses: docker/scout-action@v1
         with:
           command: quickview,recommendations,cves
-          image: registry://ghcr.io/alphaspheredotai/vocalizr
+          image: ghcr.io/alphaspheredotai/vocalizr
           dockerhub-user: mh0386
           dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
