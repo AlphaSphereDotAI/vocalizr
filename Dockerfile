@@ -34,4 +34,4 @@ EXPOSE ${GRADIO_SERVER_PORT}
 
 ENTRYPOINT [  ]
 
-CMD ["python", "src/vocalizr"]
+CMD ["uv", "run", "src/vocalizr"]
