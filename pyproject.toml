@@ -5,7 +5,6 @@ description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "en-core-web-sm",
     "gradio[mcp]>=5.29.0",
     "kokoro>=0.9.4",
     "soundfile>=0.13.1",
@@ -28,6 +27,7 @@ dev = [
     "typos>=1.32.0",
     "pylint>=3.3.7",
     "pyright>=1.1.400",
+    "huggingface-hub[cli,hf-transfer]>=0.31.1",
 ]
 
 [tool.typos.default.extend-words]
@@ -42,6 +42,3 @@ ignore_missing_imports = true
 
 [tool.pylint]
 disable = ["E1101", "C0114"]
-
-[tool.uv.sources]
-en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }

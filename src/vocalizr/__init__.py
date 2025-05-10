@@ -4,8 +4,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 from kokoro import KPipeline
 from loguru import logger
+from spacy import load
 from torch import cuda
 
+load(name="en_core_web_sm")
 load_dotenv()
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
@@ -13,7 +15,7 @@ DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
 CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="5000"))
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
 SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
-PIPELINE: KPipeline = KPipeline(lang_code="a")
+PIPELINE: KPipeline = KPipeline(lang_code="a",repo_id="hexgrad/Kokoro-82M")
 CUDA_AVAILABLE: bool = cuda.is_available()
 
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
@@ -47,4 +49,5 @@ CHOICES: dict[str, str] = {
     "🇬🇧 🚹 Fable": "bm_fable",
     "🇬🇧 🚹 Lewis": "bm_lewis",
     "🇬🇧 🚹 Daniel": "bm_daniel",
+}
 }
