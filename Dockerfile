@@ -20,7 +20,7 @@ RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --frozen --no-install-project --no-dev
 
-COPY /src /app/src
+COPY . /app
 
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     --mount=type=bind,source=uv.lock,target=uv.lock \
