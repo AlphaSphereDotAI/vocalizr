@@ -3,7 +3,7 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 # Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
-    UV_CACHE_DIR=/app/.cache/uv \
+    UV_CACHE_DIR=/root/.cache/uv \
     GRADIO_SERVER_PORT=8080
 
 # skipcq: DOK-DL3008
@@ -41,4 +41,4 @@ EXPOSE ${GRADIO_SERVER_PORT}
 
 ENTRYPOINT [  ]
 
-CMD ["uv", "run", "src/vocalizr"]
+CMD ["python", "src/vocalizr"]
