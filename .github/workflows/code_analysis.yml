@@ -52,3 +52,11 @@ jobs:
         run: uv run pylint $(git ls-files '*.py') --output-format=github --rcfile pyproject.toml
       - name: Minimize uv cache
         run: uv cache prune --ci
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: quickview,recommendations,cves
+          image: ghcr.io/alphaspheredotai/vocalizr:latest
+          dockerhub-user: mh0386
+          dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}

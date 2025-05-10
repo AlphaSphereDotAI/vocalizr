@@ -34,13 +34,3 @@ jobs:
         with:
           files: docker-bake.hcl
           targets: build
-      - name: Docker Scout
-        id: docker-scout
-        uses: docker/scout-action@v1
-        with:
-          command: cves,recommendations
-          # ignore-base: true
-          # ignore-unchanged: true
-          # only-fixed: true
-          dockerhub-user: mh0386
-          dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
