@@ -4,8 +4,7 @@ FROM ghcr.io/astral-sh/uv:debian-slim AS builder
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_CACHE_DIR=/root/.cache/uv \
-    UV_PYTHON_PREFERENCE=only-managed \
-    UV_PYTHON_INSTALL_DIR=/python
+    UV_PYTHON_PREFERENCE=only-managed 
 
 # # skipcq: DOK-DL3008
 # RUN apt-get update && \
@@ -36,7 +35,6 @@ RUN groupadd vocalizr && \
 
 WORKDIR /app
 
-COPY --from=builder --chown=python:python /python /python
 COPY --from=builder --chown=vocalizr:vocalizr /app /app
 
 ENV PATH="/app/.venv/Scripts:$PATH" \
