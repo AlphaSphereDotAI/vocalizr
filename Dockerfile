@@ -14,7 +14,8 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-RUN adduser vocalizr --user-group --create-home --system && \
+RUN groupadd vocalizr && \
+    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
     mkdir -p /app/.cache/uv && \
     chown -R vocalizr:vocalizr /app
 
