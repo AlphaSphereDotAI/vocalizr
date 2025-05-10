@@ -60,6 +60,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/alphaspheredotai/vocalizr
+          tags: type=sha,prefix=,suffix=,format=short
       - name: Docker Scout
         id: docker-scout
         uses: docker/scout-action@v1
