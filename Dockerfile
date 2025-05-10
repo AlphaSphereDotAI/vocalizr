@@ -4,8 +4,7 @@ FROM ghcr.io/astral-sh/uv:debian-slim
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_CACHE_DIR=/root/.cache/uv \
-    GRADIO_SERVER_PORT=8080 \
-    PATH="/app/.venv/bin:$PATH"
+    GRADIO_SERVER_PORT=8080
 
 WORKDIR /app
 
@@ -25,6 +24,8 @@ COPY /src /app/src
 
 RUN --mount=type=cache,target=${UV_CACHE_DIR} \
     uv sync --frozen --no-dev
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
