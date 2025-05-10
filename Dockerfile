@@ -37,7 +37,7 @@ WORKDIR /home/vocalizr/app
 
 COPY --from=builder --chown=vocalizr:vocalizr /app/src /home/vocalizr/app
 
-ENV PATH="/home/vocalizr/app/.venv/bin:$PATH" \
+ENV PATH="/home/vocalizr/app/.venv/Scripts:$PATH" \
     GRADIO_SERVER_PORT=8080
 
 USER vocalizr
