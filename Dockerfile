@@ -37,7 +37,7 @@ WORKDIR /app
 
 COPY --from=builder --chown=vocalizr:vocalizr /app /app
 
-ENV PATH="/app/.venv/Scripts:$PATH" \
+ENV PATH="/app/.venv/bin:$PATH" \
     GRADIO_SERVER_PORT=8080
 
 USER vocalizr
@@ -46,4 +46,4 @@ EXPOSE ${GRADIO_SERVER_PORT}
 
 ENTRYPOINT [  ]
 
-CMD ["python", "vocalizr"]
+CMD ["python", "src/vocalizr"]
