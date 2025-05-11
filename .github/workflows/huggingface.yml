@@ -14,11 +14,11 @@ jobs:
         uses: ./.github/actions/uv
       - name: Remove Unnecessary Files
         run: |
-          rm -rd .github
-          rm -rd .idea
-          rm docker-bake.hcl
-          rm renovate.json
-          rm .deepsource.toml
+          echo ".github" >> .gitignore
+          echo ".idea" >> .gitignore
+          echo "docker-bake.hcl" >> .gitignore
+          echo "renovate.json" >> .gitignore
+          echo ".deepsource.toml" >> .gitignore
       - name: Add to git credentials
         run: git config --global credential.helper store
       - name: Login to HuggingFace Hub
@@ -26,6 +26,6 @@ jobs:
       - name: Check if logged in
         run: uv run huggingface-cli whoami
       - name: Upload
-        run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space --exclude .venv
+        run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space
       - name: Minimize uv cache
         run: uv cache prune --ci
