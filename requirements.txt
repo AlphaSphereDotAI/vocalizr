@@ -58,7 +58,7 @@ confection==0.1.5
     #   weasel
 csvw==3.5.1
     # via segments
-curated-tokenizers==0.0.9
+curated-tokenizers==0.9.2
     # via spacy-curated-transformers
 curated-transformers==0.1.1
     # via spacy-curated-transformers
