@@ -26,5 +26,5 @@ jobs:
         run: uv run huggingface-cli whoami
       - name: Upload
         run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space
-      - name: Minimize uv cache
-        run: uv cache prune --ci
+      # - name: Minimize uv cache
+      #   run: uv cache prune --ci
