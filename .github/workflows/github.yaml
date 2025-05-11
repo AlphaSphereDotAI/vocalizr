@@ -10,8 +10,6 @@ on:
 env:
   PACKAGE_NAME: vocalizr
   OWNER: AlphaSphereDotAI
-  UV_CACHE_DIR: /tmp/.uv-cache
-  HF_HUB_ENABLE_HF_TRANSFER: 1
 permissions:
   contents: write
 jobs:
