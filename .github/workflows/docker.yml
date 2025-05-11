@@ -35,7 +35,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ github.token }}
+          password: ${{ secrets.TOKEN_KEY_GITHUB }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
