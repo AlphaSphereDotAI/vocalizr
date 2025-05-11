@@ -3,8 +3,11 @@ title: Vocalizr
 emoji: 🔊
 colorFrom: purple
 colorTo: yellow
-sdk: docker
-app_port: 8080
+# sdk: docker
+sdk: gradio
+python_version: 3.12
+app_file: src/vocalizr/__main__.py
+# app_port: 8080
 ---
 
 # Vocalizr: Voice Generator part of the Chatacter Backend
