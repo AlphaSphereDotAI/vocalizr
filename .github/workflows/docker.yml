@@ -9,7 +9,7 @@ permissions:
   attestations: write
   id-token: write
 jobs:
-  check_bake:
+  check_image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,7 +25,7 @@ jobs:
         with:
           call: check
   build_image:
-    needs: check_bake
+    needs: check_image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -60,7 +60,7 @@ jobs:
   docker_scout:
     needs:
       - build_image
-      - check_bake
+      - check_image
     runs-on: ubuntu-latest
     steps:
       - name: Docker Scout
@@ -71,4 +71,4 @@ jobs:
           command: quickview,cves,recommendations
           dockerhub-user: mh0386
           dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
-          image: ghcr.io/alphaspheredotai/vocalizr:latest
+          image: ghcr.io/${{ github.repository }}:latest
