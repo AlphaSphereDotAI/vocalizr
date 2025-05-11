@@ -4,14 +4,14 @@ version = "0.0.1"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "gradio[mcp]>=5.29.0",
-    "kokoro>=0.9.4",
-    "soundfile>=0.13.1",
-]
+dependencies = ["gradio[mcp]>=5.29.0", "kokoro>=0.9.4", "soundfile>=0.13.1"]
 
 [project.scripts]
 vocalizr = "vocalizr.__main__:main"
+
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
@@ -29,11 +29,7 @@ dev = [
 [tool.typos.default.extend-words]
 Chatacter = "Chatacter"
 
-[tool.pyrefly]
-python_interpreter = ".venv/Scripts/python"
-
 [tool.mypy]
-disable = ["E1101"]
 ignore_missing_imports = true
 
 [tool.pylint]
