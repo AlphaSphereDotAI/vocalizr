@@ -3,6 +3,7 @@ FROM python:3.12-slim-bookworm
 ENV UV_COMPILE_BYTECODE=1 \
     UV_NO_CACHE=1 \
     UV_SYSTEM_PYTHON=1 \
+    UV_FROZEN=1 \
     GRADIO_SERVER_PORT=8080
 
 RUN groupadd vocalizr && \
