@@ -33,11 +33,11 @@ FROM debian:bookworm-slim AS production
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
 
-WORKDIR /app
+WORKDIR /home/vocalizr/app
 
-COPY --from=builder --chown=vocalizr:vocalizr /app /app
+COPY --from=builder --chown=vocalizr:vocalizr /app /home/vocalizr/app
 
-ENV PATH="/app/.venv/bin:$PATH" \
+ENV PATH="/home/vocalizr/app/.venv/bin:$PATH" \
     GRADIO_SERVER_PORT=8080
 
 USER vocalizr
