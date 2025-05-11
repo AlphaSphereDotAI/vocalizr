@@ -1,4 +1,4 @@
-name: Release
+name: GitHub Release
 on:
   workflow_dispatch:
   push:
@@ -76,27 +76,3 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release create ${{ needs.details.outputs.tag_name }} dist/* --title ${{ needs.details.outputs.tag_name }} --generate-notes
-  huggingface:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup UV
-        uses: ./.github/actions/uv
-      - name: Remove Unnecessary Files
-        run: |
-          rm -rd .github
-          rm -rd .idea
-          rm docker-bake.hcl
-          rm renovate.json
-          rm .deepsource.toml
-      - name: Add to git credentials
-        run: git config --global credential.helper store
-      - name: Login to HuggingFace Hub
-        run: uv run huggingface-cli login --add-to-git-credential --token ${{ secrets.HF_TOKEN }}
-      - name: Check if logged in
-        run: uv run huggingface-cli whoami
-      - name: Upload
-        run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space
-      - name: Minimize uv cache
-        run: uv cache prune --ci
