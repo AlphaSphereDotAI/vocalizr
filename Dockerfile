@@ -1,10 +1,12 @@
-FROM ghcr.io/astral-sh/uv:debian-slim AS builder
+FROM python:3.12-slim-bookworm
 
-# Enable bytecode compilation, Copy from the cache instead of linking since it's a mounted volume
 ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy \
-    UV_CACHE_DIR=/root/.cache/uv \
-    UV_PYTHON_PREFERENCE=only-managed 
+    UV_NO_CACHE=1 \
+    UV_SYSTEM_PYTHON=1 \
+    GRADIO_SERVER_PORT=8080
+
+RUN groupadd vocalizr && \
+    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
 
 # # skipcq: DOK-DL3008
 # RUN apt-get update && \
@@ -12,33 +14,19 @@ ENV UV_COMPILE_BYTECODE=1 \
 #     apt-get clean && \
 #     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
-
-RUN --mount=type=cache,target=${UV_CACHE_DIR} \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=.python-version,target=.python-version \
-    uv sync --frozen --no-install-project --no-dev
-
-COPY . /app
-
-RUN --mount=type=cache,target=${UV_CACHE_DIR} \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=.python-version,target=.python-version \
-    uv sync --frozen --no-dev
-
-FROM debian:bookworm-slim AS production
-
-RUN groupadd vocalizr && \
-    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /home/vocalizr/app
 
-COPY --from=builder --chown=vocalizr:vocalizr /app /home/vocalizr/app
+RUN --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=.python-version,target=.python-version \
+    --mount=type=bind,source=README.md,target=README.md \
+    --mount=type=bind,source=src,target=/home/vocalizr/app/src \
+    uv export --no-hashes --no-editable --no-dev --quiet -o requirements.txt; \
+    uv pip install --system -r requirements.txt
 
-ENV PATH="/home/vocalizr/app/.venv/bin:$PATH" \
-    GRADIO_SERVER_PORT=8080
+COPY --chown=vocalizr:vocalizr /src /home/vocalizr/app
 
 USER vocalizr
 
@@ -46,4 +34,4 @@ EXPOSE ${GRADIO_SERVER_PORT}
 
 ENTRYPOINT [  ]
 
-CMD ["python", "src/vocalizr"]
+CMD ["python", "vocalizr"]
