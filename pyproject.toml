@@ -10,10 +10,6 @@ dependencies = [
     "soundfile>=0.13.1",
 ]
 
-[build-system]
-requires = ["uv_build"]
-build-backend = "uv_build"
-
 [project.scripts]
 vocalizr = "vocalizr.__main__:main"
 
