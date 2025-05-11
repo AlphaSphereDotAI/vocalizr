@@ -16,6 +16,10 @@ RUN groupadd vocalizr && \
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
+RUN uv tool install huggingface-hub[cli]; \
+    huggingface-cli download --quiet hexgrad/Kokoro-82M; \
+    uv tool uninstall huggingface-hub
+
 WORKDIR /home/vocalizr/app
 
 RUN --mount=type=bind,source=uv.lock,target=uv.lock \
