@@ -3,7 +3,6 @@ on:
   push:
 env:
   HF_HUB_ENABLE_HF_TRANSFER: 1
-  UV_CACHE_DIR: /tmp/.uv-cache
 jobs:
   huggingface:
     runs-on: ubuntu-latest
