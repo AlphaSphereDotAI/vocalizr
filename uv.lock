@@ -2302,6 +2302,7 @@ dependencies = [
 dev = [
     { name = "black" },
     { name = "huggingface-hub", extra = ["cli", "hf-transfer"] },
+    { name = "isort" },
     { name = "mypy" },
     { name = "pylint" },
     { name = "pyrefly" },
@@ -2322,6 +2323,7 @@ requires-dist = [
 dev = [
     { name = "black", specifier = ">=25.1.0" },
     { name = "huggingface-hub", extras = ["cli", "hf-transfer"], specifier = ">=0.31.1" },
+    { name = "isort", specifier = ">=6.0.1" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pylint", specifier = ">=3.3.7" },
     { name = "pyrefly", specifier = ">=0.14.0" },

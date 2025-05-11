@@ -28,6 +28,7 @@ dev = [
     "pylint>=3.3.7",
     "pyright>=1.1.400",
     "huggingface-hub[cli,hf-transfer]>=0.31.1",
+    "isort>=6.0.1",
 ]
 
 [tool.typos.default.extend-words]
