@@ -56,7 +56,7 @@ jobs:
         continue-on-error: true
         uses: docker/scout-action@v1
         with:
-          command: quickview,recommendations,cves
+          command: quickview,cves,recommendations
           dockerhub-user: mh0386
           dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
           image: ghcr.io/alphaspheredotai/vocalizr:latest
