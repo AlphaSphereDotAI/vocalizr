@@ -4,10 +4,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 from kokoro import KPipeline
 from loguru import logger
-from spacy import load
 from torch import cuda
 
-load(name="en_core_web_sm")
 load_dotenv()
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
@@ -49,5 +47,4 @@ CHOICES: dict[str, str] = {
     "🇬🇧 🚹 Fable": "bm_fable",
     "🇬🇧 🚹 Lewis": "bm_lewis",
     "🇬🇧 🚹 Daniel": "bm_daniel",
-}
 }

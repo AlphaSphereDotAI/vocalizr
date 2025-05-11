@@ -21,16 +21,18 @@ def save_file_wav(audio: ndarray) -> None:
     :raise OSError: If an error occurs while saving the file.
     """
     makedirs(name="results", exist_ok=True)
-    filename = f"{BASE_DIR}/results/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
+    filename: str = (
+        f"{BASE_DIR}/results/{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.wav"
+    )
     try:
         logger.info(f"Saving audio to {filename}")
-        write(filename, audio, 24000)
+        write(file=filename, data=audio, samplerate=24000)
     except OSError as e:
         raise OSError(f"Failed to save audio to {filename}: {e}") from e
 
 
 def generate_audio_for_text(
-    text: str, voice="af_heart", speed=1, save_file: bool = False
+    text: str, voice: str = "af_heart", speed: float = 1, save_file: bool = False
 ) -> tuple[int, ndarray]:
     """Generate audio for the input text.
 
@@ -46,8 +48,8 @@ def generate_audio_for_text(
         for _, _, audio in PIPELINE(text, voice, speed):
             audio = Tensor(audio).numpy()
             if save_file:
-                save_file_wav(audio)
+                save_file_wav(audio=audio)
             return 24000, audio
     except Error as e:
-        raise Error(str(e)) from e
+        raise Error(message=str(e)) from e
     raise RuntimeError("No audio generated")
