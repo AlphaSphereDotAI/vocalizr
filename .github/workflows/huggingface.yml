@@ -5,28 +5,7 @@ env:
   HF_HUB_ENABLE_HF_TRANSFER: 1
   UV_CACHE_DIR: /tmp/.uv-cache
 jobs:
-  export_requirements:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Actions Repository
-        uses: actions/checkout@v4
-      - name: Setup UV
-        uses: ./.github/actions/uv
-      - name: Export
-        run: uv export --no-hashes --no-editable --no-dev --quiet -o requirements.txt
-      - name: Update file
-        continue-on-error: true
-        run: |
-          git config --global user.email "mohamed.hisham.abdelzaher@gmail.com"
-          git config --global user.name "Mohamed Hisham Abdelzaher"
-          git add requirements.txt
-          git commit -m "Update requirements.txt"
-          git pull
-          git push
-      - name: Minimize uv cache
-        run: uv cache prune --ci
   huggingface:
-    needs: [export_requirements]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
