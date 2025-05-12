@@ -46,4 +46,4 @@ jobs:
     steps:
       - name: Checkout Actions Repository
         uses: actions/checkout@v4
-      - uses: hadolint/hadolint-action@v3
+      - uses: hadolint/hadolint-action@v3.1.0
