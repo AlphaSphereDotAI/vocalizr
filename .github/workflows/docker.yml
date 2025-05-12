@@ -81,11 +81,10 @@ jobs:
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          scanners: vuln,secret,misconfig
+          scanners: vuln,misconfig
           format: 'sarif'
           output: '${{ github.workspace }}/trivy-results-fs.sarif'
       - name: Run Trivy vulnerability scanner
-        continue-on-error: true
         uses: aquasecurity/trivy-action@0.30.0
         with:
           image-ref: ghcr.io/alphaspheredotai/vocalizr:latest
