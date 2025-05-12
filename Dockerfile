@@ -12,7 +12,7 @@ RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
 
 # skipcq: DOK-DL3008
-RUN apt-get update && \
+RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends espeak-ng && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
