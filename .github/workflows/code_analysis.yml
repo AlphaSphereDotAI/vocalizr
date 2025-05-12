@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
       - name: Setup UV
         uses: ./.github/actions/uv
       - name: Run typos
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
       - name: Setup UV
         uses: ./.github/actions/uv
       - name: Run Ruff
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
       - name: Setup UV
         uses: ./.github/actions/uv
       - name: Run Pyright
@@ -36,8 +36,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
       - name: Setup UV
         uses: ./.github/actions/uv
       - name: Analysing the code with Pylint
         run: uv run pylint $(git ls-files '*.py') --output-format=github --rcfile pyproject.toml
+  dockerfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Actions Repository
+        uses: actions/checkout@v4
+      - uses: hadolint/hadolint-action@v3
