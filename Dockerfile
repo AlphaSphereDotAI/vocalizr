@@ -10,11 +10,11 @@ ENV UV_COMPILE_BYTECODE=1 \
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
 
-# # skipcq: DOK-DL3008
-# RUN apt-get update && \
-#     apt-get install -qq -y --no-install-recommends espeak-ng && \
-#     apt-get clean && \
-#     rm -rf /var/lib/apt/lists/*
+# skipcq: DOK-DL3008
+RUN apt-get update && \
+    apt-get install -qq -y --no-install-recommends espeak-ng && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
