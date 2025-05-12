@@ -5,9 +5,11 @@ runs:
   steps:
     - name: Install uv
       uses: astral-sh/setup-uv@v6
+      id: uv
       with:
         enable-cache: true
         cache-dependency-glob: "uv.lock"
     - name: Install the project
       shell: bash
+      if: steps.uv.outputs.cache-hit != 'true'
       run: uv sync --frozen
