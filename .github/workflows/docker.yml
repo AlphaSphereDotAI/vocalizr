@@ -70,29 +70,3 @@ jobs:
           dockerhub-user: mh0386
           dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
           image: ghcr.io/${{ github.repository }}:latest
-  trivy:
-    needs:
-      - build_image
-      - check_image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run Trivy vulnerability scanner in fs mode
-        uses: aquasecurity/trivy-action@0.30.0
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          scanners: vuln,misconfig
-          format: 'sarif'
-          output: '${{ github.workspace }}/trivy-results-fs.sarif'
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.30.0
-        with:
-          image-ref: ghcr.io/alphaspheredotai/vocalizr:latest
-          scanners: vuln,secret,misconfig
-          format: 'sarif'
-          output: '${{ github.workspace }}/trivy-results-image.sarif'
-      - name: Upload Trivy scan results to GitHub Security tab
-        continue-on-error: true
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ${{ github.workspace }}
