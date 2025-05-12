@@ -13,14 +13,14 @@ RUN groupadd vocalizr && \
 
 # skipcq: DOK-DL3008
 RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends espeak-ng && \
+    apt-get install -y --no-install-recommends espeak-ng && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 RUN uv tool install huggingface-hub[cli] && \
-    huggingface-cli download --quiet hexgrad/Kokoro-82M && \
+    huggingface-cli download hexgrad/Kokoro-82M && \
     uv tool uninstall huggingface-hub
 
 WORKDIR /home/vocalizr/app
@@ -38,7 +38,5 @@ COPY --chown=vocalizr:vocalizr /src /home/vocalizr/app
 USER vocalizr
 
 EXPOSE ${GRADIO_SERVER_PORT}
-
-ENTRYPOINT [  ]
 
 CMD ["python", "vocalizr"]
