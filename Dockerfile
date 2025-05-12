@@ -4,7 +4,8 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_NO_CACHE=1 \
     UV_SYSTEM_PYTHON=1 \
     UV_FROZEN=1 \
-    GRADIO_SERVER_PORT=8080
+    GRADIO_SERVER_PORT=8080 \
+    GRADIO_SERVER_NAME=0.0.0.0
 
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
