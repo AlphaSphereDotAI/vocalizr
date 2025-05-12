@@ -9,6 +9,7 @@ runs:
       with:
         enable-cache: true
         cache-dependency-glob: "uv.lock"
+        activate-environment: true
     - name: Install the project
       shell: bash
       if: steps.uv.outputs.cache-hit != 'true'
