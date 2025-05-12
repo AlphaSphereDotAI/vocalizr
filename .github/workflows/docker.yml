@@ -63,7 +63,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Docker Scout
-        id: docker-scout
         continue-on-error: true
         uses: docker/scout-action@v1
         with:
@@ -71,3 +70,19 @@ jobs:
           dockerhub-user: mh0386
           dockerhub-password: ${{ secrets.TOKEN_KEY_DOCKER }}
           image: ghcr.io/${{ github.repository }}:latest
+  trivy:
+    needs:
+      - build_image
+      - check_image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:latest
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
