@@ -24,7 +24,7 @@ def app_block() -> Blocks:
             with Column():
                 text: Textbox = Textbox(
                     label="Input Text",
-                    info=("""Enter your text here"""),
+                    info="Enter your text here",
                 )
                 with Row():
                     voice: Dropdown = Dropdown(

@@ -12,15 +12,16 @@ from vocalizr import AUDIO_FILE_PATH, CHAR_LIMIT, PIPELINE
 
 @logger.catch
 def save_file_wav(audio: NDArray[float32]) -> None:
-    """Save audio data to a WAV file in the 'results' directory.
-    Creates a timestamped WAV file in the 'results' directory with
-    the provided audio data at a fixed sample rate of 24,000 Hz.
+    """
+    Saves an audio array to a WAV file using the specified sampling rate. If the saving
+    operation fails, it logs the exception and raises a RuntimeError.
 
-    Args:
-        audio (NDArray[float32]): raw audio data.
+    :param audio: The audio data to be saved. Must be a NumPy array of data type
+        float32, representing the audio signal to be written to the file.
+    :type audio: NDArray[float32]
 
-    Raises:
-        RuntimeError: If there are problems with saving the audio file locally.
+    :return: This function does not return a value.
+    :rtype: None
     """
     try:
         logger.info(f"Saving audio to {AUDIO_FILE_PATH}")
@@ -33,26 +34,33 @@ def save_file_wav(audio: NDArray[float32]) -> None:
 # noinspection PyTypeChecker
 @logger.catch
 def generate_audio_for_text(
-    text: str,
-    voice: str = "af_heart",
-    speed: float = 1,
-    save_file: bool = False,
+    text: str, voice: str = "af_heart", speed: float = 1, save_file: bool = False
 ) -> Generator[tuple[Literal[24000], NDArray[float32]], Any, None]:
-    """Generate audio for the input text.
+    """
+    Generates audio from the provided text using the specified voice and speed.
+    It allows saving the generated audio to a file if required. The function
+    yields tuples containing the audio sampling rate and the audio data as a
+    NumPy array.
 
-    Args:
-        text (str): Input text to convert to speech
-        voice (str, optional): Voice identifier. Defaults to "af_heart".
-        speed (float, optional): Speech speed. Defaults to 1.
-        save_file (bool, optional): If to save the audio file to disk. Defaults to False.
+    :param text: The input text to generate audio for. If CHAR_LIMIT is set to a
+        positive value, the text will be truncated to fit that limit.
+    :type text: str
 
-    Raises:
-        Error: If text (str) is empty
-        Error: If audio (NDArray[float32]) is str
-        Error: If audio (NDArray[float32]) is None
+    :param voice: The voice profile to use for audio generation.
+        Defaults to "af_heart".
+    :type voice: str
 
-    Yields:
-        Generator[tuple[Literal[24000], NDArray[float32]], Any, None]: Tuple containing the audio sample rate and raw audio data.
+    :param speed: The speed modifier for audio generation. Defaults to 1.0.
+    :type speed: float
+
+    :param save_file: Whether to save the generated audio to a file. Defaults
+        to False.
+    :type save_file: bool
+
+    :return: A generator that yields tuples, where the first element is the
+        fixed sampling rate of 24,000 Hz, and the second element is a NumPy
+        array representing the generated audio data.
+    :rtype: Generator[tuple[Literal[24000], NDArray[float32]], Any, None]
     """
     try:
         text = text if CHAR_LIMIT == -1 else text.strip()[:CHAR_LIMIT]
