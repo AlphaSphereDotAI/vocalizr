@@ -2,11 +2,13 @@ name: GitHub Release
 on:
   workflow_dispatch:
   push:
-    tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
-      - "[0-9]+.[0-9]+.[0-9]+a[0-9]+"
-      - "[0-9]+.[0-9]+.[0-9]+b[0-9]+"
-      - "[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
+    #    tags:
+    #      - "[0-9]+.[0-9]+.[0-9]+"
+    #      - "[0-9]+.[0-9]+.[0-9]+a[0-9]+"
+    #      - "[0-9]+.[0-9]+.[0-9]+b[0-9]+"
+    #      - "[0-9]+.[0-9]+.[0-9]+rc[0-9]+"
+    branches:
+      - main
 env:
   PACKAGE_NAME: vocalizr
   OWNER: AlphaSphereDotAI
@@ -39,14 +41,14 @@ jobs:
             exit 1
           fi
   setup_and_build:
-    needs: [details]
+    needs: [ details ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4.2.2
       - name: Setup UV
         uses: ./.github/actions/uv
-      - name: Update Project Version 
+      - name: Update Project Version
         run: uv version ${{ needs.details.outputs.new_version }}
       - name: Build source and wheel distribution
         run: uv build --all-packages
@@ -57,7 +59,7 @@ jobs:
           path: dist/
   github_release:
     name: Create GitHub Release
-    needs: [setup_and_build, details]
+    needs: [ setup_and_build, details ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
