@@ -8,16 +8,20 @@ from loguru import logger
 from numpy import float32
 from numpy.typing import NDArray
 from soundfile import write  # type: ignore
-from torch import FloatTensor
 
 from vocalizr import BASE_DIR, CHAR_LIMIT, PIPELINE
 
 
 def save_file_wav(audio: NDArray[float32]) -> None:
     """Save audio data to a WAV file in the 'results' directory.
-
     Creates a timestamped WAV file in the 'results' directory with
     the provided audio data at a fixed sample rate of 24,000 Hz.
+
+    Args:
+        audio (NDArray[float32]): raw audio data.
+
+    Raises:
+        RuntimeError: If there are problems with saving file locally.
     """
     makedirs(name="results", exist_ok=True)
     current_date: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
@@ -38,17 +42,22 @@ def generate_audio_for_text(
 ) -> Generator[tuple[Literal[24000], NDArray[float32]], Any, None]:
     """Generate audio for the input text.
 
-    :param text:  Input text to convert to speech
-    :param voice: Voice identifier
-    :param speed: Speech speed multiplier
-    :param save_file: If to save the audio file to disk.
-    :return: Tuple containing the audio sample rate and raw audio data.
-    :raise Error: If an error occurs during generation.
+    Args:
+        text (str): Input text to convert to speech
+        voice (str, optional): Voice identifier. Defaults to "af_heart".
+        speed (float, optional): Speech speed. Defaults to 1.
+        save_file (bool, optional): If to save the audio file to disk. Defaults to False.
+
+    Raises:
+        Error: If text (str) is empty
+        Error: If audio (NDArray[float32]) is str
+        Error: If audio (NDArray[float32]) is None
+
+    Yields:
+        Generator[tuple[Literal[24000], NDArray[float32]], Any, None]: Tuple containing the audio sample rate and raw audio data.
     """
     try:
         text = text if CHAR_LIMIT == -1 else text.strip()[:CHAR_LIMIT]
-    except ValueError as e:
-        raise Error(message=str(object=e)) from e
     except Exception as e:
         raise Error(message=str(object=e)) from e
     generator: Generator[KPipeline.Result, None, None] = PIPELINE(
