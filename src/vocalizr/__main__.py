@@ -7,7 +7,7 @@ from vocalizr.gui import app_block
 def main() -> None:
     """Launch the Gradio voice generation web application."""
     app: Blocks = app_block()
-    app.launch(
+    app.queue(api_open=True).launch(
         server_name=SERVER_NAME,
         server_port=SERVER_PORT,
         debug=DEBUG,

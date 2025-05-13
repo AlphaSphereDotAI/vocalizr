@@ -5,20 +5,20 @@ from typing import Any, Generator, Literal
 from gradio import Error
 from kokoro import KPipeline
 from loguru import logger
-from numpy import float32
+from numpy import float16
 from numpy.typing import NDArray
 from soundfile import write  # type: ignore
 
 from vocalizr import BASE_DIR, CHAR_LIMIT, PIPELINE
 
 
-def save_file_wav(audio: NDArray[float32]) -> None:
+def save_file_wav(audio: NDArray[float16]) -> None:
     """Save audio data to a WAV file in the 'results' directory.
     Creates a timestamped WAV file in the 'results' directory with
     the provided audio data at a fixed sample rate of 24,000 Hz.
 
     Args:
-        audio (NDArray[float32]): raw audio data.
+        audio (NDArray[float16]): raw audio data.
 
     Raises:
         RuntimeError: If there are problems with saving file locally.
@@ -39,7 +39,7 @@ def generate_audio_for_text(
     voice: str = "af_heart",
     speed: float = 1,
     save_file: bool = False,
-) -> Generator[tuple[Literal[24000], NDArray[float32]], Any, None]:
+) -> Generator[tuple[Literal[24000], NDArray[float16]], Any, None]:
     """Generate audio for the input text.
 
     Args:
@@ -50,11 +50,11 @@ def generate_audio_for_text(
 
     Raises:
         Error: If text (str) is empty
-        Error: If audio (NDArray[float32]) is str
-        Error: If audio (NDArray[float32]) is None
+        Error: If audio (NDArray[float16]) is str
+        Error: If audio (NDArray[float16]) is None
 
     Yields:
-        Generator[tuple[Literal[24000], NDArray[float32]], Any, None]: Tuple containing the audio sample rate and raw audio data.
+        Generator[tuple[Literal[24000], NDArray[float16]], Any, None]: Tuple containing the audio sample rate and raw audio data.
     """
     try:
         text = text if CHAR_LIMIT == -1 else text.strip()[:CHAR_LIMIT]
@@ -63,7 +63,7 @@ def generate_audio_for_text(
     generator: Generator[KPipeline.Result, None, None] = PIPELINE(
         text=text, voice=voice, speed=speed
     )
-    logger.info(f"Generating audio for {text}")
+    logger.info(f"Generating audio for '{text}'")
     for _, _, audio in generator:
         if isinstance(audio, str):
             logger.exception(f"Unexpected type (audio): {type(audio)}")
@@ -71,7 +71,8 @@ def generate_audio_for_text(
         elif audio is None:
             logger.exception(f"Unexpected type (audio): {type(audio)}")
             raise Error(message=f"Unexpected type (audio): {type(audio)}")
-        audio_np: NDArray[float32] = audio.numpy()
+        audio_np: NDArray[float16] = audio.numpy()
         if save_file:
             save_file_wav(audio=audio_np)
+            logger.info(f"Yielding audio for '{text}'")
         yield 24000, audio_np

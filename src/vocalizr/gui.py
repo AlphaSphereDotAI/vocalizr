@@ -9,7 +9,6 @@ from gradio import (
     Slider,
     Textbox,
 )
-from gradio.events import Dependency
 
 from vocalizr import CHOICES, CUDA_AVAILABLE
 from vocalizr.model import generate_audio_for_text
@@ -64,14 +63,17 @@ def app_block() -> Blocks:
                         value="Generate",
                         variant="primary",
                     )
-                    stop_btn = Button(
+                    stop_btn: Button = Button(
                         value="Stop",
                         variant="stop",
                     )
-        stream_event: Dependency = stream_btn.click(
+        stream_event = stream_btn.click(
             fn=generate_audio_for_text,
             inputs=[text, voice, speed, save_file],
             outputs=[out_audio],
         )
-        stop_btn.click(fn=None, cancels=stream_event)
+        stop_btn.click(
+            fn=None,
+            cancels=stream_event,
+        )
     return app
