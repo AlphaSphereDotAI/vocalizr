@@ -17,16 +17,20 @@ PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
 CURRENT_DATE: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
-RESULTS_DIR: Path  = BASE_DIR / "results"
+RESULTS_DIR: Path = BASE_DIR / "results"
 LOG_DIR: Path = BASE_DIR / "logs"
-AUDIO_FILE_PATH: Path  = RESULTS_DIR / f"{CURRENT_DATE}.wav"
+AUDIO_FILE_PATH: Path = RESULTS_DIR / f"{CURRENT_DATE}.wav"
 LOG_FILE_PATH: Path = LOG_DIR / f"{CURRENT_DATE}.log"
 
 RESULTS_DIR.mkdir(exist_ok=True)
 LOG_DIR.mkdir(exist_ok=True)
 
 CUDA_AVAILABLE: bool = cuda.is_available()
-logger.add(LOG_FILE_PATH, format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",colorize=True)
+logger.add(
+    LOG_FILE_PATH,
+    format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
+    colorize=True,
+)
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
 logger.info(f"Char limit: {CHAR_LIMIT}")
 logger.info(f"Base directory: {BASE_DIR}")
