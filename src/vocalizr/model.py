@@ -1,45 +1,42 @@
-from datetime import datetime
-from os import makedirs
 from typing import Any, Generator, Literal
-
 from gradio import Error
 from kokoro import KPipeline
 from loguru import logger
-from numpy import float16
+from numpy import float32
 from numpy.typing import NDArray
-from soundfile import write  # type: ignore
+from soundfile import write
 
-from vocalizr import BASE_DIR, CHAR_LIMIT, PIPELINE
+from vocalizr import CHAR_LIMIT, PIPELINE, AUDIO_FILE_PATH
 
 
-def save_file_wav(audio: NDArray[float16]) -> None:
+@logger.catch
+def save_file_wav(audio: NDArray[float32]) -> None:
     """Save audio data to a WAV file in the 'results' directory.
     Creates a timestamped WAV file in the 'results' directory with
     the provided audio data at a fixed sample rate of 24,000 Hz.
 
     Args:
-        audio (NDArray[float16]): raw audio data.
+        audio (NDArray[float32]): raw audio data.
 
     Raises:
-        RuntimeError: If there are problems with saving file locally.
+        RuntimeError: If there are problems with saving the audio file locally.
     """
-    makedirs(name="results", exist_ok=True)
-    current_date: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
-    filename: str = f"{BASE_DIR}/results/{current_date}.wav"
     try:
-        logger.info(f"Saving audio to {filename}")
-        write(file=filename, data=audio, samplerate=24000)
+        logger.info(f"Saving audio to {AUDIO_FILE_PATH}")
+        write(file=AUDIO_FILE_PATH, data=audio, samplerate=24000)
     except Exception as e:
-        logger.exception(f"Failed to save audio to {filename}: {e}")
-        raise RuntimeError(f"Failed to save audio to {filename}: {e}") from e
+        logger.exception(f"Failed to save audio to {AUDIO_FILE_PATH}: {e}")
+        raise RuntimeError(f"Failed to save audio to {AUDIO_FILE_PATH}: {e}") from e
 
 
+# noinspection PyTypeChecker
+@logger.catch
 def generate_audio_for_text(
     text: str,
     voice: str = "af_heart",
     speed: float = 1,
     save_file: bool = False,
-) -> Generator[tuple[Literal[24000], NDArray[float16]], Any, None]:
+) -> Generator[tuple[Literal[24000], NDArray[float32]], Any, None]:
     """Generate audio for the input text.
 
     Args:
@@ -50,28 +47,26 @@ def generate_audio_for_text(
 
     Raises:
         Error: If text (str) is empty
-        Error: If audio (NDArray[float16]) is str
-        Error: If audio (NDArray[float16]) is None
+        Error: If audio (NDArray[float32]) is str
+        Error: If audio (NDArray[float32]) is None
 
     Yields:
-        Generator[tuple[Literal[24000], NDArray[float16]], Any, None]: Tuple containing the audio sample rate and raw audio data.
+        Generator[tuple[Literal[24000], NDArray[float32]], Any, None]: Tuple containing the audio sample rate and raw audio data.
     """
     try:
         text = text if CHAR_LIMIT == -1 else text.strip()[:CHAR_LIMIT]
     except Exception as e:
+        logger.exception(str(object=e))
         raise Error(message=str(object=e)) from e
     generator: Generator[KPipeline.Result, None, None] = PIPELINE(
         text=text, voice=voice, speed=speed
     )
     logger.info(f"Generating audio for '{text}'")
     for _, _, audio in generator:
-        if isinstance(audio, str):
+        if audio is None or isinstance(audio, str):
             logger.exception(f"Unexpected type (audio): {type(audio)}")
             raise Error(message=f"Unexpected type (audio): {type(audio)}")
-        elif audio is None:
-            logger.exception(f"Unexpected type (audio): {type(audio)}")
-            raise Error(message=f"Unexpected type (audio): {type(audio)}")
-        audio_np: NDArray[float16] = audio.numpy()
+        audio_np: NDArray[float32] = audio.numpy()
         if save_file:
             save_file_wav(audio=audio_np)
             logger.info(f"Yielding audio for '{text}'")
