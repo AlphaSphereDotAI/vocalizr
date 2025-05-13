@@ -1,4 +1,5 @@
 from typing import Any, Generator, Literal
+
 from gradio import Error
 from kokoro import KPipeline
 from loguru import logger
@@ -6,7 +7,7 @@ from numpy import float32
 from numpy.typing import NDArray
 from soundfile import write
 
-from vocalizr import CHAR_LIMIT, PIPELINE, AUDIO_FILE_PATH
+from vocalizr import AUDIO_FILE_PATH, CHAR_LIMIT, PIPELINE
 
 
 @logger.catch
