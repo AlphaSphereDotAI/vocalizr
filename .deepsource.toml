@@ -1,15 +1,20 @@
+#@formatter:off
 version = 1
 
 [[analyzers]]
 name = "python"
-dependency_file_paths = ["requirements.txt", "pyproject.toml"]
+dependency_file_paths = ["pyproject.toml"]
 
-[analyzers.meta]
-runtime_version = "3.x.x"
-type_checker = "mypy"
+    [analyzers.meta]
+    runtime_version = "3.x.x"
+    type_checker = "mypy"
+    additional_builtins = ["_", "pretty_output"]
 
 [[analyzers]]
 name = "docker"
+
+[[analyzers]]
+name = "secrets"
 
 [[transformers]]
 name = "ruff"
@@ -17,5 +22,11 @@ name = "ruff"
 [[transformers]]
 name = "isort"
 
-[[analyzers]]
-name = "secrets"
+[[transformers]]
+name = "yapf"
+
+[[transformers]]
+name = "autopep8"
+
+[[transformers]]
+name = "black"
