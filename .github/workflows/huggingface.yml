@@ -1,6 +1,8 @@
 name: Push to HuggingFace
 on:
   push:
+    branches:
+      - main
 env:
   HF_HUB_ENABLE_HF_TRANSFER: 1
 jobs:
@@ -26,5 +28,3 @@ jobs:
         run: uv run huggingface-cli whoami
       - name: Upload
         run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space
-      # - name: Minimize uv cache
-      #   run: uv cache prune --ci
