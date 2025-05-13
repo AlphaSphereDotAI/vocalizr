@@ -1,3 +1,4 @@
+from datetime import datetime
 from os import getenv
 from pathlib import Path
 
@@ -8,15 +9,30 @@ from torch import cuda
 
 load_dotenv()
 
-BASE_DIR: Path = Path(__file__).parent.parent.parent
 DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
 CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="-1"))
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
 SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
-CUDA_AVAILABLE: bool = cuda.is_available()
+CURRENT_DATE: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
 
+BASE_DIR: Path = Path(__file__).parent.parent.parent
+RESULTS_DIR: Path  = BASE_DIR / "results"
+LOG_DIR: Path = BASE_DIR / "logs"
+AUDIO_FILE_PATH: Path  = RESULTS_DIR / f"{CURRENT_DATE}.wav"
+LOG_FILE_PATH: Path = LOG_DIR / f"{CURRENT_DATE}.log"
+
+RESULTS_DIR.mkdir(exist_ok=True)
+LOG_DIR.mkdir(exist_ok=True)
+
+CUDA_AVAILABLE: bool = cuda.is_available()
+logger.add(LOG_FILE_PATH, format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",colorize=True)
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
+logger.info(f"Char limit: {CHAR_LIMIT}")
+logger.info(f"Base directory: {BASE_DIR}")
+logger.info(f"Results directory: {RESULTS_DIR}")
+logger.info(f"Current date: {CURRENT_DATE}")
+logger.info(f"Audio file path: {AUDIO_FILE_PATH}")
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",
