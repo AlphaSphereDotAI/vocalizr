@@ -47,3 +47,5 @@ jobs:
       - name: Checkout Actions Repository
         uses: actions/checkout@v4
       - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          config: ./.github/hadolint.yml
