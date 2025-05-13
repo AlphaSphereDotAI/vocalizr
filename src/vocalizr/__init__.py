@@ -10,7 +10,7 @@ load_dotenv()
 
 BASE_DIR: Path = Path(__file__).parent.parent.parent
 DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
-CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="5000"))
+CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="-1"))
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
 SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
