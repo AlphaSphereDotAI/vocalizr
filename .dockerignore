@@ -1,5 +1,6 @@
 **/__pycache__/
 .deepsource.toml
+.env
 .github/
 .idea/
 .mypy_cache/
