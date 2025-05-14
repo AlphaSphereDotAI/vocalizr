@@ -8,12 +8,11 @@ ENV UV_COMPILE_BYTECODE=1 \
     GRADIO_SERVER_PORT=8080 \
     GRADIO_SERVER_NAME=0.0.0.0
 
-RUN groupadd vocalizr && \
-    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr
-
 # skipcq: DOK-DL3008
-RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends espeak-ng && \
+RUN groupadd vocalizr && \
+    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
+    apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends espeak-ng ffmpeg && \
     apt-get clean -qq && \
     rm -rf /var/lib/apt/lists/*
 
