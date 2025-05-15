@@ -7,11 +7,14 @@ from loguru import logger
 from torch import cuda
 from warnings import filterwarnings
 
-# Filter out specific PyTorch warnings
 filterwarnings(
-    "ignore", message="dropout option adds dropout after all but last recurrent layer"
+    action="ignore",
+    message="dropout option adds dropout after all but last recurrent layer",
 )
-filterwarnings("ignore", message="torch.nn.utils.weight_norm is deprecated")
+filterwarnings(
+    action="ignore",
+    message="`torch.nn.utils.weight_norm` is deprecated",
+)
 
 load_dotenv()
 
@@ -37,10 +40,12 @@ logger.add(
     colorize=True,
 )
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
+logger.info(f"Current date: {CURRENT_DATE}")
 logger.info(f"Base directory: {BASE_DIR}")
 logger.info(f"Results directory: {RESULTS_DIR}")
-logger.info(f"Current date: {CURRENT_DATE}")
+logger.info(f"Log directory: {LOG_DIR}")
 logger.info(f"Audio file path: {AUDIO_FILE_PATH}")
+logger.info(f"Log file path: {LOG_FILE_PATH}")
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",
