@@ -15,9 +15,8 @@ jobs:
         uses: ./.github/actions/uv
       - name: Remove Unnecessary Files
         run: |
-          echo ".github" >> .gitignore
-          echo ".idea" >> .gitignore
-          echo "docker-bake.hcl" >> .gitignore
+          echo ".github/" >> .gitignore
+          echo ".idea/" >> .gitignore
           echo "renovate.json" >> .gitignore
           echo ".deepsource.toml" >> .gitignore
       - name: Add to git credentials
