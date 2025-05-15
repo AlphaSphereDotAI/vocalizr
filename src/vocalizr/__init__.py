@@ -16,7 +16,7 @@ SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
 CURRENT_DATE: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
 
-BASE_DIR: Path = Path(__file__).parent.parent.parent
+BASE_DIR: Path = Path.cwd()
 RESULTS_DIR: Path = BASE_DIR / "results"
 LOG_DIR: Path = BASE_DIR / "logs"
 AUDIO_FILE_PATH: Path = RESULTS_DIR / f"{CURRENT_DATE}.wav"
