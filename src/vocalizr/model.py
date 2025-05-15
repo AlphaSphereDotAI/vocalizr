@@ -7,7 +7,7 @@ from numpy import float32
 from numpy.typing import NDArray
 from soundfile import write
 
-from vocalizr import AUDIO_FILE_PATH, CHAR_LIMIT, PIPELINE
+from vocalizr import AUDIO_FILE_PATH, PIPELINE
 
 
 @logger.catch
@@ -34,7 +34,12 @@ def save_file_wav(audio: NDArray[float32]) -> None:
 # noinspection PyTypeChecker
 @logger.catch
 def generate_audio_for_text(
-    text: str, voice: str = "af_heart", speed: float = 1, save_file: bool = False
+    text: str,
+    voice: str = "af_heart",
+    speed: float = 1.0,
+    save_file: bool = False,
+    debug: bool = False,
+    char_limit: int = -1,
 ) -> Generator[tuple[Literal[24000], NDArray[float32]], Any, None]:
     """
     Generates audio from the provided text using the specified voice and speed.
@@ -57,16 +62,18 @@ def generate_audio_for_text(
         to False.
     :type save_file: bool
 
+    :param debug: Whether to enable debug mode. Defaults to False.
+    :type debug: bool
+
+    :param char_limit: The maximum number of characters to include in the input
+    :type char_limit: int
+
     :return: A generator that yields tuples, where the first element is the
         fixed sampling rate of 24,000 Hz, and the second element is a NumPy
         array representing the generated audio data.
     :rtype: Generator[tuple[Literal[24000], NDArray[float32]], Any, None]
     """
-    try:
-        text = text if CHAR_LIMIT == -1 else text.strip()[:CHAR_LIMIT]
-    except Exception as e:
-        logger.exception(str(object=e))
-        raise Error(message=str(object=e)) from e
+    text = text if char_limit == -1 else text.strip()[:char_limit]
     generator: Generator[KPipeline.Result, None, None] = PIPELINE(
         text=text, voice=voice, speed=speed
     )

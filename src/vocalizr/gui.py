@@ -8,8 +8,9 @@ from gradio import (
     Row,
     Slider,
     Textbox,
+    Number,
 )
-from vocalizr import CHOICES, CUDA_AVAILABLE
+from vocalizr import CHOICES, CUDA_AVAILABLE, DEBUG
 from vocalizr.model import generate_audio_for_text
 
 
@@ -36,13 +37,13 @@ def app_block() -> Blocks:
                         choices=[("GPU 🚀", True), ("CPU 🐌", False)],
                         value=CUDA_AVAILABLE,
                         label="Hardware",
-                        info="GPU is usually faster, but has a usage quota",
+                        info="Current hardware",
                         interactive=CUDA_AVAILABLE,
                     )
-                    save_file: Checkbox = Checkbox(
-                        label="Save Audio",
-                        info="Save audio to local storage",
-                    )
+                    char_limit: Number = Number(label="Character Limit", value=-1)
+                with Row():
+                    save_file: Checkbox = Checkbox(label="Save Audio File")
+                    debug: Checkbox = Checkbox(value=DEBUG, label="Debug")
                 speed: Slider = Slider(
                     minimum=0.5,
                     maximum=2,
@@ -68,7 +69,7 @@ def app_block() -> Blocks:
                     )
         stream_event = stream_btn.click(
             fn=generate_audio_for_text,
-            inputs=[text, voice, speed, save_file],
+            inputs=[text, voice, speed, save_file, debug, char_limit],
             outputs=[out_audio],
         )
         stop_btn.click(

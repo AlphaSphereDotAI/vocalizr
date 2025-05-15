@@ -8,14 +8,14 @@ from torch import cuda
 from warnings import filterwarnings
 
 # Filter out specific PyTorch warnings
-filterwarnings("ignore", message="dropout option adds dropout after all but last recurrent layer")
+filterwarnings(
+    "ignore", message="dropout option adds dropout after all but last recurrent layer"
+)
 filterwarnings("ignore", message="torch.nn.utils.weight_norm is deprecated")
 
 load_dotenv()
 
-DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
-CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="-1"))
-
+DEBUG: bool = getenv(key="DEBUG", default="True").lower() == "true"
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
 SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
@@ -37,7 +37,6 @@ logger.add(
     colorize=True,
 )
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
-logger.info(f"Char limit: {CHAR_LIMIT}")
 logger.info(f"Base directory: {BASE_DIR}")
 logger.info(f"Results directory: {RESULTS_DIR}")
 logger.info(f"Current date: {CURRENT_DATE}")
