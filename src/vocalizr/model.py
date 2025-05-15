@@ -31,7 +31,6 @@ def save_file_wav(audio: NDArray[float32]) -> None:
         raise RuntimeError(f"Failed to save audio to {AUDIO_FILE_PATH}: {e}") from e
 
 
-# noinspection PyTypeChecker
 @logger.catch
 def generate_audio_for_text(
     text: str,
@@ -73,17 +72,21 @@ def generate_audio_for_text(
         array representing the generated audio data.
     :rtype: Generator[tuple[Literal[24000], NDArray[float32]], Any, None]
     """
+    if not text:
+        logger.exception("No text provided")
+    elif len(text) < 4:
+        logger.exception(f"Text too short: {text} with length {len(text)}")
     text = text if char_limit == -1 else text.strip()[:char_limit]
     generator: Generator[KPipeline.Result, None, None] = PIPELINE(
         text=text, voice=voice, speed=speed
     )
-    logger.info(f"Generating audio for '{text}'")
     for _, _, audio in generator:
         if audio is None or isinstance(audio, str):
             logger.exception(f"Unexpected type (audio): {type(audio)}")
             raise Error(message=f"Unexpected type (audio): {type(audio)}")
+        logger.info(f"Generating audio for '{text}'")
         audio_np: NDArray[float32] = audio.numpy()
         if save_file:
+            logger.info(f"Saving audio file at {AUDIO_FILE_PATH}")
             save_file_wav(audio=audio_np)
-            logger.info(f"Yielding audio for '{text}'")
         yield 24000, audio_np
