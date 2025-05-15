@@ -15,6 +15,7 @@ jobs:
         uses: ./.github/actions/uv
       - name: Remove Unnecessary Files
         run: |
+          echo "" >> .gitignore
           echo ".github/" >> .gitignore
           echo ".idea/" >> .gitignore
           echo "renovate.json" >> .gitignore
