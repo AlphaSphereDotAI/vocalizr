@@ -35,7 +35,7 @@ dev = [
 Chatacter = "Chatacter"
 
 [tool.pylint]
-disable = ["E1101", "C0114"]
+disable = ["E1101", "C0114", "R0913", "R0917"]
 
 [tool.ruff]
 show-fixes = true
