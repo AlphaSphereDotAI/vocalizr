@@ -1,16 +1,21 @@
 from datetime import datetime
 from os import getenv
 from pathlib import Path
-
 from dotenv import load_dotenv
 from kokoro import KPipeline
 from loguru import logger
 from torch import cuda
+from warnings import filterwarnings
+
+# Filter out specific PyTorch warnings
+filterwarnings("ignore", message="dropout option adds dropout after all but last recurrent layer")
+filterwarnings("ignore", message="torch.nn.utils.weight_norm is deprecated")
 
 load_dotenv()
 
 DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
 CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="-1"))
+
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
 SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")

@@ -9,7 +9,6 @@ from gradio import (
     Slider,
     Textbox,
 )
-
 from vocalizr import CHOICES, CUDA_AVAILABLE
 from vocalizr.model import generate_audio_for_text
 
@@ -40,7 +39,7 @@ def app_block() -> Blocks:
                         info="GPU is usually faster, but has a usage quota",
                         interactive=CUDA_AVAILABLE,
                     )
-                    save_file = Checkbox(
+                    save_file: Checkbox = Checkbox(
                         label="Save Audio",
                         info="Save audio to local storage",
                     )
