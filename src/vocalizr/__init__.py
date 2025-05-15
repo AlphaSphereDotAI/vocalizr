@@ -1,11 +1,12 @@
 from datetime import datetime
 from os import getenv
 from pathlib import Path
+from warnings import filterwarnings
+
 from dotenv import load_dotenv
 from kokoro import KPipeline
 from loguru import logger
 from torch import cuda
-from warnings import filterwarnings
 
 filterwarnings(
     action="ignore",

@@ -5,11 +5,12 @@ from gradio import (
     Checkbox,
     Column,
     Dropdown,
+    Number,
     Row,
     Slider,
     Textbox,
-    Number,
 )
+
 from vocalizr import CHOICES, CUDA_AVAILABLE, DEBUG
 from vocalizr.model import generate_audio_for_text
 
