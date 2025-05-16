@@ -84,9 +84,11 @@ def generate_audio_for_text(
         if audio is None or isinstance(audio, str):
             logger.exception(f"Unexpected type (audio): {type(audio)}")
             raise Error(message=f"Unexpected type (audio): {type(audio)}")
-        logger.info(f"Generating audio for '{text}'")
+        if debug:
+            logger.info(f"Generating audio for '{text}'")
         audio_np: NDArray[float32] = audio.numpy()
         if save_file:
-            logger.info(f"Saving audio file at {AUDIO_FILE_PATH}")
+            if debug:
+                logger.info(f"Saving audio file at {AUDIO_FILE_PATH}")
             save_file_wav(audio=audio_np)
         yield 24000, audio_np
