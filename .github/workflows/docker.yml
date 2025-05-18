@@ -49,6 +49,7 @@ jobs:
             type=raw,value=${{ github.ref_name }},enable=${{ github.ref != 'refs/heads/main' }}
       - name: Build
         uses: docker/build-push-action@v6
+        id: push
         with:
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -56,6 +57,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
+      - name: Generate artifact attestation for App
+        uses: actions/attest-build-provenance@v2.3.0
+        with:
+          subject-name: ghcr.io/${{ github.repository }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
   docker_scout:
     needs:
       - build_image
