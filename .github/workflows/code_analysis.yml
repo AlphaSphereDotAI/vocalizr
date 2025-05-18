@@ -18,7 +18,6 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        shell: bash
         if: steps.uv.outputs.cache-hit != 'true'
         run: uv sync --frozen
       - name: Run Ruff
@@ -36,7 +35,6 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        shell: bash
         if: steps.uv.outputs.cache-hit != 'true'
         run: uv sync --frozen
       - name: Analysing the code with Ty
