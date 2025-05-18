@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bookworm
+FROM python:3.12-alpine
 
 ENV UV_COMPILE_BYTECODE=1 \
     UV_NO_CACHE=1 \
@@ -11,10 +11,8 @@ ENV UV_COMPILE_BYTECODE=1 \
 # skipcq: DOK-DL3008
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
-    apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends espeak-ng ffmpeg && \
-    apt-get clean -qq && \
-    rm -rf /var/lib/apt/lists/*
+    apk update && \
+    apk add --no-cache espeak-ng ffmpeg
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
