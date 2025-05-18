@@ -32,6 +32,8 @@ RUN --mount=type=bind,source=uv.lock,target=uv.lock \
     uv export --no-hashes --no-editable --no-dev --quiet -o requirements.txt && \
     uv pip install --system -r requirements.txt
 
+RUN chown -R vocalizr:vocalizr /home/vocalizr/app
+
 COPY --chown=vocalizr:vocalizr . /home/vocalizr/app
 
 USER vocalizr

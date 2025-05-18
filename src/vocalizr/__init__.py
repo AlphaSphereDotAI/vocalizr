@@ -1,22 +1,31 @@
 from datetime import datetime
 from os import getenv
 from pathlib import Path
+from warnings import filterwarnings
 
 from dotenv import load_dotenv
 from kokoro import KPipeline
 from loguru import logger
 from torch import cuda
 
+filterwarnings(
+    action="ignore",
+    message="dropout option adds dropout after all but last recurrent layer",
+)
+filterwarnings(
+    action="ignore",
+    message="`torch.nn.utils.weight_norm` is deprecated",
+)
+
 load_dotenv()
 
-DEBUG: bool = getenv(key="DEBUG", default="False").lower() == "true"
-CHAR_LIMIT: int = int(getenv(key="CHAR_LIMIT", default="-1"))
+DEBUG: bool = getenv(key="DEBUG", default="True").lower() == "true"
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
 SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
 CURRENT_DATE: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
 
-BASE_DIR: Path = Path(__file__).parent.parent.parent
+BASE_DIR: Path = Path.cwd()
 RESULTS_DIR: Path = BASE_DIR / "results"
 LOG_DIR: Path = BASE_DIR / "logs"
 AUDIO_FILE_PATH: Path = RESULTS_DIR / f"{CURRENT_DATE}.wav"
@@ -32,11 +41,12 @@ logger.add(
     colorize=True,
 )
 logger.info(f"CUDA Available: {CUDA_AVAILABLE}")
-logger.info(f"Char limit: {CHAR_LIMIT}")
+logger.info(f"Current date: {CURRENT_DATE}")
 logger.info(f"Base directory: {BASE_DIR}")
 logger.info(f"Results directory: {RESULTS_DIR}")
-logger.info(f"Current date: {CURRENT_DATE}")
+logger.info(f"Log directory: {LOG_DIR}")
 logger.info(f"Audio file path: {AUDIO_FILE_PATH}")
+logger.info(f"Log file path: {LOG_FILE_PATH}")
 
 CHOICES: dict[str, str] = {
     "🇺🇸 🚺 Heart ❤️": "af_heart",

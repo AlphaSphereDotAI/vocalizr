@@ -5,12 +5,13 @@ from gradio import (
     Checkbox,
     Column,
     Dropdown,
+    Number,
     Row,
     Slider,
     Textbox,
 )
 
-from vocalizr import CHOICES, CUDA_AVAILABLE
+from vocalizr import CHOICES, CUDA_AVAILABLE, DEBUG
 from vocalizr.model import generate_audio_for_text
 
 
@@ -22,10 +23,7 @@ def app_block() -> Blocks:
     with Blocks() as app:
         with Row():
             with Column():
-                text: Textbox = Textbox(
-                    label="Input Text",
-                    info="Enter your text here",
-                )
+                text: Textbox = Textbox(label="Input Text", info="Enter your text here")
                 with Row():
                     voice: Dropdown = Dropdown(
                         choices=list(CHOICES.items()),
@@ -36,14 +34,13 @@ def app_block() -> Blocks:
                     Dropdown(
                         choices=[("GPU 🚀", True), ("CPU 🐌", False)],
                         value=CUDA_AVAILABLE,
-                        label="Hardware",
-                        info="GPU is usually faster, but has a usage quota",
+                        label="Current Hardware",
                         interactive=CUDA_AVAILABLE,
                     )
-                    save_file = Checkbox(
-                        label="Save Audio",
-                        info="Save audio to local storage",
-                    )
+                    char_limit: Number = Number(label="Character Limit", value=-1)
+                with Row():
+                    save_file: Checkbox = Checkbox(label="Save Audio File")
+                    debug: Checkbox = Checkbox(value=DEBUG, label="Debug")
                 speed: Slider = Slider(
                     minimum=0.5,
                     maximum=2,
@@ -59,21 +56,12 @@ def app_block() -> Blocks:
                     autoplay=True,
                 )
                 with Row():
-                    stream_btn: Button = Button(
-                        value="Generate",
-                        variant="primary",
-                    )
-                    stop_btn: Button = Button(
-                        value="Stop",
-                        variant="stop",
-                    )
+                    stream_btn: Button = Button(value="Generate", variant="primary")
+                    stop_btn: Button = Button(value="Stop", variant="stop")
         stream_event = stream_btn.click(
             fn=generate_audio_for_text,
-            inputs=[text, voice, speed, save_file],
+            inputs=[text, voice, speed, save_file, debug, char_limit],
             outputs=[out_audio],
         )
-        stop_btn.click(
-            fn=None,
-            cancels=stream_event,
-        )
+        stop_btn.click(fn=None, cancels=stream_event)
     return app
