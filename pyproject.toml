@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "en-core-web-sm",
-    "gradio[mcp]>=5.29.0",
+    "gradio[mcp]>=5.29.1",
     "kokoro>=0.9.4",
     "soundfile>=0.13.1",
 ]
@@ -20,10 +20,10 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "pyrefly>=0.14.0",
+    "pyrefly>=0.15.2",
     "watchfiles>=1.0.5",
-    "ruff>=0.11.9",
-    "huggingface-hub[cli,hf-transfer]>=0.31.1",
+    "ruff>=0.11.10",
+    "huggingface-hub[cli,hf-transfer]>=0.31.2",
     "ty>=0.0.1a5",
 ]
 
