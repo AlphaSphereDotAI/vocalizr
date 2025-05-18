@@ -12,7 +12,8 @@ ENV UV_COMPILE_BYTECODE=1 \
 RUN groupadd vocalizr && \
     useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
     apk update && \
-    apk add --no-cache espeak-ng ffmpeg
+    apk add --no-cache espeak-ng ffmpeg && \
+    rm -rf /var/cache/apk/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
