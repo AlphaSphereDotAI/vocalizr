@@ -26,7 +26,8 @@ RUN uv tool install --quiet huggingface_hub[cli] && \
 FROM python:3.12-alpine AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
-    GRADIO_SERVER_NAME=0.0.0.0
+    GRADIO_SERVER_NAME=0.0.0.0 \
+    PATH="/app/.venv/bin:$PATH"
 
 # skipcq: DOK-DL3008
 RUN addgroup vocalizr && \
