@@ -10,10 +10,7 @@ ENV UV_COMPILE_BYTECODE=1 \
 
 # skipcq: DOK-DL3008
 RUN addgroup vocalizr && \
-    adduser -D -G vocalizr vocalizr && \
-    apk update && \
-    apk add --no-cache espeak-ng ffmpeg && \
-    rm -rf /var/cache/apk/*
+    adduser -D -G vocalizr vocalizr 
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -28,8 +25,12 @@ RUN --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=.python-version,target=.python-version \
     --mount=type=bind,source=README.md,target=README.md \
     --mount=type=bind,source=src,target=/home/vocalizr/app/src \
+    apk update && \
+    apk add --no-cache build-base python3-dev linux-headers espeak-ng-dev && \
+    apk add --no-cache espeak-ng ffmpeg && \
     uv export --no-hashes --no-editable --no-dev --quiet -o requirements.txt && \
-    uv pip install --system -r requirements.txt
+    uv pip install --system -r requirements.txt && \
+    rm -rf /var/cache/apk/*
 
 RUN chown -R vocalizr:vocalizr /home/vocalizr/app
 
