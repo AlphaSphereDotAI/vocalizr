@@ -9,8 +9,8 @@ ENV UV_COMPILE_BYTECODE=1 \
     GRADIO_SERVER_NAME=0.0.0.0
 
 # skipcq: DOK-DL3008
-RUN groupadd vocalizr && \
-    useradd --gid vocalizr --shell /bin/bash --create-home vocalizr && \
+RUN addgroup vocalizr && \
+    adduser -D -G vocalizr vocalizr && \
     apk update && \
     apk add --no-cache espeak-ng ffmpeg && \
     rm -rf /var/cache/apk/*
