@@ -1,40 +1,46 @@
-FROM python:3.12-alpine
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
 ENV UV_COMPILE_BYTECODE=1 \
-    UV_NO_CACHE=1 \
+    UV_LINK_MODE=copy \
     UV_SYSTEM_PYTHON=1 \
+    UV_PYTHON_DOWNLOADS=0 \
     UV_FROZEN=1 \
-    PATH="/root/.local/bin:$PATH" \
-    GRADIO_SERVER_PORT=8080 \
+    PATH="/root/.local/bin:$PATH" 
+
+WORKDIR /app
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
+
+COPY . /app
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
+
+RUN uv tool install --quiet huggingface_hub[cli] && \
+    huggingface-cli download --quiet hexgrad/Kokoro-82M && \
+    uv tool uninstall --quiet huggingface-hub
+
+FROM python:3.12-alpine AS production
+
+ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
 # skipcq: DOK-DL3008
 RUN addgroup vocalizr && \
-    adduser -D -G vocalizr vocalizr 
-
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-RUN uv tool install --quiet huggingface-hub[cli] && \
-    huggingface-cli download --quiet hexgrad/Kokoro-82M && \
-    uv tool uninstall --quiet huggingface-hub
-
-WORKDIR /home/vocalizr/app
-
-RUN --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=.python-version,target=.python-version \
-    --mount=type=bind,source=README.md,target=README.md \
-    --mount=type=bind,source=src,target=/home/vocalizr/app/src \
+    adduser -D -h /app -G vocalizr vocalizr && \
     apk update && \
-    apk add --no-cache build-base python3-dev linux-headers espeak-ng-dev && \
     apk add --no-cache espeak-ng ffmpeg && \
-    uv export --no-hashes --no-editable --no-dev --quiet -o requirements.txt && \
-    uv pip install --system -r requirements.txt && \
     rm -rf /var/cache/apk/*
 
-RUN chown -R vocalizr:vocalizr /home/vocalizr/app
+WORKDIR /app
 
-COPY --chown=vocalizr:vocalizr . /home/vocalizr/app
+COPY --from=builder --chown=vocalizr:vocalizr /app /app
+COPY --from=builder /root/.cache/huggingface/hub/ /root/.cache/huggingface/hub/
+
+RUN chown -R vocalizr:vocalizr /app
 
 USER vocalizr
 
