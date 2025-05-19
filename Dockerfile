@@ -23,7 +23,7 @@ RUN uv tool install --quiet huggingface_hub[cli] && \
     huggingface-cli download --quiet hexgrad/Kokoro-82M && \
     uv tool uninstall --quiet huggingface-hub
 
-FROM python:3.12-alpine AS production
+FROM python:3.13-alpine AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
