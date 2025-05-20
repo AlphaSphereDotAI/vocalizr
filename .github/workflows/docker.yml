@@ -60,7 +60,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
       - name: Generate artifact attestation for App
-        uses: actions/attest-build-provenance@v2.3.0
+        uses: actions/attest-build-provenance@v2
         with:
           subject-name: ghcr.io/${{ github.repository }}
           subject-digest: ${{ steps.push.outputs.digest }}
@@ -77,7 +77,6 @@ jobs:
         commands: ["quickview", "cves", "recommendations"]
     steps:
       - name: Docker Scout
-        continue-on-error: true
         uses: docker/scout-action@v1
         with:
           command: ${{ matrix.commands }}
