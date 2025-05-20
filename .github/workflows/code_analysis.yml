@@ -5,9 +5,9 @@ on:
 permissions:
   contents: read
 env:
-  RUFF_NO_CACHE: 1
-  UV_FROZEN: 1
-  UV_LINK_MODE: copy
+  RUFF_NO_CACHE: "1"
+  UV_FROZEN: "1"
+  UV_LINK_MODE: "copy"
 jobs:
   python:
     name: Analysis python code with ${{ matrix.analyzer }}
