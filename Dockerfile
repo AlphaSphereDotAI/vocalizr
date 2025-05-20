@@ -28,6 +28,7 @@ RUN --mount=type=bind,source=pylock.toml,target=pylock.toml \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=README.md,target=README.md \
     --mount=type=bind,source=src,target=/app/src \
+    uv export --no-hashes --no-editable --no-dev --quiet -o pylock.toml && \
     uv pip sync pylock.toml
 
 RUN chown -R vocalizr:vocalizr /app
