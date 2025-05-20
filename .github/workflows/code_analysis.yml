@@ -5,7 +5,7 @@ on:
 permissions:
   contents: read
 env:
-  RUFF_NO_CACHE: "1"
+  RUFF_NO_CACHE: "true"
   UV_FROZEN: "1"
   UV_LINK_MODE: "copy"
 jobs:
