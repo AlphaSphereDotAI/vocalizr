@@ -4,7 +4,7 @@ emoji: 🔊
 colorFrom: purple
 colorTo: yellow
 sdk: docker
-app_port: 8080
+app_port: 7860
 ---
 
 # Vocalizr: Voice Generator part of the Chatacter Backend
