@@ -6,7 +6,17 @@ permissions:
   contents: read
 jobs:
   ruff:
+    name: Analysis python code with ${{ matrix.analyzer }}
     runs-on: ubuntu-latest
+    strategy:  
+      fail-fast: false
+      matrix:
+        analyzer: ["ruff", "ty"]
+        include:
+          - analyzer: ruff
+            command: ruff check .
+          - analyzer: ty
+            command: ty check
     steps:
       - name: Checkout Actions Repository
         uses: actions/checkout@v4
@@ -20,26 +30,10 @@ jobs:
       - name: Install the project
         if: steps.uv.outputs.cache-hit != 'true'
         run: uv sync --frozen
-      - name: Run Ruff
-        run: uv run ruff check .
-  ty:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Actions Repository
-        uses: actions/checkout@v4
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-        id: uv
-        with:
-          enable-cache: true
-          cache-dependency-glob: "uv.lock"
-          activate-environment: true
-      - name: Install the project
-        if: steps.uv.outputs.cache-hit != 'true'
-        run: uv sync --frozen
-      - name: Analysing the code with Ty
-        run: uv run ty check
+      - name: Run ${{ matrix.analyzer }}
+        run: uv run ${{ matrix.command }}
   dockerfile:
+    name: Analysis Dockerfile
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Actions Repository
