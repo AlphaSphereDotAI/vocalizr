@@ -24,7 +24,7 @@ RUN uv tool install --quiet huggingface-hub[cli] && \
 
 WORKDIR /app
 
-RUN --mount=type=bind,source=pylock.toml,target=pylock.toml \
+RUN --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=README.md,target=README.md \
     --mount=type=bind,source=src,target=/app/src \
