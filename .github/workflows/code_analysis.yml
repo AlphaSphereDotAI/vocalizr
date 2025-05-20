@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+env:
+  RUFF_NO_CACHE: 1
+  UV_FROZEN: 1
+  UV_LINK_MODE: copy
 jobs:
   python:
     name: Analysis python code with ${{ matrix.analyzer }}
@@ -29,7 +33,7 @@ jobs:
           activate-environment: true
       - name: Install the project
         if: steps.uv.outputs.cache-hit != 'true'
-        run: uv sync --frozen
+        run: uv sync
       - name: Run ${{ matrix.analyzer }}
         run: uv run ${{ matrix.command }}
   dockerfile:
