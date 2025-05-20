@@ -5,7 +5,7 @@ on:
 permissions:
   contents: read
 jobs:
-  ruff:
+  python:
     name: Analysis python code with ${{ matrix.analyzer }}
     runs-on: ubuntu-latest
     strategy:  
