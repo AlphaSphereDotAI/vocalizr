@@ -32,7 +32,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        if: steps.uv.outputs.cache-hit != 'true'
+        # if: steps.uv.outputs.cache-hit != 'true'
         run: uv sync
       - name: Run ${{ matrix.analyzer }}
         run: uv run ${{ matrix.command }}
