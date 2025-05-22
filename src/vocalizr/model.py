@@ -6,7 +6,7 @@ from loguru import logger
 from numpy import float32
 from numpy.typing import NDArray
 from soundfile import write
-
+from torch import zeros
 from vocalizr import AUDIO_FILE_PATH, PIPELINE
 
 
@@ -80,6 +80,7 @@ def generate_audio_for_text(
     generator: Generator[KPipeline.Result, None, None] = PIPELINE(
         text=text, voice=voice, speed=speed
     )
+    first = True
     for _, _, audio in generator:
         if audio is None or isinstance(audio, str):
             logger.exception(f"Unexpected type (audio): {type(audio)}")
@@ -92,3 +93,6 @@ def generate_audio_for_text(
                 logger.info(f"Saving audio file at {AUDIO_FILE_PATH}")
             save_file_wav(audio=audio_np)
         yield 24000, audio_np
+        if first:
+            first = False
+            yield 24000, zeros(1).numpy()

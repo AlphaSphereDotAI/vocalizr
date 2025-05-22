@@ -4,7 +4,9 @@ on:
     branches:
       - main
 env:
-  HF_HUB_ENABLE_HF_TRANSFER: 1
+  HF_HUB_ENABLE_HF_TRANSFER: "1"
+  UV_FROZEN: "1"
+  UV_LINK_MODE: "copy"
 jobs:
   huggingface:
     runs-on: ubuntu-latest
@@ -19,7 +21,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        if: steps.uv.outputs.cache-hit != 'true'
+        # if: steps.uv.outputs.cache-hit != 'true'
         run: uv sync --frozen
       - name: Remove Unnecessary Files
         run: |
