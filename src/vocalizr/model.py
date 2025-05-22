@@ -7,6 +7,7 @@ from numpy import float32
 from numpy.typing import NDArray
 from soundfile import write
 from torch import zeros
+
 from vocalizr import AUDIO_FILE_PATH, PIPELINE
 
 
