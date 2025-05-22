@@ -1,8 +1,8 @@
 name: Trunk Code Quality
 on:
-  workflow_run:
-    workflows: ["Pull Request"]
-    types: [completed]
+  push:
+  pull_request:
+  workflow_dispatch:
 permissions:
   checks: write
   contents: read
@@ -19,5 +19,4 @@ jobs:
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
         with:
-          post-annotations: true
           arguments: --github-annotate-new-only=false
