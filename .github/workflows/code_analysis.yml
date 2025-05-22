@@ -1,7 +1,5 @@
 name: Trunk Code Quality
 on:
-  push:
-  pull_request:
   workflow_run:
     workflows: ["Pull Request"]
     types: [completed]
