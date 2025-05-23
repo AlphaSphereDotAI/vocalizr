@@ -5,10 +5,12 @@ on:
   pull_request:
     branches: main
 jobs:
-  test:
+  trunk:
+    name: Trunk Code Quality
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    steps:      
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
         with:
