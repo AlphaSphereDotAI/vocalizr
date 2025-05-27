@@ -7,7 +7,7 @@ sdk: docker
 app_port: 7860
 ---
 
-# Vocalizr: Voice Generator part of the Chatacter Backend
+## Vocalizr: Voice Generator part of the Chatacter Backend
 
 [![Code Analysis](https://github.com/AlphaSphereDotAI/chatacter_backend_voice_generator/actions/workflows/code_analysis.yml/badge.svg)](https://github.com/AlphaSphereDotAI/chatacter_backend_voice_generator/actions/workflows/code_analysis.yml)
 

@@ -1,3 +1,4 @@
+# trunk-ignore-all(checkov/CKV_DOCKER_2)
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 ENV UV_COMPILE_BYTECODE=1 \
@@ -8,6 +9,7 @@ ENV UV_COMPILE_BYTECODE=1 \
     GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
+# trunk-ignore(hadolint/DL3008)
 RUN groupadd vocalizr && \
     useradd -g vocalizr -s /bin/bash -d /app vocalizr && \
     apt-get update -qq && \
