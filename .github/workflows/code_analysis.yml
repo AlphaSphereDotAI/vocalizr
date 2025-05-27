@@ -14,4 +14,4 @@ jobs:
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@v1
         with:
-          post-annotations: true 
+          arguments: --github-annotate-new-only=false
