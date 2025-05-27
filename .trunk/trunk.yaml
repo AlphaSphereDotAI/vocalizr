@@ -12,6 +12,7 @@ runtimes:
     - python@3.10.8
 lint:
   enabled:
+    - yamllint@1.37.1
     - black@25.1.0
     - actionlint@1.7.7
     - bandit@1.8.3
@@ -25,7 +26,6 @@ lint:
     - ruff@0.11.10
     - taplo@0.9.3
     - trufflehog@3.88.32
-    - yamllint@1.37.1
 actions:
   enabled:
     - trunk-announce
