@@ -11,9 +11,8 @@ runtimes:
     - node@18.20.5
     - python@3.10.8
 lint:
-  disabled:
-    - yamllint
   enabled:
+    - yamllint@1.37.1
     - black@25.1.0
     - actionlint@1.7.7
     - bandit@1.8.3
