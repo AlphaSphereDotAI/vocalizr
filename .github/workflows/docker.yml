@@ -28,8 +28,6 @@ jobs:
     name: Build and push Docker image
     needs: check_image
     runs-on: ubuntu-latest
-    outputs:
-      image_digest: ${{ steps.push.outputs.digest }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,6 +49,7 @@ jobs:
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=${{ github.ref_name }},enable=${{ github.ref != 'refs/heads/main' }}
+            type=sha
       - name: Build
         uses: docker/build-push-action@v6
         id: push
@@ -77,7 +76,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: "ghcr.io/alphaspheredotai/vocalizr:${{needs.build_image.outputs.image_digest}}"
+          image-ref: "ghcr.io/alphaspheredotai/vocalizr:${{ github.ref_name }}"
           format: "github"
           exit-code: "1"
           vuln-type: "os,library"
