@@ -1,10 +1,10 @@
-# trunk-ignore-all(checkov/CKV_DOCKER_2)
 FROM ghcr.io/astral-sh/uv:debian-slim AS builder
 
 ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_PREFERENCE=only-managed \
     UV_PYTHON_INSTALL_DIR=/python \
+    UV_PROJECT_ENVIRONMENT=/venv \
     UV_FROZEN=1
 
 RUN --mount=type=bind,source=.python-version,target=.python-version \
