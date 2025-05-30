@@ -14,6 +14,7 @@ WORKDIR /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=cache,target=/python \
+    --mount=type=cache,target=/venv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=README.md,target=README.md \
@@ -24,11 +25,12 @@ COPY . /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=cache,target=/python \
+    --mount=type=cache,target=/venv \
     uv sync --no-dev
 
 FROM alpine:3 AS production
 
-ENV PATH="/app/.venv/bin:$PATH" \
+ENV PATH="/venv/bin:$PATH" \
     GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
@@ -38,6 +40,7 @@ RUN addgroup app && \
     apk add --no-cache espeak-ng ffmpeg
 
 COPY --from=builder --chown=root:root /python /python
+COPY --from=builder --chown=root:root /venv /venv
 COPY --from=builder --chown=app:app /app /app
 
 USER app
