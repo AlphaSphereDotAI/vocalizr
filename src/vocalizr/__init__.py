@@ -36,7 +36,7 @@ LOG_DIR.mkdir(exist_ok=True)
 
 CUDA_AVAILABLE: bool = cuda.is_available()
 logger.add(
-    LOG_FILE_PATH,
+    sink=LOG_FILE_PATH,
     format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
     colorize=True,
 )

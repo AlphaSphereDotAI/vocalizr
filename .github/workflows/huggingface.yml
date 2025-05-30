@@ -24,11 +24,12 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        # if: steps.uv.outputs.cache-hit != 'true'
         run: uv sync --frozen
       - name: Remove Unnecessary Files
         run: |
           echo "" >> .gitignore
+          echo ".trunk" >> .gitignore
+          echo "pylock.toml" >> .gitignore
           echo ".github/" >> .gitignore
           echo ".idea/" >> .gitignore
           echo "renovate.json" >> .gitignore

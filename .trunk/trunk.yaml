@@ -1,6 +1,6 @@
 version: 0.1
 cli:
-  version: 1.22.15
+  version: 1.24.0
 plugins:
   sources:
     - id: trunk
@@ -12,6 +12,7 @@ runtimes:
     - python@3.10.8
 lint:
   enabled:
+    - gitleaks@8.26.0
     - yamllint@1.37.1
     - black@25.1.0
     - actionlint@1.7.7
