@@ -5,8 +5,7 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_PREFERENCE=only-managed \
     UV_PYTHON_INSTALL_DIR=/python \
-    UV_FROZEN=1 \
-    PATH="/root/.local/bin:$PATH"
+    UV_FROZEN=1
 
 WORKDIR /app
 
@@ -29,10 +28,7 @@ ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
 # trunk-ignore(hadolint/DL3018)
-RUN apk add --no-cache espeak-ng ffmpeg && \
-    uv tool install --quiet huggingface-hub[cli] && \
-    huggingface-cli download --quiet hexgrad/Kokoro-82M && \
-    uv tool uninstall --quiet huggingface-hub
+RUN apk add --no-cache espeak-ng ffmpeg
 
 COPY --from=builder --chown=python:python /python /python
 COPY --from=builder --chown=app:app /app /app
