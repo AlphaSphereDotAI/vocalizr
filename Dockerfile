@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=cache,target=/python \
     uv sync --no-dev
 
-FROM alpine:3.10 AS production
+FROM alpine:3 AS production
 
 ENV PATH="/app/.venv/bin:$PATH" \
     GRADIO_SERVER_PORT=7860 \
@@ -37,7 +37,7 @@ RUN addgroup app && \
     adduser app -G app -D -H && \
     apk add --no-cache espeak-ng ffmpeg
 
-COPY --from=builder --chown=root:root --chmod=755 /python /python
+COPY --from=builder --chown=root:root /python /python
 COPY --from=builder --chown=app:app /app /app
 
 USER app
