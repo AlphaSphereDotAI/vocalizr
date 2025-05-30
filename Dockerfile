@@ -8,7 +8,8 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_FROZEN=1
 
 RUN --mount=type=bind,source=.python-version,target=.python-version \
-    uv python install $(cat .python-version)
+    uv python install "$(cat .python-version)"
+
 WORKDIR /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
