@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=cache,target=/python \
     uv sync --no-dev
 
-FROM alpine:3 AS production
+FROM alpine:3.10 AS production
 
 ENV PATH="/app/.venv/bin:$PATH" \
     GRADIO_SERVER_PORT=7860 \
