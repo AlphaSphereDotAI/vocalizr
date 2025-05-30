@@ -7,6 +7,8 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_PYTHON_INSTALL_DIR=/python \
     UV_FROZEN=1
 
+RUN --mount=type=bind,source=.python-version,target=.python-version \
+    uv python install $(cat .python-version)
 WORKDIR /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -23,9 +25,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=cache,target=/python \
     uv sync --no-dev
 
-FROM alpine:3.20.0
+FROM alpine:3.20.0 AS production
 
-ENV GRADIO_SERVER_PORT=7860 \
+ENV PATH="/app/.venv/bin:$PATH" \
+    GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
 # trunk-ignore(hadolint/DL3018)
@@ -35,6 +38,8 @@ COPY --from=builder --chown=python:python /python /python
 COPY --from=builder --chown=app:app /app /app
 
 USER app
+
+WORKDIR /app
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
