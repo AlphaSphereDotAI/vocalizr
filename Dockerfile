@@ -33,7 +33,9 @@ ENV PATH="/app/.venv/bin:$PATH" \
     GRADIO_SERVER_NAME=0.0.0.0
 
 # trunk-ignore(hadolint/DL3018)
-RUN apk add --no-cache espeak-ng ffmpeg
+RUN addgroup -S app && \
+    adduser -S app -G app && \
+    apk add --no-cache espeak-ng ffmpeg
 
 COPY --from=builder --chown=python:python /python /python
 COPY --from=builder --chown=app:app /app /app
