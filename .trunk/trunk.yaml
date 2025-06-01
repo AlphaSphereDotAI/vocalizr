@@ -3,6 +3,9 @@ cli:
   version: 1.22.15
 plugins:
   sources:
+    - id: configs
+      ref: v1.1.0
+      uri: https://github.com/trunk-io/configs
     - id: trunk
       ref: v1.6.8
       uri: https://github.com/trunk-io/plugins
