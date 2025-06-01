@@ -1,11 +1,10 @@
-FROM ghcr.io/astral-sh/uv:debian-slim AS builder
+FROM python:3.12 AS builder
 
-ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy \
-    UV_PYTHON_PREFERENCE=only-managed \
-    UV_PYTHON_INSTALL_DIR=/python \
-    UV_PROJECT_ENVIRONMENT=/venv \
-    UV_FROZEN=1
+ENV UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PYTHON_DOWNLOADS=0
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -13,33 +12,31 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=README.md,target=README.md \
-    --mount=type=bind,source=.python-version,target=.python-version \
-    uv sync --no-install-project --no-dev
+    uv sync --no-install-project --no-dev --locked --no-editable
 
 COPY . /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-dev
+    uv sync --no-dev --locked --no-editable
 
-FROM alpine:3 AS production
+FROM python:3.12-slim AS production
 
-ENV PATH="/venv/bin:$PATH" \
-    GRADIO_SERVER_PORT=7860 \
+ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0
 
-# trunk-ignore(hadolint/DL3018)
-RUN addgroup app && \
-    adduser app -G app -D -H && \
-    apk add --no-cache espeak-ng ffmpeg
+RUN groupadd app && \
+    useradd -m -g app -s /bin/bash app && \
+    apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends espeak-ng ffmpeg && \
+    apt-get clean -qq && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder --chown=root:root /python /python
-COPY --from=builder --chown=root:root /venv /venv
-COPY --from=builder --chown=app:app /app /app
+WORKDIR /home/app
+
+COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
 USER app
 
-WORKDIR /app
-
 EXPOSE ${GRADIO_SERVER_PORT}
 
-CMD ["python", "src/vocalizr"]
+CMD ["/app/.venv/bin/vocalizr"]
