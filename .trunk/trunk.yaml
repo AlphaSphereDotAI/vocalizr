@@ -1,6 +1,9 @@
 version: 0.1
 cli:
   version: 1.22.15
+merge: 
+  required_statuses:
+    - CodeFactor
 plugins:
   sources:
     - id: trunk
