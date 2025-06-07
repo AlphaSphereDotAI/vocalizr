@@ -1,7 +1,7 @@
 version: "1.1"
 name: Status Check
 env:
-  host: localhost:7680
+  host: localhost:7860
 tests:
   example:
     steps:
