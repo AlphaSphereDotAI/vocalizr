@@ -6,8 +6,12 @@ tests:
   example:
     steps:
       - name: GET request
+        retries:
+          count: 10
+          interval: 5s
         http:
           url: http://${{env.host}}
           method: GET
+          timeout: 30s
           check:
             status: /^20/
