@@ -18,6 +18,6 @@ jobs:
       - name: Run server 
         run: uv run src/vocalizr &
       - name: Step CI Action
-        uses: stepci/stepci@v2
+        uses: stepci/stepci@v2.8.2
         with:
           workflow: ".github/stepci.yml"
