@@ -1,15 +1,20 @@
 name: Docker Images
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 permissions:
   contents: read
   packages: write
   attestations: write
   id-token: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
 jobs:
-  check_image:
-    name: Validate build configuration
+  check_dockerfile:
+    name: Validate Dockerfile
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,7 +31,7 @@ jobs:
           call: check
   build_image:
     name: Build and push Docker image
-    needs: check_image
+    needs: check_dockerfile
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.meta.outputs.tags }}
