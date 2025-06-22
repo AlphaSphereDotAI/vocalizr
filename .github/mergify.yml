@@ -68,3 +68,4 @@ queue_rules:
           - check-success = Check Dependency Compatibility
           - check-success = CodeRabbit
           - check-success = Pre-commit
+          - check-success = Build and push Docker image
