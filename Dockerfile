@@ -1,4 +1,4 @@
-FROM python:3.12 AS builder
+FROM python:3.12@sha256:47d28e7d429679c31c3ea60e90857c54c7967084685e2ee287935116e5a79b92 AS builder
 
 SHELL ["/bin/bash", "-c"]
 
@@ -6,7 +6,7 @@ ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
     UV_PYTHON_DOWNLOADS=0
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:6c1e19020ec221986a210027040044a5df8de762eb36d5240e382bc41d7a9043 /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --no-dev --locked --no-editable
 
-FROM python:3.12-slim AS production
+FROM python:3.12-slim@sha256:e55523f127124e5edc03ba201e3dbbc85172a2ec40d8651ac752364b23dfd733 AS production
 
 SHELL ["/bin/bash", "-c"]
 
