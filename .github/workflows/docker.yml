@@ -84,7 +84,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN_KEY_GITHUB }}
       - name: Docker Scout
-        uses: docker/scout-action@v0.23.4
+        uses: docker/scout-action@v1.18.1
         with:
           command: ${{ matrix.commands }}
           dockerhub-user: mh0386
