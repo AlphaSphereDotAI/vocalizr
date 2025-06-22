@@ -9,46 +9,28 @@ concurrency:
   cancel-in-progress: true
 permissions:
   contents: write
-  actions: write
   pull-requests: write
 jobs:
   pre-commit:
     name: Pre-commit
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}
-    - uses: actions/setup-python@v4
-    - uses: pre-commit/action@v3.0.1
-    - uses: pre-commit-ci/lite-action@v1.1.0
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Setup Python
+      uses: actions/setup-python@v4
+    - name: Setup Pre-commit
+      uses: pre-commit/action@v3.0.1
+    - name: Run Pre-commit
+      uses: pre-commit-ci/lite-action@v1.1.0
       if: always()
-  format_codebase:
-    name: Format Code
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Trunk install
-        uses: trunk-io/trunk-action/setup@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-      - name: Format Codebase
-        run: $TRUNK_PATH fmt --all --no-progress
-      - name: Commit
-        uses: peter-evans/create-pull-request@v7
-        with:
-          title: Trunk Formatting
-          labels: format
   trunk:
     name: Trunk Code Quality
     runs-on: ubuntu-latest
     permissions:
       checks: write
       contents: read
-    needs: [format_codebase, compatibility, pre-commit]
+    needs: [compatibility, pre-commit]
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
