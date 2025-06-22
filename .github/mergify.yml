@@ -69,3 +69,4 @@ queue_rules:
           - check-success = CodeRabbit
           - check-success = Pre-commit
           - check-success = Build and push Docker image
+          - check-success = CodeQL
