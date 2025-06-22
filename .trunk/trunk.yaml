@@ -7,31 +7,34 @@ plugins:
       ref: v1.1.0
       uri: https://github.com/trunk-io/configs
     - id: trunk
-      ref: v1.6.8
+      ref: v1.7.0
       uri: https://github.com/trunk-io/plugins
 runtimes:
   enabled:
     - node@18.20.5
     - python@3.10.8
 lint:
+  disabled:
+    - prettier
   enabled:
-    - gitleaks@8.26.0
+    - ty@0.0.1-alpha.10
     - yamllint@1.37.1
-    - black@25.1.0
+    - pre-commit-hooks@5.0.0
+    - trivy@0.63.0
+    - gitleaks@8.27.2
     - actionlint@1.7.7
     - bandit@1.8.3
-    - checkov@3.2.427
+    - checkov@3.2.442
     - git-diff-check
     - hadolint@2.12.1-beta
-    - isort@6.0.1
     - markdownlint@0.45.0
-    - prettier@3.5.3
-    - renovate@40.0.6
-    - ruff@0.11.10
-    - taplo@0.9.3
-    - trufflehog@3.88.32
+    - renovate@40.57.1
+    - ruff@0.11.13
+    - trufflehog@3.89.1
 actions:
   enabled:
+    - trunk-check-pre-push-always
+    - trunk-check-pre-commit
     - trunk-announce
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
