@@ -1,24 +1,26 @@
 name: Push to HuggingFace
 on:
-  push:
-    branches:
-      - main
-permissions:
-  contents: read
-  actions: write
+  workflow_dispatch:
+  release:
+    types:
+      - published
 env:
   HF_HUB_ENABLE_HF_TRANSFER: "1"
   UV_FROZEN: "1"
   UV_LINK_MODE: "copy"
+permissions: read-all
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
 jobs:
   huggingface:
+    name: Upload Vocalizr to HuggingFace Space
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
-        id: uv
+        uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -28,9 +30,8 @@ jobs:
       - name: Remove Unnecessary Files
         run: |
           echo "" >> .gitignore
-          echo ".trunk" >> .gitignore
-          echo "pylock.toml" >> .gitignore
           echo ".github/" >> .gitignore
+          echo ".trunk/" >> .gitignore
           echo ".idea/" >> .gitignore
           echo "renovate.json" >> .gitignore
           echo ".deepsource.toml" >> .gitignore
