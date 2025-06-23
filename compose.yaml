@@ -1,6 +1,6 @@
 services:
   vocalizr:
-    image: ghcr.io/alphaspheredotai/vocalizr:latest
+    image: ghcr.io/alphaspheredotai/vocalizr:latest@sha256:1fd4108d5190d5af931f8b7651995bb80141b87731fabec55e5dabd6c7bc76ce
     ports:
       - "7860:7860"
     volumes:
