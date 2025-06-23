@@ -70,3 +70,4 @@ queue_rules:
           - check-success = Pre-commit
           - check-success = Build and push Docker image
           - check-success = CodeQL
+          - check-success = API Test
