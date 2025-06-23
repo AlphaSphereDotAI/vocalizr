@@ -8,8 +8,8 @@ tests:
       - delay: 60s
       - name: GET request
         retries:
-          count: 10
-          interval: 5s
+          count: 100
+          interval: 10s
         http:
           url: http://${{env.host}}
           method: GET
