@@ -5,7 +5,7 @@ env:
 tests:
   example:
     steps:
-      - delay: 10s
+      - delay: 60s
       - name: GET request
         retries:
           count: 10
