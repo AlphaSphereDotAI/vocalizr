@@ -1,7 +1,7 @@
 name: API Test
-on: 
+on:
   push:
-permissions: 
+permissions:
   contents: read
 jobs:
   api_test:
