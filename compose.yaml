@@ -4,13 +4,13 @@ services:
     ports:
       - "7860:7860"
     volumes:
-      - virtualenv:/app/.venv
+      - huggingface:/home/app/.cache/huggingface
       - results:/home/app/results
       - logs:/home/app/logs
     environment:
       - GRADIO_SERVER_PORT=7860
       - GRADIO_SERVER_NAME=0.0.0.0
 volumes:
-  virtualenv:
+  huggingface:
   results:
   logs:
