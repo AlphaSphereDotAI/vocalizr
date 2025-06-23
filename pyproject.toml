@@ -4,11 +4,7 @@ version = "0.0.1"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.13, <3.14"
-dependencies = [
-	"gradio[mcp]>=5.32.0",
-	"kokoro>=0.9.4",
-	"soundfile>=0.13.1",
-]
+dependencies = ["gradio[mcp]>=5.32.0", "kokoro>=0.9.4", "soundfile>=0.13.1"]
 
 [project.scripts]
 vocalizr = "vocalizr.__main__:main"
@@ -18,8 +14,4 @@ requires = ["uv_build"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = [
-	"watchfiles>=1.0.5",
-	"ruff>=0.11.12",
-	"ty>=0.0.1a10",
-]
+dev = ["watchfiles>=1.0.5", "ruff>=0.11.12", "ty>=0.0.1a10"]
