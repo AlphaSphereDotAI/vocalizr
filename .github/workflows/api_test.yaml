@@ -10,7 +10,7 @@ jobs:
     name: API Test
     services:
       api:
-        image: ghcr.io/alphaspheredotai/vocalizr:latest
+        image: ghcr.io/alphaspheredotai/vocalizr:${{ github.ref_name }}
         ports:
           - 7860:7860
     steps:
