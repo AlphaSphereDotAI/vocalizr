@@ -3,9 +3,9 @@ name: Status Check
 env:
   host: 0.0.0.0:7860
 tests:
-  example:
+  app:
     steps:
-      - delay: 60s
+      - delay: 10s
       - name: GET request
         retries:
           count: 100
