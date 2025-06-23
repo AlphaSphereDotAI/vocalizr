@@ -6,7 +6,7 @@ permissions:
 jobs:
   api_test:
     runs-on: ubuntu-latest
-    name: API Tests
+    name: API Test
     services:
       api:
         image: ghcr.io/${{ github.repository }}:latest
