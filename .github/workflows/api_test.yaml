@@ -14,7 +14,7 @@ jobs:
           - 7860:7860
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Step CI
         uses: stepci/stepci@2.8.2
         with:
