@@ -10,9 +10,6 @@ jobs:
     services:
       api:
         image: ghcr.io/alphaspheredotai/vocalizr:latest
-        env:
-          GRADIO_SERVER_PORT: 7860
-          GRADIO_SERVER_NAME: 0.0.0.0
         ports:
           - 7860:7860
     steps:
