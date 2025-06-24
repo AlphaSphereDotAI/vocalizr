@@ -43,8 +43,6 @@ COPY --from=builder --chown=app:app /app/.venv /app/.venv
 
 USER app
 
-VOLUME ["/home/app/.cache/huggingface", "/home/app/results", "/home/app/logs"]
-
 EXPOSE ${GRADIO_SERVER_PORT}
 
 CMD ["/app/.venv/bin/vocalizr"]
