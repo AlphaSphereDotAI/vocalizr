@@ -1,5 +1,8 @@
 name: Push to HuggingFace
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   release:
     types:
@@ -26,7 +29,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        run: uv sync --frozen
+        run: uv tool install huggingface-hub[cli]
       - name: Remove Unnecessary Files
         run: |
           echo "" >> .gitignore
