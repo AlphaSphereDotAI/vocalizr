@@ -1,5 +1,8 @@
 name: Push to HuggingFace
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   release:
     types:
