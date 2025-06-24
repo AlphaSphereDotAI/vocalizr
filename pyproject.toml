@@ -5,10 +5,10 @@ description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.13, <3.14"
 dependencies = [
-  "en-core-web-sm",
   "gradio[mcp]>=5.32.0",
   "kokoro>=0.9.4",
   "soundfile>=0.13.1",
+  "pip>=25.1.1",
 ]
 
 [project.scripts]
@@ -19,12 +19,4 @@ requires = ["uv_build"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = [
-  "watchfiles>=1.0.5",
-  "ruff>=0.11.12",
-  "huggingface-hub[cli,hf-transfer]>=0.32.3",
-  "ty>=0.0.1a6",
-]
-
-[tool.uv.sources]
-en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+dev = ["watchfiles>=1.0.5", "ruff>=0.11.12", "ty>=0.0.1a10"]

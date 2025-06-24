@@ -6,7 +6,7 @@ ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
     UV_PYTHON_DOWNLOADS=0
 
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:6c1e19020ec221986a210027040044a5df8de762eb36d5240e382bc41d7a9043 \
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:cda0fdc9b6066975ba4c791597870d18bc3a441dfc18ab24c5e888c16e15780c \
     /uv /uvx /bin/
 
 WORKDIR /app
@@ -27,7 +27,8 @@ FROM python:3.13-slim@sha256:f2fdaec50160418e0c2867ba3e254755edd067171725886d5d3
 SHELL ["/bin/bash", "-c"]
 
 ENV GRADIO_SERVER_PORT=7860 \
-    GRADIO_SERVER_NAME=0.0.0.0
+    GRADIO_SERVER_NAME=0.0.0.0 \
+    HF_HOME=/home/app/hf
 
 # skipcq: DOK-DL3008
 RUN groupadd app && \
