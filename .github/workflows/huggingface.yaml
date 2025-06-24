@@ -28,8 +28,8 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
           activate-environment: true
-      - name: Install the project
-        run: uv sync --frozen
+      - name: Install cli
+        run: uv tool install huggingface-hub[cli,hf-transfer]
       - name: Remove Unnecessary Files
         run: |
           echo "" >> .gitignore
@@ -38,11 +38,13 @@ jobs:
           echo ".idea/" >> .gitignore
           echo "renovate.json" >> .gitignore
           echo ".deepsource.toml" >> .gitignore
+          echo ".pre-commit-config.yaml" >> .gitignore
+          echo "compose.yaml" >> .gitignore
       - name: Add to git credentials
         run: git config --global credential.helper store
       - name: Login to HuggingFace Hub
-        run: uv run huggingface-cli login --add-to-git-credential --token ${{ secrets.HF_TOKEN }}
+        run: huggingface-cli login --add-to-git-credential --token ${{ secrets.HF_TOKEN }}
       - name: Check if logged in
-        run: uv run huggingface-cli whoami
+        run: huggingface-cli whoami
       - name: Upload
-        run: uv run huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space
+        run: huggingface-cli upload AlphaSphereDotAI/Vocalizr . . --repo-type space
