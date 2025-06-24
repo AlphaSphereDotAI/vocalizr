@@ -27,7 +27,8 @@ FROM python:3.13-slim@sha256:f2fdaec50160418e0c2867ba3e254755edd067171725886d5d3
 SHELL ["/bin/bash", "-c"]
 
 ENV GRADIO_SERVER_PORT=7860 \
-    GRADIO_SERVER_NAME=0.0.0.0
+    GRADIO_SERVER_NAME=0.0.0.0 \
+    HF_HOME=/home/app/hf
 
 # skipcq: DOK-DL3008
 RUN groupadd app && \
