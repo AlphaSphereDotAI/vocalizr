@@ -1,0 +1,18 @@
+version: "1.1"
+name: Status Check
+env:
+  host: 0.0.0.0:7860
+tests:
+  app:
+    steps:
+      - delay: 10s
+      - name: GET request
+        retries:
+          count: 100
+          interval: 10s
+        http:
+          url: http://${{env.host}}
+          method: GET
+          timeout: 30s
+          check:
+            status: /^20/
