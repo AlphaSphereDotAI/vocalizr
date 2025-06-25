@@ -12,6 +12,11 @@ jobs:
         image: ghcr.io/alphaspheredotai/vocalizr:latest
         ports:
           - 7860:7860
+        options: >-
+          --health-cmd "curl -f http://localhost:7860"
+          --health-interval 5s
+          --health-timeout 2s
+          --health-retries 10
     steps:
       - name: Checkout
         uses: actions/checkout@v3
