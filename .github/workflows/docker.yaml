@@ -105,7 +105,7 @@ jobs:
     needs: build_image
     services:
       api:
-        image: ghcr.io/alphaspheredotai/vocalizr:${{ github.ref_name }}
+        image: ${{ needs.build_image.outputs.image_tag }}
         ports:
           - 7860:7860
     steps:
