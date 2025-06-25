@@ -8,7 +8,7 @@ tests:
       - delay: 10s
       - name: GET request
         retries:
-          count: 100
+          count: 10
           interval: 10s
         http:
           url: http://${{env.host}}
