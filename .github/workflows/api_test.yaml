@@ -18,6 +18,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - run: curl -I 0.0.0.0:7860
       - name: Step CI
         uses: stepci/stepci@2.8.2
         with:
