@@ -13,9 +13,10 @@ jobs:
         ports:
           - 7860:7860
         options: >-
-          --health-cmd "curl -f http://localhost:7860"
-          --health-interval 5s
-          --health-timeout 2s
+          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code},\tTime: %{time_total}s' http://localhost:7860/"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-start-period 15s
           --health-retries 10
     steps:
       - name: Checkout
