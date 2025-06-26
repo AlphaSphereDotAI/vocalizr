@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: API Test
     services:
-      api:
+      vocalizr:
         image: ghcr.io/alphaspheredotai/vocalizr:154-merge
         ports:
           - 7860:7860
@@ -17,8 +17,10 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-start-period 15s
-          --health-retries 10
+          --health-retries 15
     steps:
+      - run: |
+          echo "Vocalizr available on 127.0.0.1:${{ job.services.vocalizr.ports['7860'] }}"
       - name: Checkout
         uses: actions/checkout@v3
       - name: Step CI
