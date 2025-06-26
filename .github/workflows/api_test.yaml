@@ -9,7 +9,7 @@ jobs:
     name: API Test
     services:
       api:
-        image: ghcr.io/alphaspheredotai/vocalizr:latest
+        image: ghcr.io/alphaspheredotai/vocalizr:154-merge
         ports:
           - 7860:7860
         options: >-
