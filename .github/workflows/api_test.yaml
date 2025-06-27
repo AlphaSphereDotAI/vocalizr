@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Step CI
-        uses: stepci/stepci@2.8.2
+        uses: stepci/stepci@main
         with:
           workflow: ".github/stepci.yaml"
           verbose: true
