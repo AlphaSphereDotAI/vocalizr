@@ -27,5 +27,5 @@ jobs:
       - name: Step CI
         uses: stepci/stepci@main
         with:
-          workflow: ".github/stepci.yaml"
+          workflow: .github/stepci.yaml
           verbose: true
