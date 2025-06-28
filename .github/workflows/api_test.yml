@@ -23,10 +23,10 @@ jobs:
         run: echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Step CI
-        uses: stepci/stepci@main
-        with:
-          workflow: .github/stepci.yaml
-          verbose: true
-        env:
-          STEPCI_DISABLE_ANALYTICS: "1"
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.4.0
+      - name: Setup Step CI
+        run: npm install -g stepci
+      - name: Run Step CI
+        run: stepci run .github/stepci.yaml
+        
