@@ -27,7 +27,6 @@ jobs:
         uses: actions/setup-node@v4.4.0
         with:
           node-version: lts/*
-          cache: npm
       - name: Setup Step CI
         run: npm install -g stepci
       - name: Run Step CI
