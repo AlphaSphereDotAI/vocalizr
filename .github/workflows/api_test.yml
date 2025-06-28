@@ -29,3 +29,5 @@ jobs:
         with:
           workflow: .github/stepci.yaml
           verbose: true
+        env:
+          host: localhost:${{ job.services.vocalizr.ports['7860'] }}
