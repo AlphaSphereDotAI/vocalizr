@@ -27,7 +27,5 @@ jobs:
       - name: Step CI
         uses: stepci/stepci@main
         with:
-          workflow: .github/stepci.yaml
+          workflow: tests/workflow.yml
           verbose: true
-        env:
-          host: localhost:${{ job.services.vocalizr.ports['7860'] }}
