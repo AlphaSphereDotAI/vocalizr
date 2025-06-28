@@ -32,4 +32,4 @@ jobs:
       - name: Setup httpie
         run: uv tool install httpie
       - name: Run httpie
-        run: http --check-status --meta --headers :${{ job.services.vocalizr.ports['7860'] }}/h
+        run: http --check-status --meta --headers :${{ job.services.vocalizr.ports['7860'] }}
