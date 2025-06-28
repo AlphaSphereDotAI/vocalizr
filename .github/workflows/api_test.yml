@@ -19,13 +19,14 @@ jobs:
           --health-start-period 15s
           --health-retries 15
     steps:
-      - run: |
-          echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
-          curl -o /dev/null -f -s -w 'Status: %{http_code},\tTime: %{time_total}s' http://localhost:${{ job.services.vocalizr.ports['7860'] }}/
+      - name: Echo URL
+        run: echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
       - name: Checkout
         uses: actions/checkout@v3
       - name: Step CI
         uses: stepci/stepci@main
         with:
-          workflow: tests/workflow.yml
+          workflow: .github/stepci.yaml
           verbose: true
+        env:
+          STEPCI_DISABLE_ANALYTICS: "1"
