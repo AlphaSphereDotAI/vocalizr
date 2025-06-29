@@ -33,9 +33,9 @@ ENV GRADIO_SERVER_PORT=7860 \
 # skipcq: DOK-DL3008
 RUN groupadd app && \
     useradd -m -g app -s /bin/bash app && \
-    apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends espeak-ng ffmpeg && \
-    apt-get clean -qq && \
+    apt-get update > /dev/null && \
+    apt-get install -y --no-install-recommends curl espeak-ng ffmpeg > /dev/null && \
+    apt-get clean > /dev/null && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/app
