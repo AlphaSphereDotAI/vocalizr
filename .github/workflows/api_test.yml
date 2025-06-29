@@ -13,7 +13,7 @@ jobs:
         ports:
           - 7860:7860
         options: >-
-          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code},\tTime: %{time_total}s' http://localhost:7860/"
+          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/"
           --health-interval 10s
           --health-timeout 5s
           --health-start-period 15s
@@ -21,15 +21,5 @@ jobs:
     steps:
       - name: Echo URL
         run: echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install uv
-        uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6
-        with:
-          enable-cache: true
-          cache-dependency-glob: "uv.lock"
-          activate-environment: true
-      - name: Setup httpie
-        run: uv tool install httpie
-      - name: Run httpie
-        run: http --check-status --meta --headers :${{ job.services.vocalizr.ports['7860'] }}
+      - name: Run curl
+        run: curl -f -I -s http://localhost:${{ job.services.vocalizr.ports['7860'] }}/
