@@ -32,11 +32,6 @@ repos:
       - id: ruff-check
         args: [ --fix ]
       - id: ruff-format
-  - repo: https://github.com/google/yamlfmt
-    rev: v0.17.2
-    hooks:
-      - id: yamlfmt
-        args: [-formatter, max_line_length=120]
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.24.2
     hooks:
