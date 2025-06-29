@@ -111,11 +111,7 @@ jobs:
         ports:
           - 7860:7860
         options: >-
-          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/" \
-          --health-interval 10s \
-          --health-timeout 5s \
-          --health-start-period 15s \
-          --health-retries 15
+          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/" \ --health-interval 10s \ --health-timeout 5s \ --health-start-period 15s \ --health-retries 15
     steps:
       - name: Echo URL
         run: echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
