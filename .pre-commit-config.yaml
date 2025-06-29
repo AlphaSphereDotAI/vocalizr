@@ -36,6 +36,7 @@ repos:
     rev: v0.17.2
     hooks:
       - id: yamlfmt
+        args: [-formatter, max_line_length=120]
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.24.2
     hooks:
