@@ -17,12 +17,12 @@ repos:
     hooks:
       - id: uv-sync
       - id: uv-lock
-        args: [ --offline ]
+        args: [--offline]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.1
     hooks:
       - id: ruff-check
-        args: [ --fix ]
+        args: [--fix]
       - id: ruff-format
   - repo: https://github.com/PyCQA/eradicate
     rev: 3.0.0
