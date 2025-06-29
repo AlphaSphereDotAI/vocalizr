@@ -34,7 +34,7 @@ ENV GRADIO_SERVER_PORT=7860 \
 RUN groupadd app && \
     useradd -m -g app -s /bin/bash app && \
     apt-get update > /dev/null && \
-    apt-get install -y --no-install-recommends espeak-ng ffmpeg curl > /dev/null && \
+    apt-get install -y --no-install-recommends curl espeak-ng ffmpeg > /dev/null && \
     apt-get clean > /dev/null && \
     rm -rf /var/lib/apt/lists/*
 
