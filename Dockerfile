@@ -22,7 +22,7 @@ COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --no-dev --locked --no-editable
 
-FROM python:3.13-slim@sha256:f2fdaec50160418e0c2867ba3e254755edd067171725886d5d303fd7057bbf81 AS production
+FROM python:3.13-alpine AS production
 
 SHELL ["/bin/bash", "-c"]
 
