@@ -24,19 +24,19 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 FROM python:3.13-alpine AS production
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/sh", "-c"]
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
     HF_HOME=/home/app/hf
 
 # skipcq: DOK-DL3008
-RUN groupadd app && \
-    useradd -m -g app -s /bin/bash app && \
-    apt-get update > /dev/null && \
-    apt-get install -y --no-install-recommends curl espeak-ng ffmpeg > /dev/null && \
-    apt-get clean > /dev/null && \
-    rm -rf /var/lib/apt/lists/*
+RUN addgroup -S app && \
+    adduser -S -G app app && \
+    apk update -q && \
+    apk add -q --no-cache curl espeak-ng ffmpeg && \
+    apk cache clean && \
+    rm -rf /var/cache/apk/*
 
 WORKDIR /home/app
 
