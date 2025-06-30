@@ -3,8 +3,7 @@ from typing import Any, Generator, Literal
 from gradio import Error
 from kokoro import KPipeline
 from loguru import logger
-from numpy import float32
-from numpy.typing import NDArray
+from numpy import dtype, float32, ndarray
 from soundfile import write
 from torch import zeros
 
@@ -12,14 +11,14 @@ from vocalizr import AUDIO_FILE_PATH, PIPELINE
 
 
 @logger.catch
-def save_file_wav(audio: NDArray[float32]) -> None:
+def save_file_wav(audio: ndarray[tuple[float32], dtype[float32]]) -> None:
     """
     Saves an audio array to a WAV file using the specified sampling rate. If the saving
     operation fails, it logs the exception and raises a RuntimeError.
 
-    :param audio: The audio data to be saved. Must be a NumPy array of data type
-        float32, representing the audio signal to be written to the file.
-    :type audio: NDArray[float32]
+    :param ndarray[tuple[float32],dtype[float32]] audio: The audio data to be saved.
+        Must be a NumPy array of data type float32, representing the audio signal
+        to be written to the file.
 
     :return: This function does not return a value.
     :rtype: None
@@ -40,33 +39,32 @@ def generate_audio_for_text(
     save_file: bool = False,
     debug: bool = False,
     char_limit: int = -1,
-) -> Generator[tuple[Literal[24000], NDArray[float32]], Any, None]:
+) -> Generator[
+    tuple[Literal[24000], ndarray[tuple[float32], dtype[float32]]]
+    | tuple[int, ndarray],
+    Any,
+    None,
+]:
     """
     Generates audio from the provided text using the specified voice and speed.
     It allows saving the generated audio to a file if required. The function
     yields tuples containing the audio sampling rate and the audio data as a
     NumPy array.
 
-    :param text: The input text to generate audio for. If CHAR_LIMIT is set to a
+    :param str text: The input text to generate audio for. If CHAR_LIMIT is set to a
         positive value, the text will be truncated to fit that limit.
-    :type text: str
 
-    :param voice: The voice profile to use for audio generation.
+    :param str voice: The voice profile to use for audio generation.
         Defaults to "af_heart".
-    :type voice: str
 
-    :param speed: The speed modifier for audio generation. Defaults to 1.0.
-    :type speed: float
+    :param float speed: The speed modifier for audio generation. Defaults to 1.0.
 
-    :param save_file: Whether to save the generated audio to a file. Defaults
+    :param bool save_file: Whether to save the generated audio to a file. Defaults
         to False.
-    :type save_file: bool
 
-    :param debug: Whether to enable debug mode. Defaults to False.
-    :type debug: bool
+    :param bool debug: Whether to enable debug mode. Defaults to False.
 
-    :param char_limit: The maximum number of characters to include in the input
-    :type char_limit: int
+    :param int char_limit: The maximum number of characters to include in the input
 
     :return: A generator that yields tuples, where the first element is the
         fixed sampling rate of 24,000 Hz, and the second element is a NumPy
@@ -88,7 +86,7 @@ def generate_audio_for_text(
             raise Error(message=f"Unexpected type (audio): {type(audio)}")
         if debug:
             logger.info(f"Generating audio for '{text}'")
-        audio_np: NDArray[float32] = audio.numpy()
+        audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
         if save_file:
             if debug:
                 logger.info(f"Saving audio file at {AUDIO_FILE_PATH}")
