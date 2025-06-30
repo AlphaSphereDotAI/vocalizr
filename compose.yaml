@@ -2,7 +2,7 @@
 name: Vocalizr
 services:
   vocalizr:
-    image: ghcr.io/alphaspheredotai/vocalizr:latest@sha256:a9e644655ce8c6cfc0a0cec11804781afe1e6bb9a42e47eb772b7dbfa38a4e93
+    image: ghcr.io/alphaspheredotai/vocalizr:latest@sha256:c6664778a0064cd4436bfc5bd8864f6e68d10a40411c281a133e7ecd38131617
     ports:
       - "7860:7860"
     volumes:
