@@ -2,10 +2,10 @@ FROM cgr.dev/chainguard/wolfi-base AS builder
 
 ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1
-    
+
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:2dcbc74e60ed6d842122ed538f5267c80e7cde4ff1b6e66a199b89972496f033 \
     /uv /uvx /bin/
-    
+
 WORKDIR /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
