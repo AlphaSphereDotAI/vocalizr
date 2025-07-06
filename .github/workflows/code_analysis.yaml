@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 jobs:
   trunk:
-    name: Trunk Code Quality
+    name: MegaLinter
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -29,10 +29,8 @@ jobs:
           activate-environment: true
       - name: Install the project
         run: uv sync --frozen
-      - name: Trunk Code Quality
-        uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-        with:
-          arguments: --github-annotate-new-only=false
+      - name: MegaLinter       
+        uses: oxsecurity/megalinter@v8.8.0
   compatibility:
     name: Check Dependency Compatibility
     runs-on: ubuntu-latest
