@@ -32,7 +32,7 @@ ENV GRADIO_SERVER_PORT=7860 \
 # skipcq: DOK-DL3008
 RUN addgroup app && \
     adduser -D -G app app && \
-    apk add --no-cache curl espeak-ng ffmpeg
+    apk add --no-cache curl
 
 WORKDIR /home/app
 
