@@ -17,18 +17,18 @@ lint:
   disabled:
     - prettier
   enabled:
-    - ty@0.0.1-alpha.13
+    - ty@0.0.1-alpha.14
     - yamllint@1.37.1
     - pre-commit-hooks@5.0.0
     - trivy@0.64.1
     - gitleaks@8.27.2
     - actionlint@1.7.7
-    - bandit@1.8.5
-    - checkov@3.2.447
+    - bandit@1.8.6
+    - checkov@3.2.450
     - git-diff-check
     - hadolint@2.12.1-beta
     - markdownlint@0.45.0
-    - renovate@41.19.0
+    - renovate@41.30.5
     - ruff@0.12.2
     - trufflehog@3.89.2
 actions:
