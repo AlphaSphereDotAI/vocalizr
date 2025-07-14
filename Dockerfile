@@ -8,11 +8,11 @@ ENV UV_LINK_MODE=copy \
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:2dcbc74e60ed6d842122ed538f5267c80e7cde4ff1b6e66a199b89972496f033 \
     /uv /uvx /usr/bin/
 
+WORKDIR /home/nonroot/app
+
 RUN apk add --no-cache build-base
 
 USER nonroot
-
-WORKDIR /home/nonroot/app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
@@ -31,11 +31,11 @@ ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
     HF_HOME=/home/app/hf
 
+WORKDIR /home/nonroot
+
 RUN apk add --no-cache curl
 
 USER nonroot
-
-WORKDIR /home/nonroot
 
 COPY --from=builder --chown=nonroot:nonroot /home/nonroot/python /home/nonroot/python
 
