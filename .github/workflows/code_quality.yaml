@@ -1,4 +1,4 @@
-name: Code Analysis
+name: Code Quality
 on:
   push:
     branches:
@@ -7,17 +7,42 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
-permissions:
-  contents: write
-  pull-requests: write
+permissions: read-all
 jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    needs: compatibility
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+      - name: Install uv
+        uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          activate-environment: true
+      - name: Trunk install
+        uses: trunk-io/trunk-action/setup@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
+      - name: Apply linters fixes if exist
+        run: $TRUNK_PATH fmt --all --no-progress
+      - name: Commit and push applied linter fixes
+        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
+        if: success() || failure()
+        with:
+          commit_message: "[Trunk] Apply linters fixes"
   trunk:
     name: Trunk Code Quality
     runs-on: ubuntu-latest
+    needs: format
     permissions:
+      contents: write
+      pull-requests: write
       checks: write
-      contents: read
-    needs: compatibility
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -31,8 +56,6 @@ jobs:
         run: uv sync --frozen
       - name: Trunk Code Quality
         uses: trunk-io/trunk-action@75699af9e26881e564e9d832ef7dc3af25ec031b # v1
-        with:
-          arguments: --github-annotate-new-only=false
   compatibility:
     name: Check Dependency Compatibility
     runs-on: ubuntu-latest
