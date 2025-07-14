@@ -43,4 +43,4 @@ COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/app/.venv 
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
-CMD ["/app/.venv/bin/vocalizr"]
+CMD ["/home/nonroot/app/.venv/bin/vocalizr"]
