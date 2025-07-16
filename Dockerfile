@@ -39,7 +39,7 @@ WORKDIR /home/nonroot
 
 COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/python /home/nonroot/python
 
-COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/app/.venv /home/nonroot/app/.venv
+COPY --from=builder --chown=nonroot:nonroot --chmod=775 /home/nonroot/app/.venv /home/nonroot/app/.venv
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
