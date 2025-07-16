@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest AS builder
+FROM chainguard/wolfi-base:latest AS builder
 
 ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
@@ -25,7 +25,7 @@ COPY . /home/nonroot/app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --no-dev --locked --no-editable
 
-FROM cgr.dev/chainguard/wolfi-base:latest AS production
+FROM chainguard/wolfi-base:latest AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
