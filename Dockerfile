@@ -37,7 +37,7 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
-COPY --from=builder --chown=nonroot:nonroot /home/nonroot/python /home/nonroot/python
+COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/python /home/nonroot/python
 
 COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/app/.venv /home/nonroot/app/.venv
 
