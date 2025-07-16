@@ -29,7 +29,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
-    HF_HOME=/home/app/hf
+    HF_HOME=/home/nonroot/hf
 
 RUN apk add --no-cache curl libstdc++
 
