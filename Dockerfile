@@ -31,7 +31,7 @@ ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
     HF_HOME=/home/app/hf
 
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl libstdc++
 
 USER nonroot
 
