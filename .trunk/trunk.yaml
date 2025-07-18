@@ -50,8 +50,8 @@ actions:
     #- commitlint
     - trufflehog-pre-commit
     #- uv-check
-    - uv-lock
     - uv-sync
+    - uv-lock
     - trunk-announce
     - trunk-check-pre-push
     - trunk-fmt-pre-commit
