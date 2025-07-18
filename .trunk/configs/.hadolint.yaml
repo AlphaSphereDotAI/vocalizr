@@ -2,3 +2,5 @@ trustedRegistries:
   - docker.io
   - ghcr.io
   - cgr.dev
+ignored:
+  - DL3018
