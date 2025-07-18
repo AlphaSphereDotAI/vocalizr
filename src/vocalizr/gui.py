@@ -23,7 +23,9 @@ def app_block() -> Blocks:
     with Blocks() as app:
         with Row():
             with Column():
-                text: Textbox = Textbox(label="Input Text", info="Enter your text here")
+                text: Textbox = Textbox(
+                    label="Input Text", info="Enter your text here"
+                )
                 with Row():
                     voice: Dropdown = Dropdown(
                         choices=list(CHOICES.items()),
@@ -37,7 +39,9 @@ def app_block() -> Blocks:
                         label="Current Hardware",
                         interactive=CUDA_AVAILABLE,
                     )
-                    char_limit: Number = Number(label="Character Limit", value=-1)
+                    char_limit: Number = Number(
+                        label="Character Limit", value=-1
+                    )
                 with Row():
                     save_file: Checkbox = Checkbox(label="Save Audio File")
                     debug: Checkbox = Checkbox(value=DEBUG, label="Debug")
@@ -56,7 +60,9 @@ def app_block() -> Blocks:
                     autoplay=True,
                 )
                 with Row():
-                    stream_btn: Button = Button(value="Generate", variant="primary")
+                    stream_btn: Button = Button(
+                        value="Generate", variant="primary"
+                    )
                     stop_btn: Button = Button(value="Stop", variant="stop")
         stream_event = stream_btn.click(
             fn=generate_audio_for_text,
