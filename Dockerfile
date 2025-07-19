@@ -12,7 +12,7 @@ RUN apk add --no-cache build-base git
 
 USER nonroot
 
-RUN uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr
+RUN uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr@<commit-hash>
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:952010d4b1cf8dfb420ff86d66eb7ec78468b9cf60366dc8939f496322c458d8 AS production
 
