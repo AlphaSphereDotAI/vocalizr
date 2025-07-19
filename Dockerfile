@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:952010d4b1cf8dfb420ff86d66eb7ec78468b9cf60366dc8939f496322c458d8 AS builder
+FROM cgr.dev/chainguard/wolfi-base:latest AS builder
 
 ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
@@ -8,24 +8,15 @@ ENV UV_LINK_MODE=copy \
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:5778d479c0fd7995fedd44614570f38a9d849256851f2786c451c220d7bd8ccd \
     /uv /uvx /usr/bin/
 
-RUN apk add --no-cache build-base
+RUN apk add --no-cache build-base git
 
 USER nonroot
 
 WORKDIR /home/nonroot/app
 
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=README.md,target=README.md \
-    uv sync --no-install-project --no-dev --locked --no-editable
+RUN uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr
 
-COPY . /home/nonroot/app
-
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-dev --locked --no-editable
-
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:952010d4b1cf8dfb420ff86d66eb7ec78468b9cf60366dc8939f496322c458d8 AS production
+FROM cgr.dev/chainguard/wolfi-base:latest AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
@@ -37,10 +28,8 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
-COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/python /home/nonroot/python
-
-COPY --from=builder --chown=nonroot:nonroot --chmod=775 /home/nonroot/app/.venv /home/nonroot/app/.venv
+COPY --from=builder --chown=nonroot:nonroot --chmod=775 /home/nonroot/.local/bin /usr/bin/
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
-CMD ["/home/nonroot/app/.venv/bin/vocalizr"]
+CMD ["vocalizr"]
