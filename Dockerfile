@@ -15,7 +15,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest@sha256:c4136cf075c3eccea5cb7467148ad39
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
     HF_HOME=/home/nonroot/hf \
-    PATH="/home/nonroot/bin:${PATH}"
+    PATH=/home/nonroot/.local/bin:$PATH
 
 RUN apk add --no-cache curl libstdc++
 
@@ -23,7 +23,7 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
-COPY --from=builder --chown=nonroot:nonroot --chmod=775 /home/nonroot/.local/share/uv/tools/vocalizr/bin /home/nonroot/bin
+COPY --from=builder --chown=nonroot:nonroot --chmod=755 /home/nonroot/.local/ /home/nonroot/.local/
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
