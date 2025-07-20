@@ -21,7 +21,9 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
-COPY --from=builder /home/nonroot/.local/bin/vocalizr /usr/bin/
+RUN mkdir -p /home/nonroot/bin
+COPY --from=builder /home/nonroot/.local/bin/vocalizr /home/nonroot/bin/
+ENV PATH="/home/nonroot/bin:${PATH}"
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
