@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:952010d4b1cf8dfb420ff86d66eb7ec78468b9cf60366dc8939f496322c458d8 AS builder
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:c4136cf075c3eccea5cb7467148ad3934753d7b47e29f78963c2f056aba19643 AS builder
 
 ENV UV_LINK_MODE=copy \
     UV_COMPILE_BYTECODE=1 \
@@ -25,7 +25,7 @@ COPY . /home/nonroot/app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --no-dev --locked --no-editable
 
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:952010d4b1cf8dfb420ff86d66eb7ec78468b9cf60366dc8939f496322c458d8 AS production
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:c4136cf075c3eccea5cb7467148ad3934753d7b47e29f78963c2f056aba19643 AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
