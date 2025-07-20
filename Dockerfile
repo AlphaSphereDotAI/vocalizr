@@ -23,11 +23,7 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
-RUN mkdir /home/nonroot/bin
-
-COPY --from=builder --chown=nonroot:nonroot --chmod=775 /home/nonroot/.local/bin/vocalizr /home/nonroot/bin/vocalizr
-
-RUN chmod +x /home/nonroot/bin/vocalizr
+COPY --from=builder --chown=nonroot:nonroot --chmod=775 /home/nonroot/.local/share/uv/tools/vocalizr/bin /home/nonroot/bin
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
