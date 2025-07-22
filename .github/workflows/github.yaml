@@ -51,6 +51,6 @@ jobs:
           path: dist/
       - name: Create GitHub Release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
         run: >-
           gh release create ${{ github.ref_name }} dist/* --title ${{ github.ref_name }} --generate-notes
