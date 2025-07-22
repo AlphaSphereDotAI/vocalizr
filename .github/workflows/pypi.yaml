@@ -1,0 +1,26 @@
+name: Upload Python Package
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+jobs:
+  pypi-publish:
+    name: Upload Python Package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: pypi
+      url: https://pypi.org/project/vocalizr/${{ github.event.release.name }}
+    steps:
+      - name: Retrieve release distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - name: Publish release distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
