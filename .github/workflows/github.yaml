@@ -1,6 +1,5 @@
 name: GitHub Release
 on:
-  workflow_dispatch:
   push:
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
@@ -23,23 +22,21 @@ jobs:
       - name: Extract tag and Details
         id: release
         run: |
-          if [ "${{ github.ref_type }}" = "tag" ]; then
-            TAG_NAME=${GITHUB_REF#refs/tags/}
-            NEW_VERSION=$(echo $TAG_NAME | awk -F'-' '{print $1}')
-            SUFFIX=$(echo $TAG_NAME | grep -oP '[a-z]+[0-9]+' || echo "")
-            echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-            echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
-            echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
-            echo "Version is $NEW_VERSION"
-            echo "Suffix is $SUFFIX"
-            echo "Tag name is $TAG_NAME"
-          else
-            echo "No tag found"
-            exit 1
-          fi
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          NEW_VERSION=$(echo $TAG_NAME | awk -F'-' '{print $1}')
+          SUFFIX=$(echo $TAG_NAME | grep -oP '[a-z]+[0-9]+' || echo "")
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+          echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
+          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
+          echo "Version is $NEW_VERSION"
+          echo "Suffix is $SUFFIX"
+          echo "Tag name is $TAG_NAME"
   setup_and_build:
     needs:
       - details
+    env:
+      UV_COMPILE_BYTECODE: "1"
+      UV_LINK_MODE: "copy"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -51,11 +48,11 @@ jobs:
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
-        run: uv sync --frozen
+        run: uv sync --no-dev --frozen --no-editable
       - name: Update Project Version
         run: uv version ${{ needs.details.outputs.new_version }}
       - name: Build source and wheel distribution
-        run: uv build --all-packages
+        run: uv build
       - name: Upload artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -65,13 +62,8 @@ jobs:
     name: Create GitHub Release
     needs:
       - setup_and_build
-      - details
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        with:
-          fetch-depth: 0
       - name: Download artifacts
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
