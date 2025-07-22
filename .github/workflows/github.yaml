@@ -11,29 +11,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 jobs:
-  details:
-    runs-on: ubuntu-latest
-    outputs:
-      new_version: ${{ steps.release.outputs.new_version }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - name: Extract tag and Details
-        id: release
-        run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          NEW_VERSION=$(echo $TAG_NAME | awk -F'-' '{print $1}')
-          SUFFIX=$(echo $TAG_NAME | grep -oP '[a-z]+[0-9]+' || echo "")
-          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-          echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
-          echo "tag_name=$TAG_NAME" >> "$GITHUB_OUTPUT"
-          echo "Version is $NEW_VERSION"
-          echo "Suffix is $SUFFIX"
-          echo "Tag name is $TAG_NAME"
   setup_and_build:
-    needs:
-      - details
     env:
       UV_COMPILE_BYTECODE: "1"
       UV_LINK_MODE: "copy"
@@ -50,7 +28,7 @@ jobs:
       - name: Install the project
         run: uv sync --no-dev --frozen --no-editable
       - name: Update Project Version
-        run: uv version ${{ needs.details.outputs.new_version }}
+        run: uv version ${{ github.ref_name }}
       - name: Build source and wheel distribution
         run: uv build
       - name: Upload artifacts
@@ -60,9 +38,7 @@ jobs:
           path: dist/
   github_release:
     name: Create GitHub Release
-    needs:
-      - details
-      - setup_and_build
+    needs: setup_and_build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
@@ -74,5 +50,5 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |-
-          gh release create ${{ needs.details.outputs.tag_name }} dist/* --title
-          ${{ needs.details.outputs.tag_name }} --generate-notes
+          gh release create ${{ github.ref_name }} dist/* --title
+          ${{ github.ref_name }} --generate-notes
