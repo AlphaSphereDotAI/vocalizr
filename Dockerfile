@@ -1,6 +1,6 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:7bc3ad6c31262f9556bd2dff1479f7f4ae9842c5fc765618be795bc85a96c97e AS builder
 
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:a7999d42cba0e5af47ef3c06ac310229c7f29c5314e35902f8353e8e170eeed1 \
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:ef11ed817e6a5385c02cd49fdcc99c23d02426088252a8eace6b6e6a2a511f36 \
      /uv /uvx /usr/bin/
 
 RUN apk add --no-cache build-base git
