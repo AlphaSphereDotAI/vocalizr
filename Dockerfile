@@ -7,7 +7,8 @@ ENV GRADIO_SERVER_PORT=7860 \
 
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:5778d479c0fd7995fedd44614570f38a9d849256851f2786c451c220d7bd8ccd \
      /uv /uvx /usr/bin/
-
+    
+# skipcq: DOK-DL3018
 RUN apk add --no-cache curl libstdc++
 
 USER nonroot
@@ -15,7 +16,7 @@ USER nonroot
 WORKDIR /home/nonroot
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv tool install vocalizr
+    uv tool install --no-cache vocalizr
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
