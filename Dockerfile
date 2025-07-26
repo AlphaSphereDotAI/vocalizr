@@ -3,6 +3,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest@sha256:870e094ce4118ea9dcef74f2bc4b745
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:a7999d42cba0e5af47ef3c06ac310229c7f29c5314e35902f8353e8e170eeed1 \
      /uv /uvx /usr/bin/
 
+# skipcq: DOK-DL3018
 RUN apk add --no-cache build-base git
 
 USER nonroot
@@ -17,6 +18,7 @@ ENV GRADIO_SERVER_PORT=7860 \
     HF_HOME=/home/nonroot/hf \
     PATH=/home/nonroot/.local/bin:$PATH
 
+# skipcq: DOK-DL3018
 RUN apk add --no-cache curl libstdc++
 
 USER nonroot
