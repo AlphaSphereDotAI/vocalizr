@@ -9,7 +9,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest@sha256:5778d479c0fd7995fedd44614570f38a9
      /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
-RUN apk add --no-cache curl libstdc++
+RUN apk add --no-cache curl gcc
 
 USER nonroot
 
