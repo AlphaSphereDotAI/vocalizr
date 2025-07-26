@@ -9,7 +9,7 @@ app_port: 7860
 
 ## Vocalizr: Voice Generator part of the Chatacter Backend
 
-[![Code Analysis](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/code_analysis.yaml/badge.svg)](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/code_analysis.yaml)
+[![Code Analysis](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/code_quality.yaml/badge.svg)](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/code_analysis.yaml)
 [![CodeQL](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/github-code-scanning/codeql)
 [![Dependabot Updates](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/dependabot/dependabot-updates)
 [![Docker Images](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/docker.yaml/badge.svg)](https://github.com/AlphaSphereDotAI/vocalizr/actions/workflows/docker.yaml)
