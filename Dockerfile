@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:870e094ce4118ea9dcef74f2bc4b745ad3b5439314940f02978d6fe6ef196003 AS builder
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:00e7fc48700a2ed524e075a78adaf1a278050f9b711bb789e8d3fc50ece6c57a AS builder
 
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:ef11ed817e6a5385c02cd49fdcc99c23d02426088252a8eace6b6e6a2a511f36 \
      /uv /uvx /usr/bin/
@@ -11,7 +11,7 @@ USER nonroot
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr
 
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:870e094ce4118ea9dcef74f2bc4b745ad3b5439314940f02978d6fe6ef196003 AS production
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:00e7fc48700a2ed524e075a78adaf1a278050f9b711bb789e8d3fc50ece6c57a AS production
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
