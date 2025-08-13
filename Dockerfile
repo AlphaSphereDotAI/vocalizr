@@ -1,6 +1,6 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:1fd981aa0bcefd8da87ce55a9ae907862fcb6835c658fdb284867117fb0268ce AS builder
 
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:e2b06f21b8c96a33ca54b2b03092f413ad13863e486ec402efa42a599fa943f5 \
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:b05b3d61eb2b264ed785265b71155738a0d3d382ea0699e048d4b36f90b88788 \
      /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
