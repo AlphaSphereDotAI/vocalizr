@@ -4,36 +4,56 @@ version = "0.0.1"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 authors = [
-  { name = "Mohamed Hisham Abdelzaher", email = "mohamed.hisham.abdelzaher@gmail.com" },
+    { name = "Mohamed Hisham Abdelzaher", email = "mohamed.hisham.abdelzaher@gmail.com" },
 ]
-requires-python = ">=3.12, <3.14"
+requires-python = ">=3.10, <3.14"
+keywords = ["audio", "kokoro", "voice"]
 dependencies = [
-  "gradio[mcp]>=5.38.0",
-  "kokoro>=0.9.4",
-  "soundfile>=0.13.1",
-  "pip>=25.1.1",
+    "gradio[mcp]>=5.38.0",
+    "kokoro>=0.9.4",
+    "pip>=25.1.1",
+    "soundfile>=0.13.1",
+]
+classifiers = [
+    'Environment :: GPU :: NVIDIA CUDA :: 12.4',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence',
 ]
 
-[project.scripts]
-vocalizr = "vocalizr.__main__:main"
+[build-system]
+build-backend = "uv_build"
+requires = ["uv_build"]
 
 [project.urls]
 #Homepage = "https://example.com"
 #Documentation = "https://readthedocs.org"
 Repository = "https://github.com/AlphaSphereDotAI/vocalizr.git"
 Issues = "https://github.com/AlphaSphereDotAI/vocalizr/issues"
+Twitter = "https://x.com/AlphaSphereAI"
 
-[build-system]
-requires = ["uv_build"]
-build-backend = "uv_build"
-
-[dependency-groups]
-dev = ["ruff>=0.11.12", "ty>=0.0.1a10"]
-
-[[tool.uv.index]]
-name = "pytorch-cu124"
-url = "https://download.pytorch.org/whl/cu124"
-explicit = true
+[project.scripts]
+vocalizr = "vocalizr.__main__:main"
 
 [tool.uv.sources]
-torch = { index = "pytorch-cu124" }
+torch = [{ index = "pytorch-cu124" }]
+torchaudio = [{ index = "pytorch-cu124" }]
+
+[[tool.uv.index]]
+explicit = true
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+
+[dependency-groups]
+dev = [
+    "gradio-client>=1.12.1",
+    "pytest-emoji>=0.2.0",
+    "pytest-md>=0.2.0",
+    "pytest-mergify>=2025.8.20.1",
+    "uv-build>=0.8.14",
+]
+
+[tool.ruff]
+extend = ".trunk/configs/ruff.toml"
