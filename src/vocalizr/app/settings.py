@@ -1,5 +1,5 @@
 """Settings for the Vocalizr app."""
-
+from enum import Enum
 from pathlib import Path
 from typing import Literal
 
@@ -13,25 +13,10 @@ from vocalizr.app.logger import logger
 
 load_dotenv()
 
-
 class DirectorySettings(BaseModel):
     base: DirectoryPath = Field(default_factory=lambda: Path.cwd())
     results: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "results")
-    frames: DirectoryPath = Field(
-        default_factory=lambda: Path.cwd() / "results" / "frames",
-    )
-    checkpoint: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "ckpts")
     log: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "logs")
-    assets: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "assets")
-    image: DirectoryPath = Field(
-        default_factory=lambda: Path.cwd() / "assets" / "image",
-    )
-    audio: DirectoryPath = Field(
-        default_factory=lambda: Path.cwd() / "assets" / "audio",
-    )
-    video: DirectoryPath = Field(
-        default_factory=lambda: Path.cwd() / "assets" / "video",
-    )
 
     @model_validator(mode="after")
     def create_missing_dirs(self) -> "DirectorySettings":
@@ -59,57 +44,73 @@ class DirectorySettings(BaseModel):
                 logger.info("Created directory %s.", directory)
         return self
 
-
-class Checkpoint(BaseModel):
-    stage_1: FilePath = Field(
-        default_factory=lambda: Path.cwd() / "ckpts" / "stage1.ckpt",
-    )
-    mfcc_pose_only: FilePath = Field(
-        default_factory=lambda: Path.cwd() / "ckpts" / "stage2_pose_only_mfcc.ckpt",
-    )
-    mfcc_full_control: FilePath = Field(
-        default_factory=lambda: Path.cwd() / "ckpts" / "stage2_full_control_mfcc.ckpt",
-    )
-    hubert_audio_only: FilePath = Field(
-        default_factory=lambda: Path.cwd() / "ckpts" / "stage2_audio_only_hubert.ckpt",
-    )
-    hubert_pose_only: FilePath = Field(
-        default_factory=lambda: Path.cwd() / "ckpts" / "stage2_pose_only_hubert.ckpt",
-    )
-    hubert_full_control: FilePath = Field(
-        default_factory=lambda: Path.cwd()
-        / "ckpts"
-        / "stage2_full_control_hubert.ckpt",
-    )
-
-
+    class Voices(Enum):
+    CHOICES: dict[str, str] = {
+        "american_female_Heart ❤️": "af_heart",
+        "american_female_Bella 🔥": "af_bella",
+        "american_female_Nicole 🎧": "af_nicole",
+        "american_female_Aoede": "af_aoede",
+        "american_female_Kore": "af_kore",
+        "american_female_Sarah": "af_sarah",
+        "american_female_Nova": "af_nova",
+        "american_female_Sky": "af_sky",
+        "american_female_Alloy": "af_alloy",
+        "american_female_Jessica": "af_jessica",
+        "american_female_River": "af_river",
+        "american_male_Michael": "am_michael",
+        "american_male_Fenrir": "am_fenrir",
+        "american_male_Puck": "am_puck",
+        "american_male_Echo": "am_echo",
+        "american_male_Eric": "am_eric",
+        "american_male_Liam": "am_liam",
+        "american_male_Onyx": "am_onyx",
+        "american_male_Santa": "am_santa",
+        "american_male_Adam": "am_adam",
+        "british_female_Emma": "bf_emma",
+        "british_female_Isabella": "bf_isabella",
+        "british_female_Alice": "bf_alice",
+        "british_female_Lily": "bf_lily",
+        "british_male_George": "bm_george",
+        "british_male_Fable": "bm_fable",
+        "british_male_Lewis": "bm_lewis",
+        "british_male_Daniel": "bm_daniel",
+    }
 class ModelSettings(BaseModel):
-    pose_yaw: float = 0.0
-    pose_pitch: float = 0.0
-    pose_roll: float = 0.0
-    face_location: float = 0.5
-    face_scale: float = 0.5
-    step_t: int = 50
-    seed: int = 0
-    motion_dim: int = 20
-    image_path: FilePath = Field(default=None)
-    audio_path: FilePath = Field(default=None)
-    control_flag: bool = True
-    pose_driven_path: str = "not_supported_in_this_mode"
-    image_size: int = 256
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
-    decoder_layers: int = 2
-    repo_id: str = "taocode/anitalker_ckpts"
-    infer_type: Literal[
-        "mfcc_full_control",
-        "mfcc_pose_only",
-        "hubert_pose_only",
-        "hubert_audio_only",
-        "hubert_full_control",
-    ] = Field(default="mfcc_full_control")
-    face_sr: bool = False
-    checkpoint: Checkpoint = Checkpoint()
+    repo_id: str = "hexgrad/Kokoro-82M"
+    lang_code: str = "a"
 
+
+    CHOICES: dict[str, str] = {
+    "american_female_Heart ❤️": "af_heart",
+    "american_female_Bella 🔥": "af_bella",
+    "american_female_Nicole 🎧": "af_nicole",
+    "american_female_Aoede": "af_aoede",
+    "american_female_Kore": "af_kore",
+    "american_female_Sarah": "af_sarah",
+    "american_female_Nova": "af_nova",
+    "american_female_Sky": "af_sky",
+    "american_female_Alloy": "af_alloy",
+    "american_female_Jessica": "af_jessica",
+    "american_female_River": "af_river",
+    "american_male_Michael": "am_michael",
+    "american_male_Fenrir": "am_fenrir",
+    "american_male_Puck": "am_puck",
+    "american_male_Echo": "am_echo",
+    "american_male_Eric": "am_eric",
+    "american_male_Liam": "am_liam",
+    "american_male_Onyx": "am_onyx",
+    "american_male_Santa": "am_santa",
+    "american_male_Adam": "am_adam",
+    "british_female_Emma": "bf_emma",
+    "british_female_Isabella": "bf_isabella",
+    "british_female_Alice": "bf_alice",
+    "british_female_Lily": "bf_lily",
+    "british_male_George": "bm_george",
+    "british_male_Fable": "bm_fable",
+    "british_male_Lewis": "bm_lewis",
+    "british_male_Daniel": "bm_daniel",
+}
     @model_validator(mode="after")
     def check_image_path(self) -> "ModelSettings":
         if self.image_path and not self.image_path.exists():
@@ -126,7 +127,7 @@ class ModelSettings(BaseModel):
 
 
 class Settings(BaseSettings):
-    """Configuration for the Visualizr app."""
+    """Configuration for the Vocalizr app."""
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
