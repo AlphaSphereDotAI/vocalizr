@@ -33,12 +33,7 @@ class App:
         )
 
     def generate_audio_for_text(
-        self,
-        text: str,
-        voice: str = "af_heart",
-        speed: float = 1.0,
-        save_file: bool = False,
-        debug: bool = False,
+        self, text: str, voice: str = "af_heart", speed: float = 1.0
     ) -> Generator[
         tuple[Literal[24000], ndarray[tuple[float32], dtype[float32]]]
         | tuple[int, ndarray],
@@ -72,9 +67,13 @@ class App:
         :rtype: Generator[tuple[Literal[24000], NDArray[float32]], Any, None]
         """
         if not text:
-            logger.exception("No text provided")
+            _msg = "No text provided"
+            logger.exception(_msg)
+            raise ValueError(_msg)
         elif len(text) < 4:
-            logger.exception(f"Text too short: {text} with length {len(text)}")
+            _msg = f"Text too short: {text} with length {len(text)}"
+            logger.exception(_msg)
+            raise ValueError(_msg)
         text: str = (
             text
             if self.settings.model.char_limit == -1
@@ -88,17 +87,12 @@ class App:
             if audio is None or isinstance(audio, str):
                 logger.exception(f"Unexpected type (audio): {type(audio)}")
                 raise Error(message=f"Unexpected type (audio): {type(audio)}")
-            if debug:
-                logger.info(f"Generating audio for '{text}'")
+            logger.info(f"Generating audio for '{text}'")
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
-            if save_file:
-                if debug:
-                    logger.info(
-                        f"Saving audio file at {self.settings.directory.results}"
-                    )
-                self._save_file_wav(
-                    audio_np, self.settings.directory.results / f"{uuid4()}.wav"
-                )
+            logger.info(f"Saving audio file at {self.settings.directory.results}")
+            self._save_file_wav(
+                audio_np, self.settings.directory.results / f"{uuid4()}.wav"
+            )
             yield 24000, audio_np
             if first:
                 first = False
