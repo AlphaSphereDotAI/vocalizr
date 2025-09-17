@@ -78,7 +78,9 @@ class App:
     def __init__(self, settings: Settings):
         self.settings: Settings = settings
         logger.info("Downloading model checkpoint")
-        self.pipeline = KPipeline(lang_code=self.settings.model.lang_code, repo_id=self.settings.model.repo_id)
+        self.pipeline = KPipeline(
+            lang_code=self.settings.model.lang_code, repo_id=self.settings.model.repo_id
+        )
 
     def generate_audio_for_text(self,
         text: str,
