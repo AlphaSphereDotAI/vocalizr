@@ -42,6 +42,8 @@ class Voices(Enum):
     BRITISH_MALE_FABLE = "bm_fable"
     BRITISH_MALE_LEWIS = "bm_lewis"
     BRITISH_MALE_DANIEL = "bm_daniel"
+    def __str__(self):
+        return self.value
 
 class DirectorySettings(BaseModel):
     base: DirectoryPath = Field(default_factory=lambda: Path.cwd())
@@ -76,6 +78,7 @@ class DirectorySettings(BaseModel):
 
 class ModelSettings(BaseModel):
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
+    char_limit: int = -1
     repo_id: str = "hexgrad/Kokoro-82M"
     lang_code: str = "a"
     choices: Voices = Voices.AMERICAN_FEMALE_HEART
