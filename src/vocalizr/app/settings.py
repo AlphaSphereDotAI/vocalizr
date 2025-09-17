@@ -5,8 +5,7 @@ from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
-from gradio import Error
-from pydantic import BaseModel, DirectoryPath, Field, FilePath, model_validator
+from pydantic import BaseModel, DirectoryPath, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from torch.cuda import is_available
 
@@ -64,17 +63,7 @@ class DirectorySettings(BaseModel):
         Returns:
             Self: The validated DirectorySettings instance.
         """
-        for directory in [
-            self.base,
-            self.results,
-            self.frames,
-            self.checkpoint,
-            self.assets,
-            self.log,
-            self.image,
-            self.audio,
-            self.video,
-        ]:
+        for directory in [self.base, self.results, self.log]:
             if not directory.exists():
                 directory.mkdir(exist_ok=True)
                 logger.info("Created directory %s.", directory)
@@ -87,20 +76,6 @@ class ModelSettings(BaseModel):
     repo_id: str = "hexgrad/Kokoro-82M"
     lang_code: str = "a"
     choices: Voices = Voices.AMERICAN_FEMALE_HEART
-
-    @model_validator(mode="after")
-    def check_image_path(self) -> "ModelSettings":
-        if self.image_path and not self.image_path.exists():
-            _msg = f"Image path does not exist: {self.image_path}"
-            logger.error(_msg)
-            Error(_msg)
-            raise FileNotFoundError(_msg)
-        if self.audio_path and not self.audio_path.exists():
-            _msg = f"Audio path does not exist: {self.audio_path}"
-            logger.error(_msg)
-            Error(_msg)
-            raise FileNotFoundError(_msg)
-        return self
 
 
 class Settings(BaseSettings):
