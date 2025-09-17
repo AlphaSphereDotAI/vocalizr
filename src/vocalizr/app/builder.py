@@ -1,81 +1,31 @@
 from pathlib import Path
-from time import time
 from typing import Literal
+from uuid import uuid4
 
 from gradio import (
     Audio,
     Blocks,
     Button,
-    Checkbox,
     Column,
     Dropdown,
     Error,
-    Group,
-    Image,
-    Info,
-    Markdown,
-    Number,
     Row,
     Slider,
-    Tab,
-    Video,
 )
-from huggingface_hub import snapshot_download
-from librosa import load as librosa_load
-from numpy import (
-    array as np_array,
-    hstack as np_hstack,
-    ndarray,
-    pad as np_pad,
-    squeeze as np_squeeze,
-)
-from python_speech_features import delta, mfcc
-from torch import (
-    Tensor,
-    cat as torch_cat,
-    clamp as torch_clamp,
-    no_grad,
-    randn as torch_randn,
-    zeros as torch_zeros,
-)
-from tqdm import tqdm
-from transformers import HubertModel, Wav2Vec2FeatureExtractor
+from numpy import ndarray
 from vocalizr.app.logger import logger
 from vocalizr.app.settings import Settings
-from dotenv import load_dotenv
 from kokoro import KPipeline
-from loguru import logger
-from torch import cuda
-from typing import Any, Generator, Literal
+from typing import Any, Generator
 
-from gradio import Error
-from kokoro import KPipeline
-from loguru import logger
-from numpy import dtype, float32, ndarray
+from numpy import dtype, float32
 from soundfile import write
 from torch import zeros
-from gradio import (
-    Audio,
-    Blocks,
-    Button,
-    Checkbox,
-    Column,
-    Dropdown,
-    Number,
-    Row,
-    Slider,
-    Textbox,
-)
-
-from vocalizr import CHOICES, CUDA_AVAILABLE, DEBUG
-from vocalizr.model import generate_audio_for_text
-
-
-from vocalizr import AUDIO_FILE_PATH, PIPELINE
+from gradio import Textbox
 
 
 class App:
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings) -> None:
         self.settings: Settings = settings
         logger.info("Downloading model checkpoint")
         self.pipeline = KPipeline(
@@ -130,7 +80,7 @@ class App:
             if self.settings.model.char_limit == -1
             else text.strip()[: self.settings.model.char_limit]
         )
-        generator: Generator[KPipeline.Result, None, None] = PIPELINE(
+        generator: Generator[KPipeline.Result, None, None] = self.pipeline(
             text=text, voice=voice, speed=speed
         )
         first = True
@@ -143,8 +93,12 @@ class App:
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             if save_file:
                 if debug:
-                    logger.info(f"Saving audio file at {AUDIO_FILE_PATH}")
-                self._save_file_wav(audio=audio_np)
+                    logger.info(
+                        f"Saving audio file at {self.settings.directory.results}"
+                    )
+                self._save_file_wav(
+                    audio_np, self.settings.directory.results / f"{uuid4()}.wav"
+                )
             yield 24000, audio_np
             if first:
                 first = False
@@ -158,23 +112,12 @@ class App:
                     text: Textbox = Textbox(
                         label="Input Text", info="Enter your text here"
                     )
-                    with Row():
-                        voice: Dropdown = Dropdown(
-                            choices=list(CHOICES.items()),
-                            value="af_heart",
-                            label="Voice",
-                            info="Quality and availability vary by language",
-                        )
-                        Dropdown(
-                            choices=[("GPU 🚀", True), ("CPU 🐌", False)],
-                            value=CUDA_AVAILABLE,
-                            label="Current Hardware",
-                            interactive=CUDA_AVAILABLE,
-                        )
-                        char_limit: Number = Number(label="Character Limit", value=-1)
-                    with Row():
-                        save_file: Checkbox = Checkbox(label="Save Audio File")
-                        debug: Checkbox = Checkbox(value=DEBUG, label="Debug")
+                    voice: Dropdown = Dropdown(
+                        choices=list(self.settings.model.choices.__dict__.items()),
+                        value="af_heart",
+                        label="Voice",
+                        info="Quality and availability vary by language",
+                    )
                     speed: Slider = Slider(
                         minimum=0.5,
                         maximum=2,
@@ -182,7 +125,6 @@ class App:
                         step=0.1,
                         label="Speed",
                     )
-                with Column():
                     out_audio: Audio = Audio(
                         label="Output Audio",
                         interactive=False,
@@ -193,14 +135,16 @@ class App:
                         stream_btn: Button = Button(value="Generate", variant="primary")
                         stop_btn: Button = Button(value="Stop", variant="stop")
             stream_event = stream_btn.click(
-                fn=generate_audio_for_text,
-                inputs=[text, voice, speed, save_file, debug, char_limit],
+                fn=self.generate_audio_for_text,
+                inputs=[text, voice, speed],
                 outputs=[out_audio],
             )
             stop_btn.click(fn=None, cancels=stream_event)
             return app
 
-    def _save_file_wav(audio: ndarray[tuple[float32], dtype[float32]]) -> None:
+    def _save_file_wav(
+        audio: ndarray[tuple[float32], dtype[float32]], file_result_path: Path
+    ) -> None:
         """
         Saves an audio array to a WAV file using the specified sampling rate. If the saving
         operation fails, it logs the exception and raises a RuntimeError.
@@ -213,8 +157,10 @@ class App:
         :rtype: None
         """
         try:
-            logger.info(f"Saving audio to {AUDIO_FILE_PATH}")
-            write(file=AUDIO_FILE_PATH, data=audio, samplerate=24000)
+            logger.info(f"Saving audio to {file_result_path}")
+            write(file=file_result_path, data=audio, samplerate=24000)
         except Exception as e:
-            logger.exception(f"Failed to save audio to {AUDIO_FILE_PATH}: {e}")
-            raise RuntimeError(f"Failed to save audio to {AUDIO_FILE_PATH}: {e}") from e
+            logger.exception(f"Failed to save audio to {file_result_path}: {e}")
+            raise RuntimeError(
+                f"Failed to save audio to {file_result_path}: {e}"
+            ) from e
