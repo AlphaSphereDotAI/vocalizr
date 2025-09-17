@@ -125,7 +125,7 @@ class App:
             logger.exception("No text provided")
         elif len(text) < 4:
             logger.exception(f"Text too short: {text} with length {len(text)}")
-        text = (
+        text:str = (
             text
             if self.settings.model.char_limit == -1
             else text.strip()[: self.settings.model.char_limit]
