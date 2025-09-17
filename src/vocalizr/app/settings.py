@@ -1,4 +1,5 @@
 """Settings for the Vocalizr app."""
+
 from enum import Enum
 from pathlib import Path
 from typing import Literal
@@ -12,6 +13,7 @@ from torch.cuda import is_available
 from vocalizr.app.logger import logger
 
 load_dotenv()
+
 
 class Voices(Enum):
     AMERICAN_FEMALE_HEART = "af_heart"
@@ -42,8 +44,10 @@ class Voices(Enum):
     BRITISH_MALE_FABLE = "bm_fable"
     BRITISH_MALE_LEWIS = "bm_lewis"
     BRITISH_MALE_DANIEL = "bm_daniel"
+
     def __str__(self):
         return self.value
+
 
 class DirectorySettings(BaseModel):
     base: DirectoryPath = Field(default_factory=lambda: Path.cwd())
@@ -75,6 +79,7 @@ class DirectorySettings(BaseModel):
                 directory.mkdir(exist_ok=True)
                 logger.info("Created directory %s.", directory)
         return self
+
 
 class ModelSettings(BaseModel):
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
