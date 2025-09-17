@@ -13,6 +13,36 @@ from vocalizr.app.logger import logger
 
 load_dotenv()
 
+class Voices(Enum):
+    AMERICAN_FEMALE_HEART = "af_heart"
+    AMERICAN_FEMALE_BELLA = "af_bella"
+    AMERICAN_FEMALE_NICOLE = "af_nicole"
+    AMERICAN_FEMALE_AOED = "af_aoede"
+    AMERICAN_FEMALE_KORE = "af_kore"
+    AMERICAN_FEMALE_SARAH = "af_sarah"
+    AMERICAN_FEMALE_NOVA = "af_nova"
+    AMERICAN_FEMALE_SKY = "af_sky"
+    AMERICAN_FEMALE_ALLOY = "af_alloy"
+    AMERICAN_FEMALE_JESSICA = "af_jessica"
+    AMERICAN_FEMALE_RIVER = "af_river"
+    AMERICAN_MALE_MICHAEL = "am_michael"
+    AMERICAN_MALE_FENRIR = "am_fenrir"
+    AMERICAN_MALE_PUCK = "am_puck"
+    AMERICAN_MALE_ECHO = "am_echo"
+    AMERICAN_MALE_ERIC = "am_eric"
+    AMERICAN_MALE_LIAM = "am_liam"
+    AMERICAN_MALE_ONYX = "am_onyx"
+    AMERICAN_MALE_SANTA = "am_santa"
+    AMERICAN_MALE_ADAM = "am_adam"
+    BRITISH_FEMALE_EMMA = "bf_emma"
+    BRITISH_FEMALE_ISABELLA = "bf_isabella"
+    BRITISH_FEMALE_ALICE = "bf_alice"
+    BRITISH_FEMALE_LILY = "bf_lily"
+    BRITISH_MALE_GEORGE = "bm_george"
+    BRITISH_MALE_FABLE = "bm_fable"
+    BRITISH_MALE_LEWIS = "bm_lewis"
+    BRITISH_MALE_DANIEL = "bm_daniel"
+
 class DirectorySettings(BaseModel):
     base: DirectoryPath = Field(default_factory=lambda: Path.cwd())
     results: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "results")
@@ -44,73 +74,12 @@ class DirectorySettings(BaseModel):
                 logger.info("Created directory %s.", directory)
         return self
 
-    class Voices(Enum):
-    CHOICES: dict[str, str] = {
-        "american_female_Heart ❤️": "af_heart",
-        "american_female_Bella 🔥": "af_bella",
-        "american_female_Nicole 🎧": "af_nicole",
-        "american_female_Aoede": "af_aoede",
-        "american_female_Kore": "af_kore",
-        "american_female_Sarah": "af_sarah",
-        "american_female_Nova": "af_nova",
-        "american_female_Sky": "af_sky",
-        "american_female_Alloy": "af_alloy",
-        "american_female_Jessica": "af_jessica",
-        "american_female_River": "af_river",
-        "american_male_Michael": "am_michael",
-        "american_male_Fenrir": "am_fenrir",
-        "american_male_Puck": "am_puck",
-        "american_male_Echo": "am_echo",
-        "american_male_Eric": "am_eric",
-        "american_male_Liam": "am_liam",
-        "american_male_Onyx": "am_onyx",
-        "american_male_Santa": "am_santa",
-        "american_male_Adam": "am_adam",
-        "british_female_Emma": "bf_emma",
-        "british_female_Isabella": "bf_isabella",
-        "british_female_Alice": "bf_alice",
-        "british_female_Lily": "bf_lily",
-        "british_male_George": "bm_george",
-        "british_male_Fable": "bm_fable",
-        "british_male_Lewis": "bm_lewis",
-        "british_male_Daniel": "bm_daniel",
-    }
 class ModelSettings(BaseModel):
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
     repo_id: str = "hexgrad/Kokoro-82M"
     lang_code: str = "a"
+    choices: Voices = Voices.AMERICAN_FEMALE_HEART
 
-
-    CHOICES: dict[str, str] = {
-    "american_female_Heart ❤️": "af_heart",
-    "american_female_Bella 🔥": "af_bella",
-    "american_female_Nicole 🎧": "af_nicole",
-    "american_female_Aoede": "af_aoede",
-    "american_female_Kore": "af_kore",
-    "american_female_Sarah": "af_sarah",
-    "american_female_Nova": "af_nova",
-    "american_female_Sky": "af_sky",
-    "american_female_Alloy": "af_alloy",
-    "american_female_Jessica": "af_jessica",
-    "american_female_River": "af_river",
-    "american_male_Michael": "am_michael",
-    "american_male_Fenrir": "am_fenrir",
-    "american_male_Puck": "am_puck",
-    "american_male_Echo": "am_echo",
-    "american_male_Eric": "am_eric",
-    "american_male_Liam": "am_liam",
-    "american_male_Onyx": "am_onyx",
-    "american_male_Santa": "am_santa",
-    "american_male_Adam": "am_adam",
-    "british_female_Emma": "bf_emma",
-    "british_female_Isabella": "bf_isabella",
-    "british_female_Alice": "bf_alice",
-    "british_female_Lily": "bf_lily",
-    "british_male_George": "bm_george",
-    "british_male_Fable": "bm_fable",
-    "british_male_Lewis": "bm_lewis",
-    "british_male_Daniel": "bm_daniel",
-}
     @model_validator(mode="after")
     def check_image_path(self) -> "ModelSettings":
         if self.image_path and not self.image_path.exists():
