@@ -131,9 +131,9 @@ class App:
                         streaming=True,
                         autoplay=True,
                     )
-                    with Row():
-                        stream_btn: Button = Button(value="Generate", variant="primary")
-                        stop_btn: Button = Button(value="Stop", variant="stop")
+            with Row():
+                stream_btn: Button = Button(value="Generate", variant="primary")
+                stop_btn: Button = Button(value="Stop", variant="stop")
             stream_event = stream_btn.click(
                 fn=self.generate_audio_for_text,
                 inputs=[text, voice, speed],
