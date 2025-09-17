@@ -82,7 +82,8 @@ class App:
             lang_code=self.settings.model.lang_code, repo_id=self.settings.model.repo_id
         )
 
-    def generate_audio_for_text(self,
+    def generate_audio_for_text(
+        self,
         text: str,
         voice: str = "af_heart",
         speed: float = 1.0,
@@ -124,7 +125,11 @@ class App:
             logger.exception("No text provided")
         elif len(text) < 4:
             logger.exception(f"Text too short: {text} with length {len(text)}")
-        text = text if self.settings.model.char_limit == -1 else text.strip()[:self.settings.model.char_limit]
+        text = (
+            text
+            if self.settings.model.char_limit == -1
+            else text.strip()[: self.settings.model.char_limit]
+        )
         generator: Generator[KPipeline.Result, None, None] = PIPELINE(
             text=text, voice=voice, speed=speed
         )
@@ -150,7 +155,9 @@ class App:
         with Blocks() as app:
             with Row():
                 with Column():
-                    text: Textbox = Textbox(label="Input Text", info="Enter your text here")
+                    text: Textbox = Textbox(
+                        label="Input Text", info="Enter your text here"
+                    )
                     with Row():
                         voice: Dropdown = Dropdown(
                             choices=list(CHOICES.items()),
