@@ -5,6 +5,8 @@ from rich.console import Console
 from rich.style import Style
 
 filterwarnings("ignore", category=UserWarning)
+filterwarnings("ignore", category=FutureWarning)
+filterwarnings("ignore", category=RuntimeWarning)
 
 art = Figlet(font="dos_rebel", justify="center", width=110).renderText("VOCALIZR")
 
@@ -14,12 +16,12 @@ console.print(
     "Voice Generation with Kokoro Model.",
     style=Style(bold=True),
     no_wrap=True,
-    justify="center",
+    justify="center"
 )
 console.print(
     "Developed by [link=https://github.com/AlphaSphereDotAI]AlphaSphere.AI[/link]",
     style=Style(bold=True),
     no_wrap=True,
     justify="center",
-    end="\n\n\n\n",
+    end="\n\n\n\n"
 )

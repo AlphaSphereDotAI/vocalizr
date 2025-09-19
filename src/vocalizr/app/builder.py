@@ -14,7 +14,7 @@ from gradio import (
 )
 from numpy import ndarray
 from vocalizr.app.logger import logger
-from vocalizr.app.settings import Settings
+from vocalizr.app.settings import Settings, Voices
 from kokoro import KPipeline
 from typing import Any, Generator
 
@@ -33,7 +33,10 @@ class App:
         )
 
     def generate_audio_for_text(
-        self, text: str, voice: str = "af_heart", speed: float = 1.0
+        self,
+        text: str,
+        voice: Voices = Voices.AMERICAN_FEMALE_HEART,
+        speed: float = 1.0,
     ) -> Generator[
         tuple[Literal[24000], ndarray[tuple[float32], dtype[float32]]]
         | tuple[int, ndarray],
@@ -49,7 +52,7 @@ class App:
         :param str text: The input text to generate audio for. If CHAR_LIMIT is set to a
             positive value, the text will be truncated to fit that limit.
 
-        :param str voice: The voice profile to use for audio generation.
+        :param Voices voice: The voice profile to use for audio generation.
             Defaults to "af_heart".
 
         :param float speed: The speed modifier for audio generation. Defaults to 1.0.
@@ -74,6 +77,7 @@ class App:
             _msg = f"Text too short: {text} with length {len(text)}"
             logger.exception(_msg)
             raise ValueError(_msg)
+
         text: str = (
             text
             if self.settings.model.char_limit == -1
@@ -90,9 +94,7 @@ class App:
             logger.info(f"Generating audio for '{text}'")
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info(f"Saving audio file at {self.settings.directory.results}")
-            self._save_file_wav(
-                audio_np, self.settings.directory.results / f"{uuid4()}.wav"
-            )
+            self._save_file_wav(                audio_np            )
             yield 24000, audio_np
             if first:
                 first = False
@@ -107,8 +109,8 @@ class App:
                         label="Input Text", info="Enter your text here"
                     )
                     voice: Dropdown = Dropdown(
-                        choices=list(self.settings.model.choices.__dict__.items()),
-                        value="af_heart",
+                        choices=[v.value for v in Voices],
+                        value=self.settings.model.choices.value,
                         label="Voice",
                         info="Quality and availability vary by language",
                     )
@@ -135,10 +137,7 @@ class App:
             )
             stop_btn.click(fn=None, cancels=stream_event)
             return app
-
-    def _save_file_wav(
-        audio: ndarray[tuple[float32], dtype[float32]], file_result_path: Path
-    ) -> None:
+    def _save_file_wav(self, audio: ndarray[tuple[float32], dtype[float32]]) -> None:
         """
         Saves an audio array to a WAV file using the specified sampling rate. If the saving
         operation fails, it logs the exception and raises a RuntimeError.
@@ -150,9 +149,11 @@ class App:
         :return: This function does not return a value.
         :rtype: None
         """
+        file_result_path: Path = self.settings.directory.results / f"{uuid4()}.wav"
         try:
             logger.info(f"Saving audio to {file_result_path}")
-            write(file=file_result_path, data=audio, samplerate=24000)
+            write(file_result_path, audio, 24000)
+            logger.info(f"Audio saved to {file_result_path}")
         except Exception as e:
             logger.exception(f"Failed to save audio to {file_result_path}: {e}")
             raise RuntimeError(
