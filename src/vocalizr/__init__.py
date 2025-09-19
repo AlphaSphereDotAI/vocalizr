@@ -16,12 +16,12 @@ console.print(
     "Voice Generation with Kokoro Model.",
     style=Style(bold=True),
     no_wrap=True,
-    justify="center"
+    justify="center",
 )
 console.print(
     "Developed by [link=https://github.com/AlphaSphereDotAI]AlphaSphere.AI[/link]",
     style=Style(bold=True),
     no_wrap=True,
     justify="center",
-    end="\n\n\n\n"
+    end="\n\n\n\n",
 )

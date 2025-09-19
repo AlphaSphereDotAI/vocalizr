@@ -94,7 +94,7 @@ class App:
             logger.info(f"Generating audio for '{text}'")
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info(f"Saving audio file at {self.settings.directory.results}")
-            self._save_file_wav(                audio_np            )
+            self._save_file_wav(audio_np)
             yield 24000, audio_np
             if first:
                 first = False
@@ -137,6 +137,7 @@ class App:
             )
             stop_btn.click(fn=None, cancels=stream_event)
             return app
+
     def _save_file_wav(self, audio: ndarray[tuple[float32], dtype[float32]]) -> None:
         """
         Saves an audio array to a WAV file using the specified sampling rate. If the saving
