@@ -153,7 +153,7 @@ class App:
         file_result_path: Path = self.settings.directory.results / f"{uuid4()}.wav"
         try:
             logger.info(f"Saving audio to {file_result_path}")
-            write(file_result_path, audio, 24000)
+            write(file=file_result_path, data=audio, samplerate=24000)
             logger.info(f"Audio saved to {file_result_path}")
         except Exception as e:
             logger.exception(f"Failed to save audio to {file_result_path}: {e}")
