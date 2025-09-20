@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
   { name = "Mohamed Hisham Abdelzaher", email = "mohamed.hisham.abdelzaher@gmail.com" },
 ]
-requires-python = ">=3.12, <3.14"
+requires-python = ">=3.13.7, <3.14"
 dependencies = [
   "gradio[mcp]>=5.38.0",
   "kokoro>=0.9.4",
