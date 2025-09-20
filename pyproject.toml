@@ -53,6 +53,8 @@ dev = [
   "pytest-md>=0.2.0",
   "pytest-mergify>=2025.8.20.1",
   "uv-build>=0.8.14",
+  "ruff>=0.13.1",
+  "ty>=0.0.1a20",
 ]
 
 [tool.ruff]
