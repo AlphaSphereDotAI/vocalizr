@@ -28,7 +28,12 @@ requires = ["uv_build"]
 build-backend = "uv_build"
 
 [dependency-groups]
-dev = ["ruff>=0.11.12", "ty>=0.0.1a10"]
+dev = [    "pytest-emoji>=0.2.0",
+    "pytest-md>=0.2.0",
+    "pytest-mergify>=2025.9.10.1",
+    "ruff>=0.13.1",
+    "ty>=0.0.1a20",
+]
 
 [[tool.uv.index]]
 name = "pytorch-cu124"
