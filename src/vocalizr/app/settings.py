@@ -65,8 +65,13 @@ class DirectorySettings(BaseModel):
         """
         for directory in [self.base, self.results, self.log]:
             if not directory.exists():
-                directory.mkdir(exist_ok=True)
-                logger.info("Created directory %s.", directory)
+                try:
+                    directory.mkdir(exist_ok=True)
+                    logger.info("Created directory %s.", directory)
+                except PermissionError as e:
+                    logger.error("Permission denied while creating directory %s: %s", directory, e)
+                except Exception as e:
+                    logger.error("Error creating directory %s: %s", directory, e)
         return self
 
 
