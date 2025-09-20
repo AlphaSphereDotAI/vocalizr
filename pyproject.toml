@@ -33,7 +33,7 @@ vocalizr = "vocalizr.__main__:main"
 [dependency-groups]
 dev = [
   "gradio-client>=1.12.1",
-  "pytest>=8.3",
+  "pytest>=8.4.2",
   "pytest-emoji>=0.2.0",
   "pytest-md>=0.2.0",
   "pytest-mergify>=2025.8.20.1",
