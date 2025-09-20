@@ -15,7 +15,7 @@ dependencies = [
   "soundfile>=0.13.1",
 ]
 classifiers = [
-  'Environment :: GPU :: NVIDIA CUDA :: 12.4',
+  'Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.4',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
