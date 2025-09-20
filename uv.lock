@@ -2383,7 +2383,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "gradio-client", specifier = ">=1.12.1" },
+    { name = "gradio-client", specifier = ">=1.13.1" },
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
