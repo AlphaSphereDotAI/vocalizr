@@ -13,7 +13,6 @@ basicConfig(
             level=INFO,
             console=console,
             rich_tracebacks=True,
-            tracebacks_show_locals=True,
         ),
     ],
     format="%(name)s | %(process)d | %(message)s",
