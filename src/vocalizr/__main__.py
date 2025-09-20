@@ -1,21 +1,17 @@
 from gradio import Blocks
-
-from vocalizr import DEBUG, SERVER_NAME, SERVER_PORT
-from vocalizr.gui import app_block
+from vocalizr.app.runner import app
 
 
 def main() -> None:
-    """Launch the Gradio voice generation web application."""
-    app: Blocks = app_block()
-    app.queue(api_open=True).launch(
-        server_name=SERVER_NAME,
-        server_port=SERVER_PORT,
-        debug=DEBUG,
+    """Launch the Gradio voice generation web app."""
+    application: Blocks = app.gui()
+    application.queue(api_open=True).launch(
+        server_port=7860,
+        debug=True,
         mcp_server=True,
         show_api=True,
         enable_monitoring=True,
         show_error=True,
-        pwa=True,
     )
 
 
