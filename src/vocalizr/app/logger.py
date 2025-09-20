@@ -1,5 +1,9 @@
+"""Logging configuration for the Vocalizr application."""
+
 from logging import INFO, WARNING, basicConfig, getLogger
+
 from rich.logging import RichHandler
+
 from vocalizr import console
 
 basicConfig(
@@ -9,6 +13,7 @@ basicConfig(
             level=INFO,
             console=console,
             rich_tracebacks=True,
+            tracebacks_show_locals=True,
         ),
     ],
     format="%(name)s | %(process)d | %(message)s",

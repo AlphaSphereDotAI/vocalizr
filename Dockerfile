@@ -15,6 +15,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest@sha256:0e09bcd548cf2dfb9a3fd40af1a7389
 
 ENV GRADIO_SERVER_PORT=7860 \
     GRADIO_SERVER_NAME=0.0.0.0 \
+    GRADIO_DEBUG=1 \
     HF_HOME=/home/nonroot/hf \
     PATH=/home/nonroot/.local/bin:$PATH
 
