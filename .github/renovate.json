@@ -1,9 +1,18 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:best-practices"
-  ],
+  "extends": ["config:best-practices"],
   "lockFileMaintenance": {
-    "enabled": true
-  }
+    "enabled": true,
+    "labels": ["Lockfile", "dependencies"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "packageRules": [
+    {
+      "matchManagers": ["pep621"],
+      "matchPackageNames": ["*"],
+      "rangeStrategy": "bump",
+      "labels": ["PyProject", "dependencies"]
+    }
+  ]
 }
