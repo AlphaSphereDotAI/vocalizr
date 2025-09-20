@@ -21,7 +21,7 @@ load_dotenv()
 
 DEBUG: bool = getenv(key="DEBUG", default="True").lower() == "true"
 SERVER_NAME: str = getenv(key="GRADIO_SERVER_NAME", default="localhost")
-SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="8080"))
+SERVER_PORT: int = int(getenv(key="GRADIO_SERVER_PORT", default="7860"))
 PIPELINE: KPipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M")
 CURRENT_DATE: str = datetime.now().strftime(format="%Y-%m-%d_%H-%M-%S")
 
