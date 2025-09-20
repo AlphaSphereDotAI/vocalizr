@@ -4,12 +4,12 @@ COPY --from=ghcr.io/astral-sh/uv:latest@sha256:0ca07117081b2c6a8dd813d2badacf76d
      /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
-RUN apk add --no-cache build-base git
+RUN apk add --no-cache build-base
 
 USER nonroot
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr
+    uv tool install --no-cache vocalizr
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:0e09bcd548cf2dfb9a3fd40af1a7389aa8c16b428de4e8f72b085f015694ce3d AS production
 
@@ -26,7 +26,7 @@ USER nonroot
 
 WORKDIR /home/nonroot
 
-COPY --from=builder --chown=nonroot:nonroot --chmod=755 /home/nonroot/.local/ /home/nonroot/.local/
+COPY --from=builder --chown=nonroot:nonroot --chmod=555 /home/nonroot/.local/ /home/nonroot/.local/
 
 EXPOSE ${GRADIO_SERVER_PORT}
 
