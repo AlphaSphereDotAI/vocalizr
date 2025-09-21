@@ -1,6 +1,8 @@
+from collections.abc import Generator
 from pathlib import Path
 from typing import Any, Literal
 from collections.abc import Generator
+from typing import Any, Literal
 from uuid import uuid4
 
 from gradio import (
@@ -13,11 +15,16 @@ from gradio import (
     Row,
     Slider,
     Textbox,
+    Textbox,
 )
 from kokoro import KPipeline
 from numpy import dtype, float32, ndarray
+from numpy import dtype, float32, ndarray
 from soundfile import write
 from torch import zeros
+
+from vocalizr.app.logger import logger
+from vocalizr.app.settings import Settings, Voices
 
 from vocalizr.app.logger import logger
 from vocalizr.app.settings import Settings, Voices
@@ -27,8 +34,10 @@ class App:
     def __init__(self, settings: Settings) -> None:
         self.settings: Settings = settings
         logger.info("Downloading Kokoro model checkpoint")
+        logger.info("Downloading Kokoro model checkpoint")
         self.pipeline = KPipeline(
-            lang_code=self.settings.model.lang_code, repo_id=self.settings.model.repo_id
+            lang_code=self.settings.model.lang_code,
+            repo_id=self.settings.model.repo_id,
         )
 
     def generate_audio_for_text(
@@ -139,8 +148,9 @@ class App:
 
     def _save_file_wav(self, audio: ndarray[tuple[float32], dtype[float32]]) -> None:
         """
-        Saves an audio array to a WAV file using the specified sampling rate. If the saving
-        operation fails, it logs the exception and raises a RuntimeError.
+        Save an audio array to a WAV file using the specified sampling rate.
+
+        If the saving operation fails, it logs the exception and raises a RuntimeError.
 
         :param ndarray[tuple[float32],dtype[float32]] audio: The audio data to be saved.
             Must be a NumPy array of data type float32, representing the audio signal
@@ -155,7 +165,6 @@ class App:
             write(file=file_result_path, data=audio, samplerate=24000)
             logger.info(f"Audio saved to {file_result_path}")
         except Exception as e:
-            logger.exception(f"Failed to save audio to {file_result_path}: {e}")
-            raise RuntimeError(
-                f"Failed to save audio to {file_result_path}: {e}"
-            ) from e
+            _msg = f"Failed to save audio to {file_result_path}: {e}"
+            logger.exception(_msg)
+            raise RuntimeError(_msg) from e
