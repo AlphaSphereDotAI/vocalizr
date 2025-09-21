@@ -85,11 +85,11 @@ class App:
         )
         for _, _, audio in generator:
             if audio is None or isinstance(audio, str):
-                logger.exception(f"Unexpected type (audio): {type(audio)}")
+                logger.exception("Unexpected type (audio): %s", type(audio))
                 raise Error(message=f"Unexpected type (audio): {type(audio)}")
-            logger.info(f"Generating audio for '{text}'")
+            logger.info("Generating audio for '%s'", text)
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
-            logger.info(f"Saving audio file at {self.settings.directory.results}")
+            logger.info("Saving audio file at %s", self.settings.directory.results)
             file_result_path = self._save_file_wav(audio_np)
             yield file_result_path
 
@@ -147,9 +147,9 @@ class App:
         """
         file_result_path: Path = self.settings.directory.results / f"{uuid4()}.wav"
         try:
-            logger.info(f"Saving audio to {file_result_path}")
+            logger.info("Saving audio to %s", file_result_path)
             write(file=file_result_path, data=audio, samplerate=24000)
-            logger.info(f"Audio saved to {file_result_path}")
+            logger.info("Audio saved to %s", file_result_path)
         except Exception as e:
             _msg = f"Failed to save audio to {file_result_path}: {e}"
             logger.exception(_msg)
