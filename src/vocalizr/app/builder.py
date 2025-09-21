@@ -21,8 +21,8 @@ from soundfile import write
 from vocalizr.app.logger import logger
 from vocalizr.app.settings import Settings, Voices
 
-
 class App:
+    """Initializes the Kokoro text-to-speech pipeline with provided settings and generates audio for text input."""
     def __init__(self, settings: Settings) -> None:
         self.settings: Settings = settings
         logger.info("Downloading Kokoro model checkpoint")
