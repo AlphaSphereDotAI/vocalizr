@@ -1,9 +1,5 @@
-"""Logging configuration for the Vocalizr application."""
-
 from logging import INFO, WARNING, basicConfig, getLogger
-
 from rich.logging import RichHandler
-
 from vocalizr import console
 
 basicConfig(
