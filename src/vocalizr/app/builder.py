@@ -1,6 +1,8 @@
 from collections.abc import Generator
 from pathlib import Path
 from typing import Any, Literal
+from collections.abc import Generator
+from typing import Any, Literal
 from uuid import uuid4
 
 from gradio import (
@@ -13,11 +15,16 @@ from gradio import (
     Row,
     Slider,
     Textbox,
+    Textbox,
 )
 from kokoro import KPipeline
 from numpy import dtype, float32, ndarray
+from numpy import dtype, float32, ndarray
 from soundfile import write
 from torch import zeros
+
+from vocalizr.app.logger import logger
+from vocalizr.app.settings import Settings, Voices
 
 from vocalizr.app.logger import logger
 from vocalizr.app.settings import Settings, Voices
@@ -26,6 +33,7 @@ from vocalizr.app.settings import Settings, Voices
 class App:
     def __init__(self, settings: Settings) -> None:
         self.settings: Settings = settings
+        logger.info("Downloading Kokoro model checkpoint")
         logger.info("Downloading Kokoro model checkpoint")
         self.pipeline = KPipeline(
             lang_code=self.settings.model.lang_code,
