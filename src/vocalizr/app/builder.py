@@ -68,7 +68,7 @@ class App:
             _msg = "No text provided"
             logger.exception(_msg)
             raise ValueError(_msg)
-        elif len(text) < 4:
+        if len(text) < 4:
             _msg = f"Text too short: {text} with length {len(text)}"
             logger.exception(_msg)
             raise ValueError(_msg)
