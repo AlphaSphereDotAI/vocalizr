@@ -2372,7 +2372,7 @@ wheels = [
 
 [[package]]
 name = "vocalizr"
-version = "0.0.4"
+version = "0.0.5"
 source = { editable = "." }
 dependencies = [
     { name = "gradio", extra = ["mcp"] },
