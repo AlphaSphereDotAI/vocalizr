@@ -17,7 +17,7 @@ classifiers = [
 dependencies = [
     "gradio[mcp]>=5.46.1",
     "kokoro>=0.9.4",
-    "pip>=25.1.1",
+    "pip>=25.2",
     "pyfiglet>=1.0.4",
     "soundfile>=0.13.1",
 ]
@@ -38,7 +38,7 @@ dev = [
     "pytest-mergify>=2025.9.10.1",
     "pytest>=8.4.2",
     "ruff>=0.13.1",
-    "ty>=0.0.1a20",
+    "ty>=0.0.1a21",
     "uv-build>=0.8.19",
 ]
 
