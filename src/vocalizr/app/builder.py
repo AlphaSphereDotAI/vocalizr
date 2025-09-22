@@ -33,7 +33,8 @@ class App:
             repo_id=self.settings.model.repo_id,
         )
         logger.info("Using device: %s", self.settings.model.device)
-        logger.info("Character Limit: %s", self.settings.model.char_limit)
+        limit = self.settings.model.char_limit
+        logger.info("Character Limit: %s", "Unlimited" if limit == -1 else limit)
 
     def generate_audio_for_text(
         self,
