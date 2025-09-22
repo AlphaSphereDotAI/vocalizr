@@ -32,6 +32,9 @@ class App:
             lang_code=self.settings.model.lang_code,
             repo_id=self.settings.model.repo_id,
         )
+        logger.info("Using device: %s", self.settings.model.device)
+        limit = self.settings.model.char_limit
+        logger.info("Character Limit: %s", "Unlimited" if limit == -1 else limit)
 
     def generate_audio_for_text(
         self,
@@ -89,11 +92,14 @@ class App:
             if audio is None or isinstance(audio, str):
                 logger.exception("Unexpected type (audio): %s", type(audio))
                 raise Error(message=f"Unexpected type (audio): {type(audio)}")
-            logger.info("Generating audio for '%s'", text)
+            logger.info(
+                "Generating audio for '%s' with length %d characters",
+                text,
+                len(text),
+            )
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info("Saving audio file at %s", self.settings.directory.results)
-            file_result_path = self._save_file_wav(audio_np)
-            yield file_result_path
+            yield self._save_file_wav(audio_np)
 
     def gui(self) -> Blocks:
         """Create the Gradio interface for the voice generation web app."""
@@ -101,7 +107,8 @@ class App:
             with Row():
                 with Column():
                     text: Textbox = Textbox(
-                        label="Input Text", info="Enter your text here"
+                        label="Input Text",
+                        info="Enter your text here",
                     )
                     voice: Dropdown = Dropdown(
                         choices=[v.value for v in Voices],
