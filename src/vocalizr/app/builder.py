@@ -23,7 +23,10 @@ from vocalizr.app.settings import Settings, Voices
 
 
 class App:
-    """Initializes the Kokoro text-to-speech pipeline with provided settings and generates audio for text input."""
+    """
+    Initializes the Kokoro text-to-speech pipeline with provided settings
+    and generates audio for text input.
+    """
 
     def __init__(self, settings: Settings) -> None:
         self.settings: Settings = settings
