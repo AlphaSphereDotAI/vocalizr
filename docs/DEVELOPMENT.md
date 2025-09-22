@@ -30,11 +30,8 @@ Complete guide for developers who want to contribute to or extend Vocalizr.
 git clone https://github.com/AlphaSphereDotAI/vocalizr.git
 cd vocalizr
 
-# Install with development dependencies
-pip install -e ".[dev]"
-
-# Or with uv (recommended)
-uv sync --group dev
+# Install with uv (recommended)
+uv sync
 ```
 
 ### Development Dependencies
@@ -44,7 +41,7 @@ The project includes these development tools:
 - **ruff**: Code formatting and linting
 - **ty**: Type checking utilities
 - **pytest**: Testing framework (when added)
-- **pre-commit**: Git hooks for code quality
+- **trunk**: Git hooks for code quality
 
 ### IDE Setup
 
@@ -140,10 +137,10 @@ graph TD
     B --> E[GUI Module]
     C --> F[Main Module]
     D --> G[Model Module]
-    
+
     E --> G
     F --> G
-    
+
     G --> H[Kokoro Pipeline]
     H --> I[Audio Generation]
     I --> J[File Output]
@@ -304,7 +301,7 @@ def generate_audio_for_text(
 ) -> Generator[...]:
     """
     Generates audio from the provided text using the specified voice and speed.
-    
+
     It allows saving the generated audio to a file if required. The function
     yields tuples containing the audio sampling rate and the audio data as a
     NumPy array.
@@ -410,56 +407,56 @@ from vocalizr.model import generate_audio_for_text, save_file_wav
 
 class TestGenerateAudioForText:
     """Test suite for generate_audio_for_text function."""
-    
+
     def test_basic_generation(self):
         """Test basic audio generation with default parameters."""
         text = "Hello, world!"
-        
+
         # Mock the pipeline to avoid actual model calls
         with patch('vocalizr.model.PIPELINE') as mock_pipeline:
             mock_pipeline.return_value = [
                 (None, None, np.array([0.1, 0.2, 0.3], dtype=np.float32))
             ]
-            
+
             results = list(generate_audio_for_text(text))
-            
+
             assert len(results) > 0
             sample_rate, audio = results[0]
             assert sample_rate == 24000
             assert isinstance(audio, np.ndarray)
-    
+
     def test_invalid_text_input(self):
         """Test handling of invalid text input."""
         with pytest.raises(Exception):
             list(generate_audio_for_text(""))
-        
+
         with pytest.raises(Exception):
             list(generate_audio_for_text("abc"))  # Too short
-    
+
     def test_voice_selection(self):
         """Test different voice selections."""
         text = "Testing voice selection"
-        
+
         for voice in ["af_heart", "bf_emma", "am_michael"]:
             with patch('vocalizr.model.PIPELINE') as mock_pipeline:
                 mock_pipeline.return_value = [
                     (None, None, np.array([0.1], dtype=np.float32))
                 ]
-                
+
                 results = list(generate_audio_for_text(text, voice=voice))
                 assert len(results) > 0
 
 class TestSaveFileWav:
     """Test suite for save_file_wav function."""
-    
+
     def test_save_valid_audio(self, tmp_path):
         """Test saving valid audio data."""
         audio = np.array([0.1, 0.2, 0.3], dtype=np.float32)
-        
+
         with patch('vocalizr.model.AUDIO_FILE_PATH', tmp_path / 'test.wav'):
             save_file_wav(audio)
             assert (tmp_path / 'test.wav').exists()
-    
+
     def test_save_invalid_audio(self):
         """Test error handling for invalid audio data."""
         with pytest.raises(RuntimeError):
@@ -475,32 +472,32 @@ from vocalizr.model import generate_audio_for_text
 
 class TestPipelineIntegration:
     """Integration tests for the complete pipeline."""
-    
+
     @pytest.mark.slow
     def test_end_to_end_generation(self):
         """Test complete end-to-end audio generation."""
         text = "This is a comprehensive integration test."
-        
+
         results = list(generate_audio_for_text(
             text=text,
             voice="af_heart",
             speed=1.0
         ))
-        
+
         assert len(results) > 0
-        
+
         for sample_rate, audio in results:
             assert sample_rate == 24000
             assert len(audio) > 0
             assert audio.dtype == np.float32
-    
+
     @pytest.mark.parametrize("voice", [
         "af_heart", "bf_emma", "am_michael", "bm_george"
     ])
     def test_voice_compatibility(self, voice):
         """Test compatibility across different voices."""
         text = "Voice compatibility test"
-        
+
         results = list(generate_audio_for_text(text, voice=voice))
         assert len(results) > 0
 ```
@@ -545,16 +542,16 @@ def temp_dir():
 def mock_environment():
     """Mock environment variables for testing."""
     original_env = os.environ.copy()
-    
+
     # Set test environment
     os.environ.update({
         'DEBUG': 'true',
         'GRADIO_SERVER_PORT': '7861',  # Different port for tests
         'HF_HOME': '/tmp/test_cache'
     })
-    
+
     yield
-    
+
     # Restore original environment
     os.environ.clear()
     os.environ.update(original_env)
@@ -673,10 +670,10 @@ def debug_memory():
     """Debug memory usage."""
     process = psutil.Process()
     memory_info = process.memory_info()
-    
+
     print(f"RSS: {memory_info.rss / 1024**2:.1f} MB")
     print(f"VMS: {memory_info.vms / 1024**2:.1f} MB")
-    
+
     if torch.cuda.is_available():
         print(f"GPU Memory: {torch.cuda.memory_allocated() / 1024**2:.1f} MB")
         print(f"GPU Cached: {torch.cuda.memory_reserved() / 1024**2:.1f} MB")
@@ -696,10 +693,10 @@ def profile_generation():
     """Profile audio generation performance."""
     pr = cProfile.Profile()
     pr.enable()
-    
+
     # Your code here
     list(generate_audio_for_text("Test profiling text"))
-    
+
     pr.disable()
     stats = pstats.Stats(pr)
     stats.sort_stats('cumulative')
@@ -724,7 +721,7 @@ logger.add(
 def debug_generation(text, voice):
     """Debug wrapper for generation."""
     logger.debug(f"Starting generation: text='{text[:50]}...', voice={voice}")
-    
+
     try:
         for i, (sr, audio) in enumerate(generate_audio_for_text(text, voice)):
             logger.debug(f"Generated chunk {i}: {len(audio)} samples")
