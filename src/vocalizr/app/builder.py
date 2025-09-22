@@ -1,6 +1,6 @@
 from collections.abc import Generator
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any
 from uuid import uuid4
 
 from gradio import (
@@ -17,13 +17,14 @@ from gradio import (
 from kokoro import KPipeline
 from numpy import dtype, float32, ndarray
 from soundfile import write
-from torch import zeros
 
 from vocalizr.app.logger import logger
 from vocalizr.app.settings import Settings, Voices
 
 
 class App:
+    """Initializes the Kokoro text-to-speech pipeline with provided settings and generates audio for text input."""
+
     def __init__(self, settings: Settings) -> None:
         self.settings: Settings = settings
         logger.info("Downloading Kokoro model checkpoint")
@@ -37,14 +38,10 @@ class App:
         text: str,
         voice: Voices = Voices.AMERICAN_FEMALE_HEART,
         speed: float = 1.0,
-    ) -> Generator[
-        tuple[Literal[24000], ndarray[tuple[float32], dtype[float32]]]
-        | tuple[int, ndarray],
-        Any,
-        None,
-    ]:
+    ) -> Generator[Path, Any, None]:
         """
-        Generates audio from the provided text using the specified voice and speed.
+        Generate audio from the provided text using the specified voice and speed.
+
         It allows saving the generated audio to a file if required. The function
         yields tuples containing the audio sampling rate and the audio data as a
         NumPy array.
@@ -73,7 +70,7 @@ class App:
             _msg = "No text provided"
             logger.exception(_msg)
             raise ValueError(_msg)
-        elif len(text) < 4:
+        if len(text) < 4:
             _msg = f"Text too short: {text} with length {len(text)}"
             logger.exception(_msg)
             raise ValueError(_msg)
@@ -84,21 +81,19 @@ class App:
             else text.strip()[: self.settings.model.char_limit]
         )
         generator: Generator[KPipeline.Result, None, None] = self.pipeline(
-            text=text, voice=voice, speed=speed
+            text=text,
+            voice=voice,
+            speed=speed,
         )
-        first = True
         for _, _, audio in generator:
             if audio is None or isinstance(audio, str):
-                logger.exception(f"Unexpected type (audio): {type(audio)}")
+                logger.exception("Unexpected type (audio): %s", type(audio))
                 raise Error(message=f"Unexpected type (audio): {type(audio)}")
-            logger.info(f"Generating audio for '{text}'")
+            logger.info("Generating audio for '%s'", text)
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
-            logger.info(f"Saving audio file at {self.settings.directory.results}")
-            self._save_file_wav(audio_np)
-            yield 24000, audio_np
-            if first:
-                first = False
-                yield 24000, zeros(1).numpy()
+            logger.info("Saving audio file at %s", self.settings.directory.results)
+            file_result_path = self._save_file_wav(audio_np)
+            yield file_result_path
 
     def gui(self) -> Blocks:
         """Create the Gradio interface for the voice generation web app."""
@@ -126,19 +121,20 @@ class App:
                         interactive=False,
                         streaming=True,
                         autoplay=True,
+                        type="filepath",
                     )
             with Row():
                 stream_btn: Button = Button(value="Generate", variant="primary")
                 stop_btn: Button = Button(value="Stop", variant="stop")
             stream_event = stream_btn.click(
-                fn=self.generate_audio_for_text,
-                inputs=[text, voice, speed],
-                outputs=[out_audio],
+                self.generate_audio_for_text,
+                [text, voice, speed],
+                [out_audio],
             )
             stop_btn.click(fn=None, cancels=stream_event)
             return app
 
-    def _save_file_wav(self, audio: ndarray[tuple[float32], dtype[float32]]) -> None:
+    def _save_file_wav(self, audio: ndarray[tuple[float32], dtype[float32]]) -> Path:
         """
         Save an audio array to a WAV file using the specified sampling rate.
 
@@ -153,10 +149,11 @@ class App:
         """
         file_result_path: Path = self.settings.directory.results / f"{uuid4()}.wav"
         try:
-            logger.info(f"Saving audio to {file_result_path}")
+            logger.info("Saving audio to %s", file_result_path)
             write(file=file_result_path, data=audio, samplerate=24000)
-            logger.info(f"Audio saved to {file_result_path}")
+            logger.info("Audio saved to %s", file_result_path)
         except Exception as e:
             _msg = f"Failed to save audio to {file_result_path}: {e}"
             logger.exception(_msg)
             raise RuntimeError(_msg) from e
+        return file_result_path
