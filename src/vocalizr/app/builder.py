@@ -92,7 +92,11 @@ class App:
             if audio is None or isinstance(audio, str):
                 logger.exception("Unexpected type (audio): %s", type(audio))
                 raise Error(message=f"Unexpected type (audio): {type(audio)}")
-            logger.info("Generating audio for '%s'", text)
+            logger.info(
+                "Generating audio for '%s' with length %d characters",
+                text,
+                len(text),
+            )
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info("Saving audio file at %s", self.settings.directory.results)
             yield self._save_file_wav(audio_np)
