@@ -2398,7 +2398,7 @@ dev = [
 requires-dist = [
     { name = "gradio", extras = ["mcp"], specifier = ">=5.46.1" },
     { name = "kokoro", specifier = ">=0.9.4" },
-    { name = "pip", specifier = ">=25.1.1" },
+    { name = "pip", specifier = ">=25.2" },
     { name = "pyfiglet", specifier = ">=1.0.4" },
     { name = "soundfile", specifier = ">=0.13.1" },
 ]
