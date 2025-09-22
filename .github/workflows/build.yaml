@@ -46,6 +46,7 @@ jobs:
         with:
           commit_message: "Version: ${{ github.ref_name }}"
           branch: main
+          commit_options: '--no-verify'
   github_release:
     name: Create GitHub Release
     needs: setup_and_build
