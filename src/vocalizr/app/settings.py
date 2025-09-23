@@ -49,7 +49,7 @@ class Voices(Enum):
 
 
 class DirectorySettings(BaseModel):
-    base: DirectoryPath = Field(default_factory=lambda: Path.cwd())
+    base: DirectoryPath = Field(default_factory=Path.cwd)
     results: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "results")
     log: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "logs")
 
