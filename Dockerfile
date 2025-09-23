@@ -6,7 +6,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest@sha256:ca74b4b463d7dfc1176cbe82a02b6e143
      /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
-RUN apk add --no-cache build-base
+RUN apk add --no-cache build-base git
 
 USER nonroot
 
