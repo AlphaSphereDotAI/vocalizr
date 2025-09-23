@@ -10,6 +10,10 @@ on:
         type: string
         required: true
         description: Registry
+      install_source:
+        type: string
+        required: true
+        description: Source to install from (e.g., PyPI Package or Git source)
 permissions:
   contents: read
   packages: write
@@ -93,6 +97,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
+          build-args: |
+            INSTALL_SOURCE=${{ inputs.install_source }}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
         if: ${{ inputs.is_test == false }}

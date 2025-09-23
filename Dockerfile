@@ -1,15 +1,17 @@
+ARG INSTALL_SOURCE
+
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:0e09bcd548cf2dfb9a3fd40af1a7389aa8c16b428de4e8f72b085f015694ce3d AS builder
 
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:4e3bde91035d8d11cc1d5e4d1c273b895bb293575b8d23c3e5c6058eed2f1bb9 \
      /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
-RUN apk add --no-cache build-base git
+RUN apk add --no-cache build-base
 
 USER nonroot
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr
+    uv tool install "$INSTALL_SOURCE"
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:0e09bcd548cf2dfb9a3fd40af1a7389aa8c16b428de4e8f72b085f015694ce3d AS production
 
