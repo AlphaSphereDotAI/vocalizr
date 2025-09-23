@@ -1546,7 +1546,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.9.10.1"
+version = "2025.9.23.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1554,9 +1554,9 @@ dependencies = [
     { name = "pytest" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7c/1b/e8532e85a3f0264e15090c618dcd00e86e2ae0b5cfad7eb38c9559bb1254/pytest_mergify-2025.9.10.1.tar.gz", hash = "sha256:165361f1e6f4a334d899dda7149901a6193fe4e58cdb1e3114a018f3a74328bd", size = 20702, upload-time = "2025-09-10T14:01:32.639Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/13/0c/ba3dd7f8c88f3b08eab2f9adebc3d5fa0f39c9faca8dc84135d5bebaa048/pytest_mergify-2025.9.23.1.tar.gz", hash = "sha256:71a2b7ab50f584083c978fb86bdda95bd17f0dd144287e2ea1da1a32991a247e", size = 21525, upload-time = "2025-09-23T14:37:10.868Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/55/51/4dfb55d017c7e54e2ad74df5e4eaef1d0354c62acc27602cfb8020c49426/pytest_mergify-2025.9.10.1-py3-none-any.whl", hash = "sha256:c88601957fafd06d0e73420aacdf6642e6b0cd38c99c89d80160b526f5790cc0", size = 25457, upload-time = "2025-09-10T14:01:31.127Z" },
+    { url = "https://files.pythonhosted.org/packages/bb/a4/791cd9ea1e9a28861339a1896a366dbcab8cabd557c3d7b984545713513d/pytest_mergify-2025.9.23.1-py3-none-any.whl", hash = "sha256:7476b76e0e6af63f6d6ddfeef89406b7e5c4cf916a6297ed490e0d261d407847", size = 26403, upload-time = "2025-09-23T14:37:09.39Z" },
 ]
 
 [[package]]
@@ -2409,7 +2409,7 @@ dev = [
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.9.10.1" },
+    { name = "pytest-mergify", specifier = ">=2025.9.23.1" },
     { name = "ruff", specifier = ">=0.13.1" },
     { name = "ty", specifier = ">=0.0.1a21" },
     { name = "uv-build", specifier = ">=0.8.20" },
