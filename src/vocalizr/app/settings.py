@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
-from pydantic import BaseModel, DirectoryPath, Field, model_validator
+from pydantic import BaseModel, DirectoryPath, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from torch.cuda import is_available
 
@@ -49,9 +49,9 @@ class Voices(Enum):
 
 
 class DirectorySettings(BaseModel):
-    base: DirectoryPath = Field(default_factory=Path.cwd)
-    results: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "results")
-    log: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "logs")
+    base: DirectoryPath = Path.cwd()
+    results: DirectoryPath = Path.cwd() / "results"
+    log: DirectoryPath = Path.cwd() / "logs"
 
     @model_validator(mode="after")
     def create_missing_dirs(self) -> "DirectorySettings":
