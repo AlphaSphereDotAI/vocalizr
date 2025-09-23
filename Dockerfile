@@ -1,5 +1,7 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:0e09bcd548cf2dfb9a3fd40af1a7389aa8c16b428de4e8f72b085f015694ce3d AS builder
 
+ARG INSTALL_SOURCE
+
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:9874eb7afe5ca16c363fe80b294fe700e460df29a55532bbfea234a0f12eddb1 \
      /uv /uvx /usr/bin/
 
@@ -9,7 +11,7 @@ RUN apk add --no-cache build-base git
 USER nonroot
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv tool install git+https://github.com/AlphaSphereDotAI/vocalizr
+    uv tool install "${INSTALL_SOURCE}"
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:0e09bcd548cf2dfb9a3fd40af1a7389aa8c16b428de4e8f72b085f015694ce3d AS production
 
