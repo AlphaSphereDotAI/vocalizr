@@ -454,7 +454,7 @@ wheels = [
 
 [[package]]
 name = "gradio"
-version = "5.46.1"
+version = "5.47.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -487,9 +487,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "uvicorn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ee/b8/06d55e07b22921558b9a3fba6c05ddad16ab221a3f18dfb9511c152fb4b0/gradio-5.46.1.tar.gz", hash = "sha256:a9e6662783251ed91b4955738207d442cbf107f8a0c2f90da36bffa08eae2e6c", size = 72265109, upload-time = "2025-09-19T18:52:58.584Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/da/8b/470dca9bd51a53543010b6a5528507230a360e2a0f48c54dfc5b005b7cc1/gradio-5.47.0.tar.gz", hash = "sha256:b2acc27cd64cce82d4553e9be2a36361fc232744494f589585a004484b953d37", size = 72275871, upload-time = "2025-09-23T17:40:02.598Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/a5/08a02a12331517acd02bfd9e44a940dd141197e2dc527f7a4cfc791268de/gradio-5.46.1-py3-none-any.whl", hash = "sha256:485b0839bbe8b4a0b4cb1869fb8dd8178e62215fd3ce5234d03374759e1f1a72", size = 60351341, upload-time = "2025-09-19T18:52:53.246Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/48/72714fd4310e033c5c675c5c487f44f66dfae8c4a54841aadfce6b19a106/gradio-5.47.0-py3-none-any.whl", hash = "sha256:4132717feae4c0e924dbb07efbbf06206a1a28918e800ba5f0e46fc1f1e88395", size = 60362315, upload-time = "2025-09-23T17:39:57.023Z" },
 ]
 
 [package.optional-dependencies]
@@ -500,7 +500,7 @@ mcp = [
 
 [[package]]
 name = "gradio-client"
-version = "1.13.1"
+version = "1.13.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
@@ -510,9 +510,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f7/92/b42d814e493abadf4efb71c6b67bcde71c2a1b7056f1b8653cb71d3a7667/gradio_client-1.13.1.tar.gz", hash = "sha256:3766404027ec3cd830b25576031de72b6d5b383849d396996749ec937f5eada3", size = 323120, upload-time = "2025-09-19T18:53:09.952Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a7/91/f01e62ac58e8e415ffb3bff0f2e91b72ef940592aad826f9c37a1804d98c/gradio_client-1.13.2.tar.gz", hash = "sha256:f97e1c8e9937a502b8bdd105707edff4b3db47989a86a386b3d3846bc8c559a8", size = 323185, upload-time = "2025-09-23T17:40:15.497Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9a/02/dd4ecbcf654abc4b969f84def5735b7570224e9590912523b9f3eaf0d741/gradio_client-1.13.1-py3-none-any.whl", hash = "sha256:7797c71798d9e2210eb5663ef69e21cad123ecd44ac4de93488e61eb254324a3", size = 325195, upload-time = "2025-09-19T18:53:08.478Z" },
+    { url = "https://files.pythonhosted.org/packages/34/eb/0b2efa1a9c73bbd33de8d625b21ce6acd54378ec78c067a2fac99ad36055/gradio_client-1.13.2-py3-none-any.whl", hash = "sha256:4fe7dfef16849304dbe007aeaca694b36f16159eb6891fea139c99fce9a911f4", size = 325278, upload-time = "2025-09-23T17:40:13.574Z" },
 ]
 
 [[package]]
@@ -1546,7 +1546,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.9.10.1"
+version = "2025.9.23.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1554,9 +1554,9 @@ dependencies = [
     { name = "pytest" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7c/1b/e8532e85a3f0264e15090c618dcd00e86e2ae0b5cfad7eb38c9559bb1254/pytest_mergify-2025.9.10.1.tar.gz", hash = "sha256:165361f1e6f4a334d899dda7149901a6193fe4e58cdb1e3114a018f3a74328bd", size = 20702, upload-time = "2025-09-10T14:01:32.639Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/13/0c/ba3dd7f8c88f3b08eab2f9adebc3d5fa0f39c9faca8dc84135d5bebaa048/pytest_mergify-2025.9.23.1.tar.gz", hash = "sha256:71a2b7ab50f584083c978fb86bdda95bd17f0dd144287e2ea1da1a32991a247e", size = 21525, upload-time = "2025-09-23T14:37:10.868Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/55/51/4dfb55d017c7e54e2ad74df5e4eaef1d0354c62acc27602cfb8020c49426/pytest_mergify-2025.9.10.1-py3-none-any.whl", hash = "sha256:c88601957fafd06d0e73420aacdf6642e6b0cd38c99c89d80160b526f5790cc0", size = 25457, upload-time = "2025-09-10T14:01:31.127Z" },
+    { url = "https://files.pythonhosted.org/packages/bb/a4/791cd9ea1e9a28861339a1896a366dbcab8cabd557c3d7b984545713513d/pytest_mergify-2025.9.23.1-py3-none-any.whl", hash = "sha256:7476b76e0e6af63f6d6ddfeef89406b7e5c4cf916a6297ed490e0d261d407847", size = 26403, upload-time = "2025-09-23T14:37:09.39Z" },
 ]
 
 [[package]]
@@ -2405,11 +2405,11 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "gradio-client", specifier = ">=1.13.1" },
+    { name = "gradio-client", specifier = ">=1.13.2" },
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.9.10.1" },
+    { name = "pytest-mergify", specifier = ">=2025.9.23.1" },
     { name = "ruff", specifier = ">=0.13.1" },
     { name = "ty", specifier = ">=0.0.1a21" },
     { name = "uv-build", specifier = ">=0.8.20" },
