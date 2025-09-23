@@ -39,7 +39,7 @@ dev = [
     "pytest>=8.4.2",
     "ruff>=0.13.1",
     "ty>=0.0.1a21",
-    "uv-build>=0.8.20",
+    "uv-build>=0.8.21",
 ]
 
 [build-system]
