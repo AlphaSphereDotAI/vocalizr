@@ -51,7 +51,7 @@ class Voices(Enum):
 
 
 class DirectorySettings(BaseModel):
-    """Holds directory path configurations and ensures their existence."""
+    """Hold directory path configurations and ensures their existence."""
 
     base: DirectoryPath = Path.cwd()
     results: DirectoryPath = Path.cwd() / "results"
@@ -84,7 +84,7 @@ class DirectorySettings(BaseModel):
 
 
 class ModelSettings(BaseModel):
-    """Settings related to model execution, including device selection, character limits, and voice choices."""
+    """Settings related to model execution."""
 
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
     char_limit: int = -1
