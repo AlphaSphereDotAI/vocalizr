@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
-from pydantic import BaseModel, DirectoryPath, Field, model_validator
+from pydantic import BaseModel, DirectoryPath, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from torch.cuda import is_available
 
@@ -15,6 +15,8 @@ load_dotenv()
 
 
 class Voices(Enum):
+    """Enumeration of available voice presets for the Vocalizr app."""
+
     AMERICAN_FEMALE_HEART = "af_heart"
     AMERICAN_FEMALE_BELLA = "af_bella"
     AMERICAN_FEMALE_NICOLE = "af_nicole"
@@ -49,9 +51,11 @@ class Voices(Enum):
 
 
 class DirectorySettings(BaseModel):
-    base: DirectoryPath = Field(default_factory=lambda: Path.cwd())
-    results: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "results")
-    log: DirectoryPath = Field(default_factory=lambda: Path.cwd() / "logs")
+    """Hold directory path configurations and ensures their existence."""
+
+    base: DirectoryPath = Path.cwd()
+    results: DirectoryPath = Path.cwd() / "results"
+    log: DirectoryPath = Path.cwd() / "logs"
 
     @model_validator(mode="after")
     def create_missing_dirs(self) -> "DirectorySettings":
@@ -80,6 +84,8 @@ class DirectorySettings(BaseModel):
 
 
 class ModelSettings(BaseModel):
+    """Settings related to model execution."""
+
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
     char_limit: int = -1
     repo_id: str = "hexgrad/Kokoro-82M"
