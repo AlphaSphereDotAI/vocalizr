@@ -1,6 +1,6 @@
 [project]
 name = "vocalizr"
-version = "0.0.5"
+version = "0.0.6"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.12, <3.14"
