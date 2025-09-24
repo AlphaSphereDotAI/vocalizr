@@ -15,6 +15,8 @@ load_dotenv()
 
 
 class Voices(Enum):
+    """Enumeration of available voice presets for the Vocalizr app."""
+
     AMERICAN_FEMALE_HEART = "af_heart"
     AMERICAN_FEMALE_BELLA = "af_bella"
     AMERICAN_FEMALE_NICOLE = "af_nicole"
@@ -49,6 +51,8 @@ class Voices(Enum):
 
 
 class DirectorySettings(BaseModel):
+    """Holds directory path configurations and ensures their existence."""
+
     base: DirectoryPath = Path.cwd()
     results: DirectoryPath = Path.cwd() / "results"
     log: DirectoryPath = Path.cwd() / "logs"
@@ -80,6 +84,8 @@ class DirectorySettings(BaseModel):
 
 
 class ModelSettings(BaseModel):
+    """Settings related to model execution, including device selection, character limits, and voice choices."""
+
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
     char_limit: int = -1
     repo_id: str = "hexgrad/Kokoro-82M"
