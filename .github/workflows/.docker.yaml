@@ -121,7 +121,7 @@ jobs:
   docker_scout:
     name: Docker Scout (${{ matrix.commands }})
     needs: build_image
-    if: ${{ always() && !cancelled() && ( inputs.is_test == true || inputs.is_test == false ) }}
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-latest
     environment:
       name: docker_image
