@@ -162,6 +162,6 @@ class App:
             logger.info("Audio saved to %s", file_result_path)
         except Exception as e:
             _msg = f"Failed to save audio to {file_result_path}: {e}"
-            logger.error(_msg)
+            logger.exception(_msg)
             raise Error(_msg) from e
         return file_result_path
