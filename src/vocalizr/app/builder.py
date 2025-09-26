@@ -71,12 +71,12 @@ class App:
         """
         if not text:
             _msg = "No text provided"
-            logger.exception(_msg)
-            raise ValueError(_msg)
+            logger.error(_msg)
+            raise Error(_msg)
         if len(text) < 4:
             _msg = f"Text too short: {text} with length {len(text)}"
-            logger.exception(_msg)
-            raise ValueError(_msg)
+            logger.error(_msg)
+            raise Error(_msg)
 
         text: str = (
             text
@@ -90,8 +90,9 @@ class App:
         )
         for _, _, audio in generator:
             if audio is None or isinstance(audio, str):
-                logger.exception("Unexpected type (audio): %s", type(audio))
-                raise Error(message=f"Unexpected type (audio): {type(audio)}")
+                _msg = f"Unexpected type (audio): {type(audio)}"
+                logger.error(_msg)
+                raise Error(_msg)
             logger.info(
                 "Generating audio for '%s' with length %d characters",
                 text,
@@ -145,7 +146,7 @@ class App:
         """
         Save an audio array to a WAV file using the specified sampling rate.
 
-        If the saving operation fails, it logs the exception and raises a RuntimeError.
+        If the saving operation fails, it logs the exception and raises a gradio.Error.
 
         :param ndarray[tuple[float32],dtype[float32]] audio: The audio data to be saved.
             Must be a NumPy array of data type float32, representing the audio signal
@@ -161,6 +162,6 @@ class App:
             logger.info("Audio saved to %s", file_result_path)
         except Exception as e:
             _msg = f"Failed to save audio to {file_result_path}: {e}"
-            logger.exception(_msg)
-            raise RuntimeError(_msg) from e
+            logger.error(_msg)
+            raise Error(_msg) from e
         return file_result_path
