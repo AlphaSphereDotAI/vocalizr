@@ -47,12 +47,11 @@ jobs:
           commit_message: "Version: ${{ github.ref_name }}"
           branch: main
           commit_options: --no-verify
-          file_pattern: 'pyproject.toml uv.lock'
+          file_pattern: '**/pyproject.toml **/uv.lock'
       - name: Update the tag to the updated version
         uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
         with:
           tagging_message: ${{ github.ref_name }}
-          create_git_tag_only: true
           push_options: origin --force HEAD:refs/tags/${{ github.ref_name }}
   github_release:
     name: Create GitHub Release
