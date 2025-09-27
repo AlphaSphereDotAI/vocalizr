@@ -48,10 +48,9 @@ jobs:
           branch: main
           commit_options: --no-verify
       - name: Update the tag to the updated version
-        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
-        with:
-          tagging_message: ${{ github.ref_name }}
-          push_options: origin --force HEAD:refs/tags/${{ github.ref_name }}
+        run: |
+          git tag --force ${{ github.ref_name }}
+          git push origin --force HEAD:refs/tags/${{ github.ref_name }}
   github_release:
     name: Create GitHub Release
     needs: setup_and_build
