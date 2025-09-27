@@ -1,6 +1,6 @@
 [project]
 name = "vocalizr"
-version = "0.0.6"
+version = "0.0.7"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
 requires-python = ">=3.12, <3.14"
@@ -15,7 +15,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-    "gradio[mcp]>=5.47.0",
+    "gradio[mcp]>=5.47.2",
     "kokoro>=0.9.4",
     "pip>=25.2",
     "pyfiglet>=1.0.4",
@@ -32,12 +32,12 @@ vocalizr = "vocalizr.__main__:main"
 
 [dependency-groups]
 dev = [
-    "gradio-client>=1.13.2",
+    "gradio-client>=1.13.3",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
     "pytest-mergify>=2025.9.24.2",
     "pytest>=8.4.2",
-    "ruff>=0.13.1",
+    "ruff>=0.13.2",
     "ty>=0.0.1a21",
     "uv-build>=0.8.22",
 ]
