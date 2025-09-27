@@ -49,7 +49,7 @@ jobs:
           commit_options: --no-verify
       - name: Update the tag to the updated version
         run: |
-          git tag ${{ github.ref_name }}
+          git tag --force ${{ github.ref_name }}
           git push origin --force HEAD:refs/tags/${{ github.ref_name }}
   github_release:
     name: Create GitHub Release
