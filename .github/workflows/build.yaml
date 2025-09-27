@@ -41,12 +41,19 @@ jobs:
         with:
           name: dist
           path: dist/
-      - name: Commit updated count
+      - name: Commit updated version
         uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
         with:
           commit_message: "Version: ${{ github.ref_name }}"
-          branch: main
-          commit_options: '--no-verify'
+          commit_options: --no-verify
+          file_pattern: 'pyproject.toml uv.lock'
+      - name: Update tag
+        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6
+        with:
+          tagging_message: ${{ github.ref_name }}
+          create_git_tag_only: true
+          push_options: --force
+          commit_options: --no-verify
   github_release:
     name: Create GitHub Release
     needs: setup_and_build
