@@ -1,5 +1,7 @@
 version: 0.1
 cli:
+  shell_hooks:
+    enforce: true
   version: 1.25.0
 plugins:
   sources:
@@ -53,3 +55,29 @@ actions:
     - trunk-fmt-pre-commit
     - trunk-upgrade-available
     - trunk-check-pre-commit
+    - ensure-tag-matches-version
+  definitions:
+    - id: ensure-tag-matches-version
+      description: Hooks to ensure git tag matches version in pyproject.toml
+      triggers:
+        - git_hooks: [ pre-push, pre-commit ]
+      run: |
+        #!/usr/bin/env bash
+        set -e
+        if git rev-parse --abbrev-ref HEAD | grep -q 'main\|master'; then
+          TAG=$(git describe --tags --exact-match "$(git log -n1 --pretty='%h')" 2>/dev/null || echo "")
+          if [ -z "$TAG" ]; then
+            echo "No tag found for the current commit."
+            exit 1
+          fi
+          VERSION=$(grep '^version =' pyproject.toml | sed -E 's/version = "(.*)"/\1/')
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "Tag '$TAG' does not match version '$VERSION' in pyproject.toml."
+            exit 1
+          fi
+        fi
+        echo "Tag matches version."
+        exit 0
+tools:
+  enabled:
+    - uv@0.8.22
