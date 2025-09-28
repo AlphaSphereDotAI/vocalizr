@@ -66,19 +66,30 @@ actions:
       run: |
         #!/usr/bin/env bash
         set -e
+
+        # Check if we're on main or master branch
         if git rev-parse --abbrev-ref HEAD | grep -q 'main\|master'; then
-            TAG=$(git describe --tags --exact-match "$(git log -n1 --pretty='%h')" 2>/dev/null || echo "")
-            if [ -z "$TAG" ]; then
-            echo "No tag found for the current commit. Skipping tag-version check."
+          # Try to get the tag for the current commit, ignore errors
+          TAG=$(git describe --tags --exact-match "$(git log -n1 --pretty='%h')" 2>/dev/null || true)
+
+          # If no tag found, skip validation entirely
+          if [ -z "$TAG" ]; then
+            echo "No tag found for the current commit - skipping version validation."
             exit 0
-            fi
-          VERSION=$(grep '^version =' pyproject.toml | sed -E 's/version = "(.*)"/\1/')
+          fi
+
+          # Validate it matches pyproject.toml version
+          VERSION=$(grep '^version =' pyproject.toml | sed -E 's/version = "(.*)"/\1/' 2>/dev/null || echo "")
+
           if [ "$TAG" != "$VERSION" ]; then
             echo "Tag '$TAG' does not match version '$VERSION' in pyproject.toml."
             exit 1
           fi
+
+          echo "Tag '$TAG' matches version '$VERSION'."
+        else
+          echo "Not on main/master branch - skipping tag validation."
         fi
-        echo "Tag matches version."
         exit 0
 tools:
   enabled:
