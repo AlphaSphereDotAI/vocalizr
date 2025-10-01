@@ -51,15 +51,13 @@ class App:
         tuples containing the audio sampling rate and the audio data as a NumPy array.
 
         Args:
-            text (str): The input text to generate audio for. If CHAR_LIMIT is set to a
-                        positive value, the text will be truncated to fit that limit.
+            text (str): The input text to generate audio for.
             voice (Voices): The voice profile to use for audio generation.
                             Defaults to "af_heart".
             speed (float): The speed modifier for audio generation. Defaults to 1.0.
 
         Returns:
-            Path: The path to the saved file if `save_file` is True,
-                  otherwise None.
+            Path: The path to the saved audio file.
         """
         if not text:
             _msg = "No text provided"
