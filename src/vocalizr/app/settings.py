@@ -88,6 +88,7 @@ class ModelSettings(BaseModel):
 
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
     char_limit: int = -1
+    min_requested_characters: int = 4
     repo_id: str = "hexgrad/Kokoro-82M"
     lang_code: str = "a"
     choices: Voices = Voices.AMERICAN_FEMALE_HEART
