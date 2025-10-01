@@ -100,7 +100,8 @@ class App:
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info("Saving audio file at %s", self.settings.directory.results)
             return self._save_file_wav(audio_np)
-        return None
+        logger.warning("No audio results were yielded by the pipeline.")
+        raise RuntimeError("No audio results were yielded by the pipeline.")
 
     def gui(self) -> Blocks:
         """Create the Gradio interface for the voice generation web app."""
