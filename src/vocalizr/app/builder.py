@@ -1,6 +1,5 @@
-from collections.abc import Generator
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
 from gradio import (
@@ -20,6 +19,9 @@ from soundfile import write
 
 from vocalizr.app.logger import logger
 from vocalizr.app.settings import Settings, Voices
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 class App:
@@ -41,7 +43,7 @@ class App:
         text: str,
         voice: Voices = Voices.AMERICAN_FEMALE_HEART,
         speed: float = 1.0,
-    ) -> Generator[Path, Any, None]:
+    ) -> Path | None:
         """
         Generate audio from the provided text using the specified voice and speed.
 
@@ -77,12 +79,9 @@ class App:
             _msg = f"Text too short: {text} with length {len(text)}"
             logger.error(_msg)
             raise Error(_msg)
+        if self.settings.model.char_limit != -1:
+            text = text.strip()[: self.settings.model.char_limit]
 
-        text: str = (
-            text
-            if self.settings.model.char_limit == -1
-            else text.strip()[: self.settings.model.char_limit]
-        )
         generator: Generator[KPipeline.Result, None, None] = self.pipeline(
             text=text,
             voice=voice,
@@ -100,37 +99,36 @@ class App:
             )
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info("Saving audio file at %s", self.settings.directory.results)
-            yield self._save_file_wav(audio_np)
+            return self._save_file_wav(audio_np)
+        return None
 
     def gui(self) -> Blocks:
         """Create the Gradio interface for the voice generation web app."""
         with Blocks() as app:
-            with Row():
-                with Column():
-                    text: Textbox = Textbox(
-                        label="Input Text",
-                        info="Enter your text here",
-                    )
-                    voice: Dropdown = Dropdown(
-                        choices=[v.value for v in Voices],
-                        value=self.settings.model.choices.value,
-                        label="Voice",
-                        info="Quality and availability vary by language",
-                    )
-                    speed: Slider = Slider(
-                        minimum=0.5,
-                        maximum=2,
-                        value=1,
-                        step=0.1,
-                        label="Speed",
-                    )
-                    out_audio: Audio = Audio(
-                        label="Output Audio",
-                        interactive=False,
-                        streaming=True,
-                        autoplay=True,
-                        type="filepath",
-                    )
+            with Row(), Column():
+                text: Textbox = Textbox(
+                    label="Input Text",
+                    info="Enter your text here",
+                )
+                voice: Dropdown = Dropdown(
+                    choices=[v.value for v in Voices],
+                    value=self.settings.model.choices.value,
+                    label="Voice",
+                    info="Quality and availability vary by language",
+                )
+                speed: Slider = Slider(
+                    minimum=0.5,
+                    maximum=2,
+                    value=1,
+                    step=0.1,
+                    label="Speed",
+                )
+                out_audio: Audio = Audio(
+                    label="Output Audio",
+                    interactive=False,
+                    autoplay=True,
+                    type="filepath",
+                )
             with Row():
                 stream_btn: Button = Button(value="Generate", variant="primary")
                 stop_btn: Button = Button(value="Stop", variant="stop")
