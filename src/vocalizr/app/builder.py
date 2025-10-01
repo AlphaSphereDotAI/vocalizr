@@ -43,7 +43,7 @@ class App:
         text: str,
         voice: Voices = Voices.AMERICAN_FEMALE_HEART,
         speed: float = 1.0,
-    ) -> Path | None:
+    ) -> Path:
         """
         Generate audio from the provided text using the specified voice and speed.
 
