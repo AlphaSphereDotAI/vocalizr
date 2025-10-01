@@ -47,29 +47,19 @@ class App:
         """
         Generate audio from the provided text using the specified voice and speed.
 
-        It allows saving the generated audio to a file if required. The function
-        yields tuples containing the audio sampling rate and the audio data as a
-        NumPy array.
+        Allows saving the generated audio to a file if required. The function yields
+        tuples containing the audio sampling rate and the audio data as a NumPy array.
 
-        :param str text: The input text to generate audio for. If CHAR_LIMIT is set to a
-            positive value, the text will be truncated to fit that limit.
+        Args:
+            text (str): The input text to generate audio for. If CHAR_LIMIT is set to a
+                        positive value, the text will be truncated to fit that limit.
+            voice (Voices): The voice profile to use for audio generation.
+                            Defaults to "af_heart".
+            speed (float): The speed modifier for audio generation. Defaults to 1.0.
 
-        :param Voices voice: The voice profile to use for audio generation.
-            Defaults to "af_heart".
-
-        :param float speed: The speed modifier for audio generation. Defaults to 1.0.
-
-        :param bool save_file: Whether to save the generated audio to a file. Defaults
-            to False.
-
-        :param bool debug: Whether to enable debug mode. Defaults to False.
-
-        :param int char_limit: The maximum number of characters to include in the input
-
-        :return: A generator that yields tuples, where the first element is the
-            fixed sampling rate of 24,000 Hz, and the second element is a NumPy
-            array representing the generated audio data.
-        :rtype: Generator[tuple[Literal[24000], NDArray[float32]], Any, None]
+        Returns:
+            Path: The path to the saved file if `save_file` is True,
+                  otherwise None.
         """
         if not text:
             _msg = "No text provided"
@@ -101,8 +91,9 @@ class App:
             audio_np: ndarray[tuple[float32], dtype[float32]] = audio.numpy()
             logger.info("Saving audio file at %s", self.settings.directory.results)
             return self._save_file_wav(audio_np)
-        logger.warning("No audio results were yielded by the pipeline.")
-        raise RuntimeError("No audio results were yielded by the pipeline.")
+        _msg = "No audio results were yielded by the pipeline."
+        logger.error(_msg)
+        raise Error(_msg)
 
     def gui(self) -> Blocks:
         """Create the Gradio interface for the voice generation web app."""
