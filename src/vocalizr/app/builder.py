@@ -73,7 +73,7 @@ class App:
 
         generator: Generator[KPipeline.Result, None, None] = self.pipeline(
             text=text,
-            voice=voice,
+            voice=str(voice),
             speed=speed,
         )
         for _, _, audio in generator:
@@ -96,30 +96,31 @@ class App:
     def gui(self) -> Blocks:
         """Create the Gradio interface for the voice generation web app."""
         with Blocks() as app:
-            with Row(), Column():
-                text: Textbox = Textbox(
-                    label="Input Text",
-                    info="Enter your text here",
-                )
-                voice: Dropdown = Dropdown(
-                    choices=[v.value for v in Voices],
-                    value=self.settings.model.choices.value,
-                    label="Voice",
-                    info="Quality and availability vary by language",
-                )
-                speed: Slider = Slider(
-                    minimum=0.5,
-                    maximum=2,
-                    value=1,
-                    step=0.1,
-                    label="Speed",
-                )
-                out_audio: Audio = Audio(
-                    label="Output Audio",
-                    interactive=False,
-                    autoplay=True,
-                    type="filepath",
-                )
+            with Row():
+                with Column():
+                    text: Textbox = Textbox(
+                        label="Input Text",
+                        info="Enter your text here",
+                    )
+                    voice: Dropdown = Dropdown(
+                        choices=[v.value for v in Voices],
+                        value=self.settings.model.choices.value,
+                        label="Voice",
+                        info="Quality and availability vary by language",
+                    )
+                    speed: Slider = Slider(
+                        minimum=0.5,
+                        maximum=2,
+                        value=1,
+                        step=0.1,
+                        label="Speed",
+                    )
+                    out_audio: Audio = Audio(
+                        label="Output Audio",
+                        interactive=False,
+                        autoplay=True,
+                        type="filepath",
+                    )
             with Row():
                 stream_btn: Button = Button(value="Generate", variant="primary")
                 stop_btn: Button = Button(value="Stop", variant="stop")
