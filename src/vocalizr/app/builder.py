@@ -75,12 +75,13 @@ class App:
             _msg = "No text provided"
             logger.error(_msg)
             raise Error(_msg)
-        if len(text) < 4:
+        if self.settings.model.char_limit != -1:
+            logger.info("Character limit set to %d", self.settings.model.char_limit)
+            text = text.strip()[: self.settings.model.char_limit]
+        if len(text) < self.settings.model.min_requested_characters:
             _msg = f"Text too short: {text} with length {len(text)}"
             logger.error(_msg)
             raise Error(_msg)
-        if self.settings.model.char_limit != -1:
-            text = text.strip()[: self.settings.model.char_limit]
 
         generator: Generator[KPipeline.Result, None, None] = self.pipeline(
             text=text,
