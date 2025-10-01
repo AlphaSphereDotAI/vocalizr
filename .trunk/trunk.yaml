@@ -82,6 +82,7 @@ actions:
 
           if [ "$TAG" != "$VERSION" ]; then
             echo "Tag '$TAG' does not match version '$VERSION' in pyproject.toml."
+            echo "You can update the version using 'uv version $TAG'"
             exit 1
           fi
 
