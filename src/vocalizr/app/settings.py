@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
-from pydantic import BaseModel, DirectoryPath, model_validator
+from pydantic import BaseModel, DirectoryPath, PositiveInt, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from torch.cuda import is_available
 
@@ -87,8 +87,8 @@ class ModelSettings(BaseModel):
     """Settings related to model execution."""
 
     device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
-    char_limit: int = -1
-    min_requested_characters: int = 4
+    char_limit: Literal[-1] | PositiveInt = -1
+    min_requested_characters: PositiveInt = 4
     repo_id: str = "hexgrad/Kokoro-82M"
     lang_code: str = "a"
     choices: Voices = Voices.AMERICAN_FEMALE_HEART
