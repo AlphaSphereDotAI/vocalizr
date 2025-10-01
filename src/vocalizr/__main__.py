@@ -1,5 +1,9 @@
-from gradio import Blocks
+from typing import TYPE_CHECKING
+
 from vocalizr.app.runner import app
+
+if TYPE_CHECKING:
+    from gradio import Blocks
 
 
 def main() -> None:
