@@ -93,4 +93,4 @@ actions:
         exit 0
 tools:
   enabled:
-    - uv@0.8.22
+    - uv@0.8.23
