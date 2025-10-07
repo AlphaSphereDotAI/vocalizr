@@ -2,7 +2,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest@sha256:3e3a125c18346ee7b95980be96529d3
 
 ARG INSTALL_SOURCE
 
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:94390f20a83e2de83f63b2dadcca2efab2e6798f772edab52bf545696c86bdb4 \
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:1d31be550ff927957472b2a491dc3de1ea9b5c2d319a9cea5b6a48021e2990a6 \
      /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
