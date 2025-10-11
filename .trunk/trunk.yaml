@@ -28,7 +28,7 @@ lint:
     - git-diff-check
     - hadolint@2.14.0
     - markdownlint@0.45.0
-    - renovate@41.143.2
+    - renovate@41.144.1
     - ruff@0.14.0:
         commands:
           - lint
@@ -93,4 +93,4 @@ actions:
         exit 0
 tools:
   enabled:
-    - uv@0.9.1
+    - uv@0.9.2
