@@ -1549,7 +1549,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.10.3.1"
+version = "2025.10.13.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1557,9 +1557,9 @@ dependencies = [
     { name = "pytest" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d7/0f/1e9984bb1c84437a82896d303b7de943b0694f9ec0b00daa9f8ec779a8b1/pytest_mergify-2025.10.3.1.tar.gz", hash = "sha256:68b9dba24476812477fff3e5d8e6439f19930e7071f7defd56eb0b7b0ffa3916", size = 22033, upload-time = "2025-10-03T07:49:30.884Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/e4/2a3833fb913fc9c947b6fd15a2ef0d6a02a31fde295d677c62feb32651db/pytest_mergify-2025.10.13.1.tar.gz", hash = "sha256:4a9408afec2b717868273188e40cb0d07e9dd3d3c6d69f51b146d898f0bc5bb5", size = 24709, upload-time = "2025-10-13T07:26:37.125Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/7d/94130fca0be1f42ffc20175ecaa520c8686d9ff7e80a218b506f350dc3f5/pytest_mergify-2025.10.3.1-py3-none-any.whl", hash = "sha256:e7ffb13450e70c9bbaaf300d0ca7729f2aa0593d1a51f68304deb2eb435c7adb", size = 27068, upload-time = "2025-10-03T07:49:29.471Z" },
+    { url = "https://files.pythonhosted.org/packages/4a/02/e74cb681f850fcc322b15b60682df1ebc57b14fb2c437e0a330133bd93dc/pytest_mergify-2025.10.13.1-py3-none-any.whl", hash = "sha256:ee31bddd072b929ad3cb70fe0775b420608293f39dfed4b47a74696495e6a927", size = 29886, upload-time = "2025-10-13T07:26:35.734Z" },
 ]
 
 [[package]]
