@@ -1549,7 +1549,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.10.13.1"
+version = "2025.10.14.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1557,9 +1557,9 @@ dependencies = [
     { name = "pytest" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cf/e4/2a3833fb913fc9c947b6fd15a2ef0d6a02a31fde295d677c62feb32651db/pytest_mergify-2025.10.13.1.tar.gz", hash = "sha256:4a9408afec2b717868273188e40cb0d07e9dd3d3c6d69f51b146d898f0bc5bb5", size = 24709, upload-time = "2025-10-13T07:26:37.125Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a3/ed/42cdc0741d4fa5e21d2a90d5d9a7965dc27a945aec632afeef97e6cdf120/pytest_mergify-2025.10.14.1.tar.gz", hash = "sha256:091949e314375688f1b5cdfd452b58094ad3f26a0c8298a682268765819df869", size = 24438, upload-time = "2025-10-14T12:41:21.11Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4a/02/e74cb681f850fcc322b15b60682df1ebc57b14fb2c437e0a330133bd93dc/pytest_mergify-2025.10.13.1-py3-none-any.whl", hash = "sha256:ee31bddd072b929ad3cb70fe0775b420608293f39dfed4b47a74696495e6a927", size = 29886, upload-time = "2025-10-13T07:26:35.734Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/d6/982bd05bd5029687e4298b3d6a4e8d61b24add262a6899470008b890a3af/pytest_mergify-2025.10.14.1-py3-none-any.whl", hash = "sha256:825a1fdcd06965c7b58120f4010b7a1bdb5cf1a27b3bfabb78e124a24e048180", size = 30030, upload-time = "2025-10-14T12:41:19.763Z" },
 ]
 
 [[package]]
@@ -2414,7 +2414,7 @@ dev = [
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.9.24.2" },
+    { name = "pytest-mergify", specifier = ">=2025.10.14.1" },
     { name = "ruff", specifier = ">=0.14.0" },
     { name = "ty", specifier = ">=0.0.1a22" },
     { name = "uv-build", specifier = ">=0.9.3" },
