@@ -1,6 +1,7 @@
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:602525a5e85f0b3a6196dd5a47b8e91a1f0f89d7bd3223b2dce54a6b36e2b1ef AS builder
 
 ARG INSTALL_SOURCE
+ARG PYTHON_VERSION
 
 COPY --from=ghcr.io/astral-sh/uv:latest@sha256:94390f20a83e2de83f63b2dadcca2efab2e6798f772edab52bf545696c86bdb4 \
     /uv /uvx /usr/bin/
@@ -10,11 +11,8 @@ RUN apk add --no-cache build-base git
 
 USER nonroot
 
-SHELL ["/bin/ash", "-o", "pipefail", "-c"]
-
 RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv tool install "${INSTALL_SOURCE}" --python "$(grep -E 'requires-python' pyproject.toml | grep -o '[0-9]\+\.[0-9]\+')"
+    uv tool install "${INSTALL_SOURCE}" --python "${PYTHON_VERSION}"
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:602525a5e85f0b3a6196dd5a47b8e91a1f0f89d7bd3223b2dce54a6b36e2b1ef AS production
 
