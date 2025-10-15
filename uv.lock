@@ -2416,7 +2416,7 @@ dev = [
     { name = "pytest-md", specifier = ">=0.2.0" },
     { name = "pytest-mergify", specifier = ">=2025.9.24.2" },
     { name = "ruff", specifier = ">=0.14.0" },
-    { name = "ty", specifier = ">=0.0.1a21" },
+    { name = "ty", specifier = ">=0.0.1a22" },
     { name = "uv-build", specifier = ">=0.9.2" },
 ]
 
