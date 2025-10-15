@@ -70,8 +70,7 @@ jobs:
       - name: Get Python version from pyproject.toml
         id: get_python_version
         run: |
-          PYTHON_VERSION=$(grep -oP '(?<=requires-python = ")[^"]+(?=")' pyproject.toml)
-          echo "python_version=$PYTHON_VERSION" >> $GITHUB_OUTPUT
+          echo "python_version=$(grep -oP '(?<=requires-python = ")[^"]+(?=")' pyproject.toml)" >> $GITHUB_OUTPUT
       - name: Log in to ${{ inputs.registry }} Registry
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
