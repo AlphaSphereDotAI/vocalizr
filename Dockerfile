@@ -3,8 +3,8 @@ FROM cgr.dev/chainguard/wolfi-base:latest@sha256:602525a5e85f0b3a6196dd5a47b8e91
 ARG INSTALL_SOURCE
 ARG PYTHON_VERSION
 
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:94390f20a83e2de83f63b2dadcca2efab2e6798f772edab52bf545696c86bdb4 \
-    /uv /uvx /usr/bin/
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:1d31be550ff927957472b2a491dc3de1ea9b5c2d319a9cea5b6a48021e2990a6 \
+     /uv /uvx /usr/bin/
 
 # skipcq: DOK-DL3018
 RUN apk add --no-cache build-base git
