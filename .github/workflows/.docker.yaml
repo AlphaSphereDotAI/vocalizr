@@ -71,7 +71,7 @@ jobs:
         id: get_python_version
         uses: mikefarah/yq@v4.48.1
         with:
-          cmd: yq -oy '.project.requires-python' pyproject.toml
+          cmd: yq -roy '.project.requires-python' pyproject.toml
       - name: Log in to ${{ inputs.registry }} Registry
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
