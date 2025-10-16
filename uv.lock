@@ -1524,18 +1524,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytest-asyncio"
-version = "0.24.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/52/6d/c6cf50ce320cf8611df7a1254d86233b3df7cc07f9b5f5cbcb82e08aa534/pytest_asyncio-0.24.0.tar.gz", hash = "sha256:d081d828e576d85f875399194281e92bf8a68d60d72d1a2faf2feddb6c46b276", size = 49855, upload-time = "2024-08-22T08:03:18.145Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/31/6607dab48616902f76885dfcf62c08d929796fc3b2d2318faf9fd54dbed9/pytest_asyncio-0.24.0-py3-none-any.whl", hash = "sha256:a811296ed596b69bf0b6f3dc40f83bcaf341b155a269052d82efa2b25ac7037b", size = 18024, upload-time = "2024-08-22T08:03:15.536Z" },
-]
-
-[[package]]
 name = "pytest-emoji"
 version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1561,18 +1549,17 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.10.16.1"
+version = "2025.10.16.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
     { name = "opentelemetry-sdk" },
     { name = "pytest" },
-    { name = "pytest-asyncio" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ee/cd/b98d02c2a6e9c06b56c7acc738b259ae49aea1239c4d8db5558bfed96d50/pytest_mergify-2025.10.16.1.tar.gz", hash = "sha256:266adfdd57b3505b3a7b2da32dba4b89020799fad403a14fb29a3c214e2e65e2", size = 25113, upload-time = "2025-10-16T09:30:30.187Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/df/09e250865d75aaa7314e4dad8aaf125996bd26001e1a31daa9c62e54dd74/pytest_mergify-2025.10.16.2.tar.gz", hash = "sha256:fc21976d850da31588aa24f508cd62de083caacfada74e684bbf8cc9b68efb8e", size = 25092, upload-time = "2025-10-16T14:32:42.25Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/99/e84a7f67b51fce71a0d00dd254a85b64668b1e358bf21104fea3ee0a2626/pytest_mergify-2025.10.16.1-py3-none-any.whl", hash = "sha256:7157afa8fb2832f862cd2c0e8a9c10b89f9f9333855c3d67331863b0b1edcc40", size = 30645, upload-time = "2025-10-16T09:30:28.696Z" },
+    { url = "https://files.pythonhosted.org/packages/d2/ee/b48bd38b5eb9c92e88c5e5001dd65050d5984ce54fef233bc3af94775a97/pytest_mergify-2025.10.16.2-py3-none-any.whl", hash = "sha256:c93571f824e6999b4badc20ea79ec63c13507e6609c64a88ed2d75c4a36b9918", size = 30631, upload-time = "2025-10-16T14:32:40.629Z" },
 ]
 
 [[package]]
@@ -2427,7 +2414,7 @@ dev = [
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.10.16.1" },
+    { name = "pytest-mergify", specifier = ">=2025.10.16.2" },
     { name = "ruff", specifier = ">=0.14.1" },
     { name = "ty", specifier = ">=0.0.1a22" },
     { name = "uv-build", specifier = ">=0.9.3" },
