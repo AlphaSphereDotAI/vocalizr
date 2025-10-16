@@ -35,11 +35,11 @@ dev = [
     "gradio-client>=1.13.3",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
-    "pytest-mergify>=2025.9.24.2",
+    "pytest-mergify>=2025.10.16.1",
     "pytest>=8.4.2",
     "ruff>=0.14.0",
     "ty>=0.0.1a22",
-    "uv-build>=0.9.2",
+    "uv-build>=0.9.3",
 ]
 
 [build-system]
