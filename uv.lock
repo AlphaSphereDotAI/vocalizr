@@ -1568,7 +1568,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.10.16.2"
+version = "2025.10.23.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1576,9 +1576,9 @@ dependencies = [
     { name = "pytest" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d1/df/09e250865d75aaa7314e4dad8aaf125996bd26001e1a31daa9c62e54dd74/pytest_mergify-2025.10.16.2.tar.gz", hash = "sha256:fc21976d850da31588aa24f508cd62de083caacfada74e684bbf8cc9b68efb8e", size = 25092, upload-time = "2025-10-16T14:32:42.25Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b2/5b/9fce3ca888c3e79f158d0119073f6f5638a656c3eab9626d80ca116c8696/pytest_mergify-2025.10.23.1.tar.gz", hash = "sha256:4c184f0036989c74b40851b3bc8982366caac3a947f84972b39923c49aecf78f", size = 23791, upload-time = "2025-10-23T13:26:44.434Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d2/ee/b48bd38b5eb9c92e88c5e5001dd65050d5984ce54fef233bc3af94775a97/pytest_mergify-2025.10.16.2-py3-none-any.whl", hash = "sha256:c93571f824e6999b4badc20ea79ec63c13507e6609c64a88ed2d75c4a36b9918", size = 30631, upload-time = "2025-10-16T14:32:40.629Z" },
+    { url = "https://files.pythonhosted.org/packages/be/07/557fe0db3619dce260f9e734ee280bd878c34cc3308abc9bced5ecb842a5/pytest_mergify-2025.10.23.1-py3-none-any.whl", hash = "sha256:ae488d899f06f694b3237dc3d978d8a6f076d461189e82082d8babbf7cd2150e", size = 29273, upload-time = "2025-10-23T13:26:43.295Z" },
 ]
 
 [[package]]
@@ -2431,7 +2431,7 @@ dev = [
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.10.16.2" },
+    { name = "pytest-mergify", specifier = ">=2025.10.23.1" },
     { name = "ruff", specifier = ">=0.14.1" },
     { name = "ty", specifier = ">=0.0.1a23" },
     { name = "uv-build", specifier = ">=0.9.5" },
