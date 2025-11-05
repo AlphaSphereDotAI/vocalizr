@@ -12,6 +12,9 @@
             "type": "stdio"
         },
         "byterover-mcp": {
+            "headers": {
+                "Authorization": "Bearer ${env:BYTEROVER}"
+            },
             "type": "http",
             "url": "https://mcp.byterover.dev/v2/mcp"
         },
