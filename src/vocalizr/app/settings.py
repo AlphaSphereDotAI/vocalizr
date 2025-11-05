@@ -87,3 +87,9 @@ class Settings(BaseSettings):
     )
     directory: DirectorySettings = Field(default_factory=DirectorySettings, frozen=True)
     model: ModelSettings = Field(default_factory=ModelSettings)
+
+
+if __name__ == "__main__":
+    from rich import print as rprint
+
+    rprint(Settings().model_dump_json(indent=4))
