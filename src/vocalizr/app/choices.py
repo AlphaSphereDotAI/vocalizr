@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class Voices(Enum):
+class Voices(StrEnum):
     """Enumeration of available voice presets for the Vocalizr app."""
 
     AMERICAN_FEMALE_HEART = "af_heart"
@@ -32,6 +32,3 @@ class Voices(Enum):
     BRITISH_MALE_FABLE = "bm_fable"
     BRITISH_MALE_LEWIS = "bm_lewis"
     BRITISH_MALE_DANIEL = "bm_daniel"
-
-    def __str__(self) -> str:
-        return self.value

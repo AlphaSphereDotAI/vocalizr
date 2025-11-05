@@ -17,8 +17,9 @@ from kokoro import KPipeline
 from numpy import dtype, float32, ndarray
 from soundfile import write
 
+from vocalizr.app.choices import Voices
 from vocalizr.app.logger import logger
-from vocalizr.app.settings import Settings, Voices
+from vocalizr.app.settings import Settings
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -73,7 +74,7 @@ class App:
 
         generator: Generator[KPipeline.Result, None, None] = self.pipeline(
             text=text,
-            voice=str(voice),
+            voice=voice,
             speed=speed,
         )
         for _, _, audio in generator:
@@ -103,8 +104,8 @@ class App:
                         info="Enter your text here",
                     )
                     voice: Dropdown = Dropdown(
-                        choices=[v.value for v in Voices],
-                        value=self.settings.model.choices.value,
+                        choices=list(Voices),
+                        value=self.settings.model.choices,
                         label="Voice",
                         info="Quality and availability vary by language",
                     )
