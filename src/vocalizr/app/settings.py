@@ -1,61 +1,43 @@
 """Settings for the Vocalizr app."""
 
-from enum import Enum
 from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
-from pydantic import BaseModel, DirectoryPath, PositiveInt, model_validator
+from pydantic import (
+    BaseModel,
+    DirectoryPath,
+    Field,
+    PositiveInt,
+    computed_field,
+    model_validator,
+)
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from torch.cuda import is_available
 
+from vocalizr import APP_NAME
+from vocalizr.app.choices import Voices
 from vocalizr.app.logger import logger
 
 load_dotenv()
 
 
-class Voices(Enum):
-    """Enumeration of available voice presets for the Vocalizr app."""
-
-    AMERICAN_FEMALE_HEART = "af_heart"
-    AMERICAN_FEMALE_BELLA = "af_bella"
-    AMERICAN_FEMALE_NICOLE = "af_nicole"
-    AMERICAN_FEMALE_AOEDE = "af_aoede"
-    AMERICAN_FEMALE_KORE = "af_kore"
-    AMERICAN_FEMALE_SARAH = "af_sarah"
-    AMERICAN_FEMALE_NOVA = "af_nova"
-    AMERICAN_FEMALE_SKY = "af_sky"
-    AMERICAN_FEMALE_ALLOY = "af_alloy"
-    AMERICAN_FEMALE_JESSICA = "af_jessica"
-    AMERICAN_FEMALE_RIVER = "af_river"
-    AMERICAN_MALE_MICHAEL = "am_michael"
-    AMERICAN_MALE_FENRIR = "am_fenrir"
-    AMERICAN_MALE_PUCK = "am_puck"
-    AMERICAN_MALE_ECHO = "am_echo"
-    AMERICAN_MALE_ERIC = "am_eric"
-    AMERICAN_MALE_LIAM = "am_liam"
-    AMERICAN_MALE_ONYX = "am_onyx"
-    AMERICAN_MALE_SANTA = "am_santa"
-    AMERICAN_MALE_ADAM = "am_adam"
-    BRITISH_FEMALE_EMMA = "bf_emma"
-    BRITISH_FEMALE_ISABELLA = "bf_isabella"
-    BRITISH_FEMALE_ALICE = "bf_alice"
-    BRITISH_FEMALE_LILY = "bf_lily"
-    BRITISH_MALE_GEORGE = "bm_george"
-    BRITISH_MALE_FABLE = "bm_fable"
-    BRITISH_MALE_LEWIS = "bm_lewis"
-    BRITISH_MALE_DANIEL = "bm_daniel"
-
-    def __str__(self) -> str:
-        return self.value
-
-
 class DirectorySettings(BaseModel):
-    """Hold directory path configurations and ensures their existence."""
+    """Settings for application directories."""
 
-    base: DirectoryPath = Path.cwd()
-    results: DirectoryPath = Path.cwd() / "results"
-    log: DirectoryPath = Path.cwd() / "logs"
+    base: DirectoryPath = Field(default_factory=Path.cwd, frozen=True)
+
+    @computed_field
+    @property
+    def results(self) -> DirectoryPath:
+        """Path to the results directory."""
+        return self.base / "results" / APP_NAME
+
+    @computed_field
+    @property
+    def log(self) -> DirectoryPath:
+        """Path to the log directory."""
+        return self.base / "logs" / APP_NAME
 
     @model_validator(mode="after")
     def create_missing_dirs(self) -> "DirectorySettings":
@@ -70,38 +52,41 @@ class DirectorySettings(BaseModel):
         for directory in [self.base, self.results, self.log]:
             if not directory.exists():
                 try:
-                    directory.mkdir(exist_ok=True)
+                    directory.mkdir(parents=True, exist_ok=True)
                     logger.info("Created directory %s.", directory)
-                except PermissionError as e:
-                    logger.error(
-                        "Permission denied while creating directory %s: %s",
-                        directory,
-                        e,
-                    )
-                except Exception as e:
+                except OSError as e:
                     logger.error("Error creating directory %s: %s", directory, e)
+                    raise
         return self
 
 
 class ModelSettings(BaseModel):
-    """Settings related to model execution."""
+    """Settings for the model configuration."""
 
-    device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
-    char_limit: Literal[-1] | PositiveInt = -1
-    min_requested_characters: PositiveInt = 4
-    repo_id: str = "hexgrad/Kokoro-82M"
-    lang_code: str = "a"
-    choices: Voices = Voices.AMERICAN_FEMALE_HEART
+    device: Literal["cuda", "cpu"] = Field(
+        default_factory=lambda: "cuda" if is_available() else "cpu",
+    )
+    char_limit: Literal[-1] | PositiveInt = Field(default=-1)
+    min_requested_characters: PositiveInt = Field(default=4)
+    repo_id: str = Field(default="hexgrad/Kokoro-82M")
+    lang_code: str = Field(default="a")
+    choices: Voices = Field(default=Voices.AMERICAN_FEMALE_HEART)
 
 
 class Settings(BaseSettings):
     """Configuration for the Vocalizr app."""
 
-    model_config = SettingsConfigDict(
+    model_config: SettingsConfigDict = SettingsConfigDict(
         env_nested_delimiter="__",
         env_parse_none_str="None",
         env_file=".env",
         extra="ignore",
     )
-    directory: DirectorySettings = DirectorySettings()
-    model: ModelSettings = ModelSettings()
+    directory: DirectorySettings = Field(default_factory=DirectorySettings, frozen=True)
+    model: ModelSettings = Field(default_factory=ModelSettings)
+
+
+if __name__ == "__main__":
+    from rich import print as rprint
+
+    rprint(Settings().model_dump_json(indent=4))
