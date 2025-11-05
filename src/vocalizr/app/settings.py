@@ -23,9 +23,19 @@ load_dotenv()
 class DirectorySettings(BaseModel):
     """Hold directory path configurations and ensures their existence."""
 
-    base: DirectoryPath = Path.cwd()
-    results: DirectoryPath = Path.cwd() / "results"
-    log: DirectoryPath = Path.cwd() / "logs"
+    base: DirectoryPath = Field(default_factory=Path.cwd, frozen=True)
+
+    @computed_field
+    @property
+    def results(self) -> DirectoryPath:
+        """Path to the results directory."""
+        return self.base / "results" / APP_NAME
+
+    @computed_field
+    @property
+    def log(self) -> DirectoryPath:
+        """Path to the log directory."""
+        return self.base / "logs" / APP_NAME
 
     @model_validator(mode="after")
     def create_missing_dirs(self) -> "DirectorySettings":
