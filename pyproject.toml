@@ -1,9 +1,9 @@
 [project]
 name = "vocalizr"
-version = "0.0.11"
+version = "0.0.12"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
-requires-python = ">=3.12, <3.14"
+requires-python = ">=3.12, <3.13"
 authors = [
     { name = "Mohamed Hisham Abdelzaher", email = "mohamed.hisham.abdelzaher@gmail.com" },
 ]
@@ -32,6 +32,7 @@ vocalizr = "vocalizr.__main__:main"
 
 [dependency-groups]
 dev = [
+    "gitpython>=3.1.45",
     "gradio-client>=1.13.3",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
