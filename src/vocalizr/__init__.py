@@ -8,6 +8,8 @@ filterwarnings("ignore", category=UserWarning)
 filterwarnings("ignore", category=FutureWarning)
 filterwarnings("ignore", category=RuntimeWarning)
 
+APP_NAME: str = __package__
+
 art = Figlet(font="dos_rebel", justify="center", width=110).renderText("VOCALIZR")
 
 console = Console()
