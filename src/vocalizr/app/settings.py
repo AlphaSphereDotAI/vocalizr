@@ -15,13 +15,15 @@ from pydantic import (
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from torch.cuda import is_available
 
+from vocalizr import APP_NAME
+from vocalizr.app.choices import Voices
 from vocalizr.app.logger import logger
 
 load_dotenv()
 
 
 class DirectorySettings(BaseModel):
-    """Hold directory path configurations and ensures their existence."""
+    """Settings for application directories."""
 
     base: DirectoryPath = Field(default_factory=Path.cwd, frozen=True)
 
@@ -64,7 +66,7 @@ class DirectorySettings(BaseModel):
 
 
 class ModelSettings(BaseModel):
-    """Settings related to model execution."""
+    """Settings for the model configuration."""
 
     device: Literal["cuda", "cpu"] = Field(
         default_factory=lambda: "cuda" if is_available() else "cpu",
@@ -79,7 +81,7 @@ class ModelSettings(BaseModel):
 class Settings(BaseSettings):
     """Configuration for the Vocalizr app."""
 
-    model_config = SettingsConfigDict(
+    model_config: SettingsConfigDict = SettingsConfigDict(
         env_nested_delimiter="__",
         env_parse_none_str="None",
         env_file=".env",
