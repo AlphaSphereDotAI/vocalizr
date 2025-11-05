@@ -105,7 +105,7 @@ class App:
                     )
                     voice: Dropdown = Dropdown(
                         choices=list(Voices),
-                        value=self.settings.model.choices.value,
+                        value=self.settings.model.choices,
                         label="Voice",
                         info="Quality and availability vary by language",
                     )
