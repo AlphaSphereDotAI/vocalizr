@@ -85,5 +85,5 @@ class Settings(BaseSettings):
         env_file=".env",
         extra="ignore",
     )
-    directory: DirectorySettings = DirectorySettings()
-    model: ModelSettings = ModelSettings()
+    directory: DirectorySettings = Field(default_factory=DirectorySettings, frozen=True)
+    model: ModelSettings = Field(default_factory=ModelSettings)
