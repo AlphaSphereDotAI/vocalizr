@@ -66,12 +66,14 @@ class DirectorySettings(BaseModel):
 class ModelSettings(BaseModel):
     """Settings related to model execution."""
 
-    device: Literal["cuda", "cpu"] = "cuda" if is_available() else "cpu"
-    char_limit: Literal[-1] | PositiveInt = -1
-    min_requested_characters: PositiveInt = 4
-    repo_id: str = "hexgrad/Kokoro-82M"
-    lang_code: str = "a"
-    choices: Voices = Voices.AMERICAN_FEMALE_HEART
+    device: Literal["cuda", "cpu"] = Field(
+        default_factory=lambda: "cuda" if is_available() else "cpu",
+    )
+    char_limit: Literal[-1] | PositiveInt = Field(default=-1)
+    min_requested_characters: PositiveInt = Field(default=4)
+    repo_id: str = Field(default="hexgrad/Kokoro-82M")
+    lang_code: str = Field(default="a")
+    choices: Voices = Field(default=Voices.AMERICAN_FEMALE_HEART)
 
 
 class Settings(BaseSettings):
