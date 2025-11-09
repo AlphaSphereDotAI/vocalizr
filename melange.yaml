@@ -1,0 +1,32 @@
+package:
+  name: vocalizr
+  version: 0.1.0
+  description: Voice Generator part of the Chatacter Backend
+  target-architecture:
+    - all
+  copyright:
+    - license: MIT
+  dependencies:
+    runtime:
+      - curl
+environment:
+  contents:
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    repositories:
+      - https://packages.wolfi.dev/os
+    packages:
+      - ca-certificates-bundle
+      - git
+      - uv
+      - build-base
+pipeline:
+  - name: Build Minicli application
+    runs: |-
+      MINICLI_HOME="${{targets.destdir}}/usr/share/minicli"
+      EXEC_DIR="${{targets.destdir}}/usr/bin"
+      mkdir -p "${MINICLI_HOME}" "${EXEC_DIR}"
+      cp ./composer.json "${MINICLI_HOME}"
+      /usr/bin/uv install -d "${MINICLI_HOME}" --no-dev
+      cp ./minicli "${EXEC_DIR}"
+      chmod +x "${EXEC_DIR}/minicli"
