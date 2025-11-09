@@ -1,0 +1,10 @@
+entrypoint = "src/vocalizr/__main__.py"
+
+[env]
+PYTHONPATH = "./src"
+GRADIO_SERVER_NAME = "0.0.0.0"
+
+#[source]
+#repository = "https://github.com/AlphaSphereDotAI/vocalizr"
+#branch = "main"
+#update_strategy = "pull"
