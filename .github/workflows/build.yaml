@@ -87,3 +87,7 @@ jobs:
           files: dist/*
           generate_release_notes: true
           token: ${{ secrets.GH_TOKEN }}
+          make_latest: true
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: true
