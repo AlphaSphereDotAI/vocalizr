@@ -85,9 +85,8 @@ jobs:
         uses: softprops/action-gh-release@v2.4.2
         with:
           files: dist/*
-          generate_release_notes: true
-          token: ${{ secrets.GH_TOKEN }}
-          make_latest: true
           draft: false
           prerelease: false
+          make_latest: true
           fail_on_unmatched_files: true
+          generate_release_notes: true
