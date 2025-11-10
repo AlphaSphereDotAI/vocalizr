@@ -16,7 +16,6 @@ jobs:
       name: uv
       url: ${{github.event.repository.html_url}}/commits/${{github.ref_name}}
     env:
-      UV_COMPILE_BYTECODE: "1"
       UV_LINK_MODE: "copy"
     permissions:
       contents: write
