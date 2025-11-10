@@ -16,7 +16,6 @@ jobs:
       name: uv
       url: ${{github.event.repository.html_url}}/commits/${{github.ref_name}}
     env:
-      UV_COMPILE_BYTECODE: "1"
       UV_LINK_MODE: "copy"
     permissions:
       contents: write
@@ -68,6 +67,8 @@ jobs:
     environment:
       name: github
       url: ${{github.event.repository.html_url}}/releases/tag/${{github.ref_name}}
+    permissions:
+      contents: write
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
@@ -81,7 +82,12 @@ jobs:
           name: dist
           path: dist/
       - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: >-
-          gh release create ${{ github.ref_name }} dist/* --title ${{ github.ref_name }} --generate-notes
+        uses: softprops/action-gh-release@v2.4.2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          token: ${{ secrets.GH_TOKEN }}
+          make_latest: true
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: true
