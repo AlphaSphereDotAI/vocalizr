@@ -16,7 +16,6 @@ jobs:
       name: uv
       url: ${{github.event.repository.html_url}}/commits/${{github.ref_name}}
     env:
-      UV_COMPILE_BYTECODE: "1"
       UV_LINK_MODE: "copy"
     permissions:
       contents: write
@@ -31,7 +30,7 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
       - name: Install uv
-        uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7
+        uses: astral-sh/setup-uv@5a7eac68fb9809dea845d802897dc5c723910fa3 # v7
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
@@ -42,6 +41,10 @@ jobs:
         run: uv version ${{ github.ref_name }}
       - name: Build source and wheel distribution
         run: uv build
+      - name: Build Python App with PyCrucible
+        uses: razorblade23/pycrucible-action@6a5ce925bc1b078000d5540f44ebea266fa95cbd # v2
+        with:
+          output: dist/${{ github.event.repository.name }}-${{ github.ref_name }}
       - name: Upload artifacts
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
@@ -64,6 +67,8 @@ jobs:
     environment:
       name: github
       url: ${{github.event.repository.html_url}}/releases/tag/${{github.ref_name}}
+    permissions:
+      contents: write
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
@@ -77,7 +82,11 @@ jobs:
           name: dist
           path: dist/
       - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: >-
-          gh release create ${{ github.ref_name }} dist/* --title ${{ github.ref_name }} --generate-notes
+        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2.4.2
+        with:
+          files: dist/*
+          draft: false
+          prerelease: false
+          make_latest: true
+          fail_on_unmatched_files: true
+          generate_release_notes: true
