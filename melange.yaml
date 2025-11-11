@@ -21,6 +21,7 @@ environment:
       - uv
       - build-base
       - bash
+      - busybox
 pipeline:
   - name: debug
     runs: |
