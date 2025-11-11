@@ -53,9 +53,12 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: apk
-          path: |
-            packages/
-            melange.rsa.pub
+          path: packages/
+      - name: Upload Melange key artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: melange
+          path: melange.rsa.pub
   build_image:
     name: Build and push Docker image to ${{ inputs.registry }}
     needs: build_apk
@@ -80,9 +83,11 @@ jobs:
         uses: actions/download-artifact@v6.0.0
         with:
           name: apk
-      - run: |
-          ls -lah packages/
-          ls -lah packages/x86_64
+          path: work/
+      - name: Download Melange key artifact
+        uses: actions/download-artifact@v6.0.0
+        with:
+          name: melange
       - name: Container metadata
         id: meta
         uses: docker/metadata-action@318604b99e75e41977312d83839a89be02ca4893 # v5
