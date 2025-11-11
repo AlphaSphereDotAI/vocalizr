@@ -45,9 +45,10 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           registry: cgr.dev
-          image: chainguard/melange:latest
+          image: chainguard/melange:latest-dev
           options: --privileged --rm -v ${{ github.workspace }}:/work
-          run: build melange.yaml --arch amd64 --signing-key melange.rsa
+          run: melange build melange.yaml --arch amd64 --signing-key melange.rsa
+          shell: bash
       - name: Upload APK artifact
         uses: actions/upload-artifact@v5
         with:
