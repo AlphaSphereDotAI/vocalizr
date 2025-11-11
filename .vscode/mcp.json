@@ -18,13 +18,9 @@
             "type": "http",
             "url": "https://mcp.byterover.dev/v2/mcp"
         },
-        "docfork": {
-            "type": "stdio",
-            "command": "npx",
-            "args": [
-                "-y",
-                "docfork@latest"
-            ]
+        "docfork/docfork-mcp": {
+            "type": "http",
+            "url": "https://mcp.docfork.com/mcp"
         }
     }
 }
