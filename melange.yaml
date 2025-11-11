@@ -2,31 +2,57 @@ package:
   name: vocalizr
   version: 0.1.0
   description: Voice Generator part of the Chatacter Backend
-  target-architecture:
-    - all
   copyright:
     - license: MIT
   dependencies:
     runtime:
       - curl
 environment:
+  environment:
+    PYAPP_PROJECT_VERSION: ${{package.version}}
+    PYAPP_PROJECT_NAME: ${{package.name}}
+    PYAPP_FULL_ISOLATION: "1"
   contents:
     keyring:
       - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+      - ./melange.rsa.pub
     repositories:
       - https://packages.wolfi.dev/os
     packages:
       - ca-certificates-bundle
-      - git
       - uv
       - build-base
 pipeline:
-  - name: Build Minicli application
+  - name: Install git
+    uses: git-checkout
+    with:
+      repository: https://github.com/AlphaSphereDotAI/vocalizr.git
+      # tag: ${{package.version}}
+      branch: main
+  - name: Mkdir Build
+    runs: mkdir -p pyapp
+  - name: Install PyApp
+    uses: fetch
+    with:
+      uri: https://github.com/ofek/pyapp/releases/latest/download/source.tar.gz
+      expected-sha256: 0533004baf6d1d46ef15abad02e98881ec92291c024182a36b57931c8d66df5f
+      directory: pyapp
+      delete: true
+  - name: Build PyApp
+    # uses: cargo/build
+    # with:
+    #   modroot: pyapp
     runs: |-
-      MINICLI_HOME="${{targets.destdir}}/usr/share/minicli"
+      cd pyapp
+      cargo build --release
+      cp target/release/pyapp /home/build/pyapp
+  - name: Cleanup
+    runs: |-
+      uv cache prune
+  - runs: |-
+      VOCALIZR_HOME="${{targets.destdir}}/usr/share/vocalizr"
       EXEC_DIR="${{targets.destdir}}/usr/bin"
-      mkdir -p "${MINICLI_HOME}" "${EXEC_DIR}"
-      cp ./composer.json "${MINICLI_HOME}"
-      /usr/bin/uv install -d "${MINICLI_HOME}" --no-dev
-      cp ./minicli "${EXEC_DIR}"
-      chmod +x "${EXEC_DIR}/minicli"
+      mkdir -p "${VOCALIZR_HOME}" "${EXEC_DIR}"
+      cp /home/build/pyapp "${EXEC_DIR}/vocalizr"
+      chmod +x "${EXEC_DIR}/vocalizr"
+  - uses: strip
