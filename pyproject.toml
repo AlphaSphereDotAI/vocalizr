@@ -44,13 +44,6 @@ dev = [
     "uv-build>=0.9.8",
 ]
 
-[build-system]
-requires = ["uv_build"]
-build-backend = "uv_build"
-
-[tool.ruff]
-extend = ".trunk/configs/ruff.toml"
-
 [tool.uv.sources]
 torch = [{ index = "pytorch-cu124" }]
 torchaudio = [{ index = "pytorch-cu124" }]
@@ -59,3 +52,6 @@ torchaudio = [{ index = "pytorch-cu124" }]
 explicit = true
 name = "pytorch-cu124"
 url = "https://download.pytorch.org/whl/cu124"
+
+[tool.ruff]
+extend = ".trunk/configs/ruff.toml"
