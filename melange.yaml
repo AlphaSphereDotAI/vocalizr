@@ -22,6 +22,11 @@ environment:
       - build-base
       - bash
 pipeline:
+  - name: debug
+    runs: |
+      ls -la /bin/
+      which sh
+      ls -la /bin/sh
   - name: Install git
     uses: git-checkout
     with:
