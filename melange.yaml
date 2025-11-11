@@ -20,6 +20,7 @@ environment:
       - ca-certificates-bundle
       - uv
       - build-base
+      - bash
 pipeline:
   - name: Install git
     uses: git-checkout
