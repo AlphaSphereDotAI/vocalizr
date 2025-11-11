@@ -34,6 +34,8 @@ pipeline:
       repository: https://github.com/AlphaSphereDotAI/vocalizr.git
       # tag: ${{package.version}}
       branch: main
+  - name: Setup Directories
+    runs: mkdir -p ${{targets.destdir}}/usr/bin
   - name: Build
     runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
   - name: Cleanup
