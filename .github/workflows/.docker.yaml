@@ -39,7 +39,7 @@ jobs:
           registry: cgr.dev
           image: chainguard/melange:latest
           options: --rm -v ${{ github.workspace }}:/work
-          run: keygen
+          shell: keygen
       - name: Build APK
         uses: addnab/docker-run-action@v3
         with:
