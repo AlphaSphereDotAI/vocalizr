@@ -37,9 +37,10 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           registry: cgr.dev
-          image: chainguard/melange:latest
+          image: chainguard/melange:latest-dev
           options: --rm -v ${{ github.workspace }}:/work
-          shell: keygen
+          run: keygen
+          shell: bash
       - name: Build APK
         uses: addnab/docker-run-action@v3
         with:
