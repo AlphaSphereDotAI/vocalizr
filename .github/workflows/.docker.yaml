@@ -48,7 +48,7 @@ jobs:
           options: --privileged --rm -v ${{ github.workspace }}:/work
           run: build melange.yaml --arch amd64 --signing-key melange.rsa
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3.2.2 # v3
+        uses: actions/upload-artifact@v5
         with:
           name: apk
           path: packages/
