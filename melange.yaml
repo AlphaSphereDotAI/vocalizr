@@ -1,6 +1,6 @@
 package:
   name: vocalizr
-  version: 0.1.0
+  version: 0.0.13
   description: Voice Generator part of the Chatacter Backend
   copyright:
     - license: MIT
@@ -9,9 +9,7 @@ package:
       - curl
 environment:
   environment:
-    PYAPP_PROJECT_VERSION: ${{package.version}}
-    PYAPP_PROJECT_NAME: ${{package.name}}
-    PYAPP_FULL_ISOLATION: "1"
+    UV_VENV_CLEAR: 1
   contents:
     keyring:
       - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
@@ -29,30 +27,8 @@ pipeline:
       repository: https://github.com/AlphaSphereDotAI/vocalizr.git
       # tag: ${{package.version}}
       branch: main
-  - name: Mkdir Build
-    runs: mkdir -p pyapp
-  - name: Install PyApp
-    uses: fetch
-    with:
-      uri: https://github.com/ofek/pyapp/releases/latest/download/source.tar.gz
-      expected-sha256: 0533004baf6d1d46ef15abad02e98881ec92291c024182a36b57931c8d66df5f
-      directory: pyapp
-      delete: true
-  - name: Build PyApp
-    # uses: cargo/build
-    # with:
-    #   modroot: pyapp
-    runs: |-
-      cd pyapp
-      cargo build --release
-      cp target/release/pyapp /home/build/pyapp
+  - name: Build
+    runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
   - name: Cleanup
-    runs: |-
-      uv cache prune
-  - runs: |-
-      VOCALIZR_HOME="${{targets.destdir}}/usr/share/vocalizr"
-      EXEC_DIR="${{targets.destdir}}/usr/bin"
-      mkdir -p "${VOCALIZR_HOME}" "${EXEC_DIR}"
-      cp /home/build/pyapp "${EXEC_DIR}/vocalizr"
-      chmod +x "${EXEC_DIR}/vocalizr"
-  - uses: strip
+    runs: uv cache prune
+  - runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
