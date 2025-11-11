@@ -20,8 +20,8 @@ permissions:
   attestations: write
   id-token: write
 jobs:
-  check_dockerfile:
-    name: Validate Dockerfile
+  build_apk:
+    name: Build APK with Melange
     runs-on: ubuntu-latest
     if: ${{ inputs.is_test }}
     environment:
@@ -33,31 +33,28 @@ jobs:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-      - name: Log in to ${{ inputs.registry }} Registry
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
+      - name: Install Melange
+        uses: addnab/docker-run-action@v3
         with:
-          registry: ${{ inputs.registry }}
-          username: mh0386
-          password: ${{ inputs.registry == 'ghcr.io' && secrets.GH_TOKEN || inputs.registry == 'docker.io' && secrets.TOKEN_KEY_DOCKER }}
-      - name: Validate build configuration
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6
+          registry: cgr.dev
+          image: chainguard/melange:latest
+          options: --rm -v ${{ github.workspace }}:/work
+          run: keygen
+      - name: Build APK
+        uses: addnab/docker-run-action@v3
         with:
-          call: check
-      - name: Job Summary (Success)
-        if: ${{ success() }}
-        run: |
-          echo "# Dockerfile Check" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "No issues found :heavy_check_mark:" >> $GITHUB_STEP_SUMMARY
-      - name: Job Summary (Failure)
-        if: ${{ failure() }}
-        run: |
-          echo "# Dockerfile Check" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Check failed :x:" >> $GITHUB_STEP_SUMMARY
+          registry: cgr.dev
+          image: chainguard/melange:latest
+          options: --privileged --rm -v ${{ github.workspace }}:/work
+          run: build melange.yaml --arch amd64 --signing-key melange.rsa
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3.2.2 # v3
+        with:
+          name: apk
+          path: packages/
   build_image:
     name: Build and push Docker image to ${{ inputs.registry }}
-    needs: check_dockerfile
+    needs: build_apk
     if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-latest
     outputs:
