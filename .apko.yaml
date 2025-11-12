@@ -9,8 +9,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - vocalizr@local
-entrypoint:
-  command: /usr/bin/vocalizr
+cmd: /usr/bin/vocalizr
 archs:
   - amd64
 environment:
