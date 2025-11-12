@@ -53,5 +53,6 @@ pipeline:
       export UV_VENV_CLEAR=1
       uv sync
       rm ${{targets.destdir}}/usr/bin/pycrucible_payload/.venv/.lock
+      find ${{targets.destdir}}/usr/bin/pycrucible_payload/.venv -type f -name "completion.sh" -delete
       uv cache prune
       chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
