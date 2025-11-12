@@ -88,6 +88,11 @@ jobs:
         uses: actions/download-artifact@v6.0.0
         with:
           name: melange
+      - run: |
+          ls -lah
+          ls -lah work/
+          ls -lah work/packages/
+          ls -lah work/packages/x86_64/
       - name: Container metadata
         id: meta
         uses: docker/metadata-action@318604b99e75e41977312d83839a89be02ca4893 # v5
