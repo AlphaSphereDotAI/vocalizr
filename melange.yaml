@@ -51,5 +51,5 @@ pipeline:
       UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
       mkdir -p $UV_TOOL_BIN_DIR
       mkdir -p $UV_TOOL_DIR
-      uv tool install ${{package.name}}
+      uv tool install ${{package.name}} --python 3.12
       uv cache prune
