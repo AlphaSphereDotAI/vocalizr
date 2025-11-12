@@ -20,7 +20,7 @@ environment:
       - build-base
       - bash
       - busybox
-      - cargo
+      - rustup
 pipeline:
   - name: Install git
     uses: git-checkout
