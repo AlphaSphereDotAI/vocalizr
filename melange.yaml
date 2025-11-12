@@ -43,7 +43,7 @@ pipeline:
   # - name: Make vocalizr executable
   #   runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
   - name: Build
-    runs: |
+    runs: |-
       mkdir -p ${{targets.destdir}}/usr/bin
       mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
       mkdir -p ${{targets.destdir}}/usr/share/vocalizr
