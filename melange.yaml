@@ -28,6 +28,9 @@ pipeline:
     runs: |
       mkdir -p ${{targets.destdir}}/usr/bin
       mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
+      mkdir -p ${{targets.destdir}}/usr/share/vocalizr
+  - name: link
+    runs: ln -s /usr/bin/pycrucible_payload/ /usr/share/vocalizr/
   - name: Setup environment varibles
     runs: |
       export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
