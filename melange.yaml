@@ -31,14 +31,13 @@ pipeline:
       mkdir -p ${{targets.destdir}}/usr/share/vocalizr
   - name: link
     runs: ln -s ${{targets.destdir}}/usr/bin/pycrucible_payload/ ${{targets.destdir}}/usr/share/vocalizr/
-  - name: Setup environment varibles
-    runs: |
-      export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
-      export UV_VENV_CLEAR=1
   - name: Build
     runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
   - name: Install dependencies
-    runs: uv sync
+    runs:  |
+      export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
+      export UV_VENV_CLEAR=1
+      uv sync
   - name: Cleanup
     runs: uv cache prune
   - name: Make vocalizr executable
