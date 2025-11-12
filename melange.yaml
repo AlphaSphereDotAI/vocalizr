@@ -48,8 +48,8 @@ pipeline:
   #   runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
   - name: Build
     runs: |-
-      UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
-      UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
+      export UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
+      export UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
       mkdir -p $UV_TOOL_BIN_DIR
       mkdir -p $UV_TOOL_DIR
       uv tool install ${{package.name}} --python 3.12
