@@ -25,9 +25,18 @@ pipeline:
       # tag: ${{package.version}}
       branch: main
   - name: Setup Directories
-    runs: mkdir -p ${{targets.destdir}}/usr/bin
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/bin
+      mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
+  - name: Setup environment varibles
+    runs: |
+      export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
+      export UV_VENV_CLEAR=1
   - name: Build
     runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
+  - name: Install dependencies
+    runs: uv sync
   - name: Cleanup
     runs: uv cache prune
-  - runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
+  - name: Make vocalizr executable
+    runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
