@@ -34,7 +34,7 @@ pipeline:
   - name: Build
     runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
   - name: Install dependencies
-    runs:  |
+    runs: |
       export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
       export UV_VENV_CLEAR=1
       uv sync
