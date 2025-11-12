@@ -52,5 +52,6 @@ pipeline:
       export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
       export UV_VENV_CLEAR=1
       uv sync
+      rm ${{targets.destdir}}/usr/bin/pycrucible_payload/.venv/.lock
       uv cache prune
       chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
