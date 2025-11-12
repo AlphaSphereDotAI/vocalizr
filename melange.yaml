@@ -6,7 +6,7 @@ package:
     - license: MIT
   dependencies:
     runtime:
-      - uv
+      - python-as-3.12
 environment:
   contents:
     keyring:
