@@ -54,3 +54,4 @@ pipeline:
       mkdir -p $UV_TOOL_DIR
       uv tool install ${{package.name}} --python 3.12
       uv cache prune
+      rm $UV_TOOL_DIR/.lock
