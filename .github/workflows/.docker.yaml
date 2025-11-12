@@ -83,7 +83,7 @@ jobs:
         uses: actions/download-artifact@v6.0.0
         with:
           name: apk
-          path: work/
+          path: work/packages/
       - name: Download Melange key artifact
         uses: actions/download-artifact@v6.0.0
         with:
