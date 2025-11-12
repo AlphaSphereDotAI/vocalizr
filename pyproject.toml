@@ -27,9 +27,9 @@ Issues = "https://github.com/AlphaSphereDotAI/vocalizr/issues"
 Repository = "https://github.com/AlphaSphereDotAI/vocalizr.git"
 Twitter = "https://x.com/AlphaSphereAI"
 
-# [build-system]
-# requires = ["uv_build"]
-# build-backend = "uv_build"
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
 
 [project.scripts]
 vocalizr = "vocalizr.__main__:main"
