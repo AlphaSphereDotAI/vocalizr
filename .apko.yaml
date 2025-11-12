@@ -25,7 +25,7 @@ accounts:
   users:
     - username: nonroot
       uid: 65532
-      shell: /bin/bash
+      # shell: /bin/bash
   run-as: 65532
 work-dir: /home/nonroot/
 paths:
