@@ -24,21 +24,33 @@ pipeline:
       repository: https://github.com/AlphaSphereDotAI/vocalizr.git
       # tag: ${{package.version}}
       branch: main
-  - name: Setup Directories
+  # - name: Setup Directories
+  #   runs: |
+  #     mkdir -p ${{targets.destdir}}/usr/bin
+  #     mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
+  #     mkdir -p ${{targets.destdir}}/usr/share/vocalizr
+  # - name: link
+  #   runs: ln -s ${{targets.destdir}}/usr/bin/pycrucible_payload/ ${{targets.destdir}}/usr/share/vocalizr/
+  # - name: Build
+  #   runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
+  # - name: Install dependencies
+  #   runs: |
+  #     export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
+  #     export UV_VENV_CLEAR=1
+  #     uv sync
+  # - name: Cleanup
+  #   runs: uv cache prune
+  # - name: Make vocalizr executable
+  #   runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
+  - name: Build
     runs: |
       mkdir -p ${{targets.destdir}}/usr/bin
       mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
       mkdir -p ${{targets.destdir}}/usr/share/vocalizr
-  - name: link
-    runs: ln -s ${{targets.destdir}}/usr/bin/pycrucible_payload/ ${{targets.destdir}}/usr/share/vocalizr/
-  - name: Build
-    runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
-  - name: Install dependencies
-    runs: |
+      ln -s ${{targets.destdir}}/usr/bin/pycrucible_payload/ ${{targets.destdir}}/usr/share/vocalizr/
+      uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
       export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
       export UV_VENV_CLEAR=1
       uv sync
-  - name: Cleanup
-    runs: uv cache prune
-  - name: Make vocalizr executable
-    runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
+      uv cache prune
+      chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
