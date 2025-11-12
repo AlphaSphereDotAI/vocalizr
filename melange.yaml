@@ -4,9 +4,6 @@ package:
   description: Voice Generator part of the Chatacter Backend
   copyright:
     - license: MIT
-  dependencies:
-    runtime:
-      - curl
 environment:
   environment:
     UV_VENV_CLEAR: 1
