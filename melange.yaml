@@ -4,6 +4,9 @@ package:
   description: Voice Generator part of the Chatacter Backend
   copyright:
     - license: MIT
+  dependencies:
+    runtime:
+      - uv
 environment:
   contents:
     keyring:
@@ -44,15 +47,9 @@ pipeline:
   #   runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
   - name: Build
     runs: |-
-      mkdir -p ${{targets.destdir}}/usr/bin
-      mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
-      mkdir -p ${{targets.destdir}}/usr/share/vocalizr
-      ln -s ${{targets.destdir}}/usr/bin/pycrucible_payload/ ${{targets.destdir}}/usr/share/vocalizr/
-      uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
-      export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
-      export UV_VENV_CLEAR=1
-      uv sync
-      rm ${{targets.destdir}}/usr/bin/pycrucible_payload/.venv/.lock
-      find ${{targets.destdir}}/usr/bin/pycrucible_payload/.venv -type f -name "completion.sh" -delete
+      UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
+      UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
+      mkdir -p $UV_TOOL_BIN_DIR
+      mkdir -p $UV_TOOL_DIR
+      uv tool install ${{package.name}}
       uv cache prune
-      chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
