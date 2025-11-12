@@ -6,3 +6,7 @@
 logs/
 results/
 pycrucible_payload/
+launcher
+*.rsa*
+packages/
+*.tar

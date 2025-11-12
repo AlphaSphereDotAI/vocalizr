@@ -1,0 +1,38 @@
+package:
+  name: vocalizr
+  version: 0.0.13
+  description: Voice Generator part of the Chatacter Backend
+  copyright:
+    - license: MIT
+  dependencies:
+    runtime:
+      - curl
+environment:
+  environment:
+    UV_VENV_CLEAR: 1
+  contents:
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+      - ./melange.rsa.pub
+    repositories:
+      - https://packages.wolfi.dev/os
+    packages:
+      - ca-certificates-bundle
+      - uv
+      - build-base
+      - bash
+      - busybox
+pipeline:
+  - name: Install git
+    uses: git-checkout
+    with:
+      repository: https://github.com/AlphaSphereDotAI/vocalizr.git
+      # tag: ${{package.version}}
+      branch: main
+  - name: Setup Directories
+    runs: mkdir -p ${{targets.destdir}}/usr/bin
+  - name: Build
+    runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
+  - name: Cleanup
+    runs: uv cache prune
+  - runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
