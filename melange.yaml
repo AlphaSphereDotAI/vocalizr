@@ -11,6 +11,8 @@ package:
       - libgcc
       - libstdc++
       - zlib
+options:
+  no-depends: true
 environment:
   contents:
     keyring:
