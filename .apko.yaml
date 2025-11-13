@@ -12,7 +12,7 @@ contents:
     - libgcc
     - libstdc++
     - zlib
-    - libfabric
+    # - libfabric
     - vocalizr@local
 cmd: /usr/bin/vocalizr
 archs:
