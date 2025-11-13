@@ -20,7 +20,7 @@ The Gradio web interface provides an intuitive way to generate speech from text.
 
 ```bash
 # Start the application
-vocalizr
+uvx vocalizr
 
 # Access at http://localhost:7860
 ```
