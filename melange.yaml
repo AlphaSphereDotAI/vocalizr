@@ -56,6 +56,7 @@ pipeline:
   - name: Build
     runs: |-
       export UV_LINK_MODE=copy
+      export UV_NO_BUILD=1
       export UV_NO_CACHE=1
       export UV_NO_DEV=1
       export UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
