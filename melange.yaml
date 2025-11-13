@@ -11,6 +11,7 @@ package:
       - libgcc
       - libstdc++
       - zlib
+      - libfabric
 environment:
   contents:
     keyring:
