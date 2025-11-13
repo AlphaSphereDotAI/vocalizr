@@ -1201,13 +1201,13 @@ wheels = [
 
 [[package]]
 name = "pycrucible"
-version = "0.3.1"
+version = "0.3.6"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/8f/af95fa95f16bc2cbfa07f0c6f0249638c499e6571cb6f04d1b709bd64c4a/pycrucible-0.3.1-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:ed66efb01f436066614522be7fc44c8485f57aafc1cc9704becd961099552522", size = 2410923, upload-time = "2025-11-09T06:57:29.755Z" },
-    { url = "https://files.pythonhosted.org/packages/23/14/021fb2a1d789c62d1ee7a94630c83bf6d6c696f4913a3bc3b7e637524204/pycrucible-0.3.1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:e5580902fa74363148a19f7453654237c7fc5ebc46c052a5e070469157e65ba6", size = 2247940, upload-time = "2025-11-09T06:57:31.447Z" },
-    { url = "https://files.pythonhosted.org/packages/c6/38/86320ab417f6de6b326f552b0384518487fb34d84a7c11a7730238ae7f1e/pycrucible-0.3.1-py3-none-manylinux_2_39_x86_64.whl", hash = "sha256:637d9d6427c012bc62fab76d9037aa0ca528c75f1eb06a41e2d87de303e50bd7", size = 2694081, upload-time = "2025-11-09T06:57:32.793Z" },
-    { url = "https://files.pythonhosted.org/packages/f0/1b/3bbe53d0aae7a253e0fc9a2489db37115f926908720edd1c4600a4caef61/pycrucible-0.3.1-py3-none-win_amd64.whl", hash = "sha256:1ad33a8c613c0040d0c900b75b3928a1ecb8a2437fce83a19bda6e76c64fba10", size = 2573848, upload-time = "2025-11-09T06:57:34.495Z" },
+    { url = "https://files.pythonhosted.org/packages/35/71/62dd29ae82a4aeef65d2d6f05785c99ad81ecd37f6b727c71a4bbde7b21b/pycrucible-0.3.6-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:65481337b9e0d4ea077dd0cb23e4491dbbbd3d203a6d47e9576c0dd6a38ae03f", size = 2486747, upload-time = "2025-11-13T07:28:15.05Z" },
+    { url = "https://files.pythonhosted.org/packages/60/75/90cea3812b48871e498849d5f2dfb02d6a080ad6ecf84bfeac156c944a3c/pycrucible-0.3.6-py3-none-macosx_11_0_arm64.whl", hash = "sha256:9c86c221e7a3d26e48f47af857e86fc89d9ceaa0a3ea0b4dbda0131811a1fdb0", size = 2351242, upload-time = "2025-11-13T07:28:16.97Z" },
+    { url = "https://files.pythonhosted.org/packages/70/a1/2260f8fa9cf819a6ac3863838fcc054a8ddc7c93951f22e694e781cae57b/pycrucible-0.3.6-py3-none-manylinux_2_28_x86_64.whl", hash = "sha256:d236485b3d77213975f62bd41baf156588eec7c813977c4ffab7de108a397eab", size = 2803748, upload-time = "2025-11-13T07:28:19.09Z" },
+    { url = "https://files.pythonhosted.org/packages/65/1e/3ef9b77d9a02edf5bd38449dfc351ec13fdf3124b7aca17870d6c2ffbacc/pycrucible-0.3.6-py3-none-win_amd64.whl", hash = "sha256:8752ccb2736344a4e74d2bea35fe21a423577d3802c159b27fa399703a74e330", size = 2653445, upload-time = "2025-11-13T07:28:20.991Z" },
 ]
 
 [[package]]
@@ -2143,7 +2143,7 @@ requires-dist = [
 dev = [
     { name = "gitpython", specifier = ">=3.1.45" },
     { name = "gradio-client", specifier = ">=1.13.3" },
-    { name = "pycrucible", specifier = ">=0.3.1" },
+    { name = "pycrucible", specifier = ">=0.3.6" },
     { name = "pytest", specifier = ">=9.0.1" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
