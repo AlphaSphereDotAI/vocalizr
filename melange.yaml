@@ -7,6 +7,10 @@ package:
   dependencies:
     runtime:
       - python-as-3.12
+      - glibc
+      - libgcc
+      - libstdc++
+      - zlib
 environment:
   contents:
     keyring:
