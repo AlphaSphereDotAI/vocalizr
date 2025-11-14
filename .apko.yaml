@@ -10,7 +10,7 @@ contents:
     - wolfi-baselayout
     # - libstdc++
     - vocalizr@local
-cmd: vocalizr #/usr/bin/vocalizr
+cmd: /usr/bin/vocalizr
 archs:
   - amd64
 environment:
