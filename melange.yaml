@@ -7,10 +7,7 @@ package:
   dependencies:
     runtime:
       - python-as-3.12
-      - glibc
-      - libgcc
       - libstdc++
-      - zlib
 options:
   no-depends: true
 environment:
