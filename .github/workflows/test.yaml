@@ -33,7 +33,7 @@ jobs:
         with:
           files: |
             pyproject.toml
-            uv.lock        
+            uv.lock
       - name: Install uv
         uses: astral-sh/setup-uv@5a7eac68fb9809dea845d802897dc5c723910fa3 # v7
         if: steps.changed-files-dependency.outputs.only_changed == 'true'
