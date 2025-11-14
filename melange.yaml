@@ -34,7 +34,7 @@ pipeline:
       export UV_NO_BUILD=1
       export UV_NO_CACHE=1
       export UV_NO_DEV=1
-      export UV_SYSTEM_PYTHON=1
+      export UV_SYSTEM_PYTHON=true
       export UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
       export UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
       mkdir -p $UV_TOOL_BIN_DIR
