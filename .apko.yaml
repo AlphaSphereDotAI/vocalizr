@@ -4,14 +4,11 @@ contents:
     - ./melange.rsa.pub
   repositories:
     - https://packages.wolfi.dev/os
-    - '@local /home/runner/work/vocalizr/vocalizr/work/packages'
+    - '@local work/packages'
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - glibc
-    - libgcc
-    - libstdc++
-    - zlib
+    # - libstdc++
     - vocalizr@local
 cmd: /usr/bin/vocalizr
 archs:
