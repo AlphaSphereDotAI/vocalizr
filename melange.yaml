@@ -34,7 +34,7 @@ environment:
       - busybox
       - rustup
       - gcc
-      - python3
+      - python-as-3.12
       - python3-dev
 pipeline:
   - name: Build
