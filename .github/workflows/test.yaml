@@ -45,6 +45,7 @@ jobs:
         if: steps.changed-files-dependency.outputs.only_changed == 'true'
         run: uv sync --frozen --no-install-project
       - name: Job Summary
+        if: steps.changed-files-dependency.outputs.only_changed == 'true'
         run: |
           echo '<details>' >> $GITHUB_STEP_SUMMARY
           echo '<summary> Click me </summary>' >> $GITHUB_STEP_SUMMARY
@@ -55,6 +56,10 @@ jobs:
           echo "$(uv tree --show-sizes)" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo '</details>' >> $GITHUB_STEP_SUMMARY
+      - name: Job Summary
+        if: steps.changed-files-dependency.outputs.only_changed == 'false'
+        run: |
+          echo '# There is no change in dependency files' >> $GITHUB_STEP_SUMMARY
   lint:
     name: Lint
     permissions:
