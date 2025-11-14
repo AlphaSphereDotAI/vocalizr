@@ -1,3 +1,4 @@
+no-depends: true
 package:
   name: vocalizr
   version: 0.0.13
@@ -8,8 +9,6 @@ package:
     runtime:
       - python-as-3.12
       - libstdc++
-options:
-  no-depends: true
 environment:
   contents:
     keyring:
