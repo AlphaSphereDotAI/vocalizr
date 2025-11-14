@@ -8,11 +8,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - glibc
-    - libgcc
-    - libstdc++
-    - zlib
-    # - libfabric
+    # - libstdc++
     - vocalizr@local
 cmd: /usr/bin/vocalizr
 archs:
