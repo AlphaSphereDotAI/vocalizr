@@ -40,6 +40,6 @@ pipeline:
     runs: |-
       mkdir -p $UV_TOOL_BIN_DIR
       mkdir -p $UV_TOOL_DIR
-      uv tool install ${{package.name}} --python 3.12 --no-cache
+      uv tool install --no-cache ${{package.name}}
       uv cache clean
       rm $UV_TOOL_DIR/.lock
