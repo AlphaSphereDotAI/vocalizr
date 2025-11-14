@@ -11,6 +11,14 @@ package:
   options:
     no-depends: true
 environment:
+  environment:
+    UV_LINK_MODE: copy
+    UV_NO_BUILD: 1
+    UV_NO_CACHE: 1
+    UV_NO_DEV: 1
+    UV_SYSTEM_PYTHON: true
+    UV_TOOL_BIN_DIR: "${{targets.destdir}}/usr/bin"
+    UV_TOOL_DIR: "${{targets.destdir}}/usr/share/vocalizr"
   contents:
     keyring:
       - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
@@ -30,15 +38,8 @@ environment:
 pipeline:
   - name: Build
     runs: |-
-      export UV_LINK_MODE=copy
-      export UV_NO_BUILD=1
-      export UV_NO_CACHE=1
-      export UV_NO_DEV=1
-      export UV_SYSTEM_PYTHON=true
-      export UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
-      export UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
       mkdir -p $UV_TOOL_BIN_DIR
       mkdir -p $UV_TOOL_DIR
-      uv tool install ${{package.name}} --python 3.12
+      uv tool install ${{package.name}} --python 3.12 --no-cache
       uv cache clean
       rm $UV_TOOL_DIR/.lock
