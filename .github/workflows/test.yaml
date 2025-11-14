@@ -27,13 +27,22 @@ jobs:
           egress-policy: audit
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      - name: Check if the dependency files have changed
+        id: changed-files-dependency
+        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
+        with:
+          files: |
+            pyproject.toml
+            uv.lock        
       - name: Install uv
         uses: astral-sh/setup-uv@5a7eac68fb9809dea845d802897dc5c723910fa3 # v7
+        if: steps.changed-files-dependency.outputs.only_changed == 'true'
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
           activate-environment: true
       - name: Install the project
+        if: steps.changed-files-dependency.outputs.only_changed == 'true'
         run: uv sync --frozen --no-install-project
       - name: Job Summary
         run: |
