@@ -47,10 +47,10 @@ jobs:
       - name: Job Summary
         if: steps.changed-files-dependency.outputs.only_changed == 'true'
         run: |
+          echo "## Dependency Tree" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo '<details>' >> $GITHUB_STEP_SUMMARY
           echo '<summary> Click me </summary>' >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "# Dependency Tree" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "$(uv tree --show-sizes)" >> $GITHUB_STEP_SUMMARY
