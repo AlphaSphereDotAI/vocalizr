@@ -59,7 +59,7 @@ jobs:
       - name: Job Summary
         if: steps.changed-files-dependency.outputs.only_changed == 'false'
         run: |
-          echo '# There is no change in dependency files' >> $GITHUB_STEP_SUMMARY
+          echo '## There is no change in dependency files 👍' >> $GITHUB_STEP_SUMMARY
   lint:
     name: Lint
     permissions:
