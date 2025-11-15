@@ -41,7 +41,7 @@ pipeline:
       export UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
       export UV_TOOL_DIR="${{targets.destdir}}/usr/share/${{package.name}}"
       uv tool install --no-cache ${{package.name}}
-      uv cache clean
+      # uv cache clean
       rm $UV_TOOL_DIR/.lock
       chmod +x "${UV_TOOL_BIN_DIR}/${{package.name}}"
-  - uses: strip
+  # - uses: strip
