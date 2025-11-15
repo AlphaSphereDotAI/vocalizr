@@ -43,9 +43,9 @@ pipeline:
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
       export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}/${{package.name}}"
       uv tool install --no-cache ${{package.name}}
+      rm $UV_TOOL_DIR/.lock
       mkdir -p $TOOL_BIN_DIR $TOOL_DIR
       mv "${UV_TOOL_BIN_DIR}/${{package.name}}" "${TOOL_BIN_DIR}/${{package.name}}"
       mv $UV_TOOL_DIR $TOOL_DIR
       # uv cache clean
-      # rm $UV_TOOL_DIR/.lock
     # - uses: strip
