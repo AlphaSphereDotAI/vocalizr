@@ -40,9 +40,12 @@ pipeline:
       export UV_NO_MANAGED_PYTHON="1"
       export UV_TOOL_BIN_DIR="/usr/bin"
       export UV_TOOL_DIR="/usr/share"
+      export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
+      export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}/${{package.name}}"
       uv tool install --no-cache ${{package.name}}
-      mv $UV_TOOL_BIN_DIR "${{targets.destdir}}/${UV_TOOL_BIN_DIR}"
-      mv $UV_TOOL_DIR "${{targets.destdir}}/${UV_TOOL_DIR}"
+      mkdir -p $TOOL_BIN_DIR $TOOL_DIR
+      mv $UV_TOOL_BIN_DIR $TOOL_BIN_DIR
+      mv $UV_TOOL_DIR $TOOL_DIR
       # uv cache clean
       # rm $UV_TOOL_DIR/.lock
     # - uses: strip
