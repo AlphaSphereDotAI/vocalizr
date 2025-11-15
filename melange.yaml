@@ -43,6 +43,7 @@ pipeline:
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
       export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
       uv tool install --no-cache ${{package.name}}
+      ${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
       rm $UV_TOOL_DIR/.lock
       mkdir -p $TOOL_BIN_DIR $TOOL_DIR
       ln -s "${UV_TOOL_DIR}/${{package.name}}/bin/${{package.name}}" "${TOOL_BIN_DIR}/${{package.name}}"
