@@ -19,7 +19,7 @@ environment:
     UV_SYSTEM_PYTHON: 1
     UV_NO_MANAGED_PYTHON: 1
     UV_TOOL_BIN_DIR: "${{targets.destdir}}/usr/bin"
-    UV_TOOL_DIR: "${{targets.destdir}}/usr/share/vocalizr"
+    UV_TOOL_DIR: "${{targets.destdir}}/usr/share/${{package.name}}"
   contents:
     keyring:
       - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
@@ -40,7 +40,7 @@ environment:
 pipeline:
   - name: Build
     runs: |-
-      echo $UV_TOOL_BIN_DIR $UV_TOOL_DIR
+      set -x
       mkdir -p $UV_TOOL_BIN_DIR
       mkdir -p $UV_TOOL_DIR
       uv tool install --no-cache ${{package.name}}
