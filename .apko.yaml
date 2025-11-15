@@ -4,7 +4,7 @@ contents:
     - ./melange.rsa.pub
   repositories:
     - https://packages.wolfi.dev/os
-    - '@local work/packages'
+    - '@local ./work/packages'
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
@@ -21,21 +21,21 @@ environment:
 accounts:
   groups:
     - groupname: nonroot
-      gid: 65532
+      gid: 10000
   users:
     - username: nonroot
-      uid: 65532
+      uid: 10000
       shell: /bin/sh
   run-as: nonroot
 work-dir: /home/nonroot
 paths:
   - path: /home/nonroot
     type: directory
-    uid: 65532
-    gid: 65532
+    uid: 10000
+    gid: 10000
     permissions: 0o755
   - path: /usr/share/vocalizr
     type: directory
-    uid: 65532
-    gid: 65532
+    uid: 10000
+    gid: 10000
     permissions: 0o755
