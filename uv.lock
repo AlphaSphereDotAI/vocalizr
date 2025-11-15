@@ -1356,7 +1356,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.11.6.1"
+version = "2025.11.14.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1364,9 +1364,9 @@ dependencies = [
     { name = "pytest" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2c/9e/813bbb4447b267cb846262b6f99c2f95950a9e4555a3e4672867454bfe84/pytest_mergify-2025.11.6.1.tar.gz", hash = "sha256:19bedbce7174d07bfb06bc9058731773f898ac0cde7007fbbd64d8cedbd44632", size = 24527, upload-time = "2025-11-06T13:32:18.027Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/90/28/27648e710eb6bf2c5f61a5b9a88bd5cc4bc4965d0a999c15f158dff96730/pytest_mergify-2025.11.14.2.tar.gz", hash = "sha256:c00c680c8e763731d24142d0542af4e9eba38a95628f12eaec3ae38c9e7a84eb", size = 24941, upload-time = "2025-11-14T10:28:27.536Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f2/42/1e107b673e7cc0f0d40e6fbe18f076b0891bfeadd0b81e29c5ef207f541d/pytest_mergify-2025.11.6.1-py3-none-any.whl", hash = "sha256:754833d850f71ddb6fb9fe4ff22e80a4400a058dd073aac7cde768b4b50e2f99", size = 30100, upload-time = "2025-11-06T13:32:16.472Z" },
+    { url = "https://files.pythonhosted.org/packages/72/f7/df001dd9eed4477b50da576ac1548a73b66c93f63f4c8705147c525424ef/pytest_mergify-2025.11.14.2-py3-none-any.whl", hash = "sha256:894cd74f19a84f37d2b834c01624373b9f454648097abc6231a40d7785bf433f", size = 30584, upload-time = "2025-11-14T10:28:25.733Z" },
 ]
 
 [[package]]
@@ -2148,7 +2148,7 @@ dev = [
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.11.6.1" },
+    { name = "pytest-mergify", specifier = ">=2025.11.14.2" },
     { name = "ruff", specifier = ">=0.14.5" },
     { name = "ty", specifier = ">=0.0.1a26" },
     { name = "uv-build", specifier = ">=0.9.9" },
