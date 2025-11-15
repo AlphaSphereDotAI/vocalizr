@@ -45,3 +45,4 @@ pipeline:
       uv tool install --no-cache ${{package.name}}
       uv cache clean
       rm $UV_TOOL_DIR/.lock
+  - uses: strip
