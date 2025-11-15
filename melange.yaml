@@ -41,6 +41,7 @@ pipeline:
   - name: Build
     runs: |-
       set -x
+      echo $UV_TOOL_BIN_DIR $UV_TOOL_DIR
       mkdir -p $UV_TOOL_BIN_DIR
       mkdir -p $UV_TOOL_DIR
       uv tool install --no-cache ${{package.name}}
