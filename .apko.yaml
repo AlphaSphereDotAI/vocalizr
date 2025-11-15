@@ -17,7 +17,6 @@ environment:
   GRADIO_SERVER_PORT: 7860
   GRADIO_SERVER_NAME: 0.0.0.0
   HF_HOME: /home/nonroot/hf
-  UV_VENV_CLEAR: 1
 accounts:
   groups:
     - groupname: nonroot
@@ -33,9 +32,9 @@ paths:
     type: directory
     uid: 10000
     gid: 10000
-    permissions: 0o755
+    permissions: 0o777
   - path: /usr/share/vocalizr
     type: directory
     uid: 10000
     gid: 10000
-    permissions: 0o755
+    permissions: 0o777
