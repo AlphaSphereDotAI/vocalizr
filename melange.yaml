@@ -35,7 +35,8 @@ environment:
       - rustup
       - gcc
       - python-as-3.12
-      - python3.12
+      - python-3.12-base
+      - python-3.12-base-dev
 pipeline:
   - name: Build
     runs: |-
