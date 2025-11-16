@@ -18,6 +18,7 @@ environment:
     repositories:
       - https://packages.wolfi.dev/os
     packages:
+      - sh
       - uv
       - build-base
       - python-3.12-base
