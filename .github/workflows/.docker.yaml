@@ -178,9 +178,6 @@ jobs:
         image: ${{ needs.build_image.outputs.image_tag }}
         ports:
           - 7860:7860
-        options: >-
-          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/" --health-interval 10s
-          --health-timeout 10s --health-start-period 20s --health-retries 15
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
