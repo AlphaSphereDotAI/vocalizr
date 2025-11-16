@@ -186,6 +186,8 @@ jobs:
           egress-policy: audit
       - name: Echo URL
         run: echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
+      - name: Sleep for 10 seconds
+        run: sleep 10s
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - name: Install uv
