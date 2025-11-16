@@ -58,6 +58,7 @@ jobs:
   build_image:
     name: Build and push Docker image to ${{ inputs.registry }}
     needs: check_dockerfile
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.tag.outputs.TAG }}
