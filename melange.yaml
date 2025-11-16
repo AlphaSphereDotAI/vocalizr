@@ -6,11 +6,10 @@ package:
     - license: MIT
   dependencies:
     runtime:
-      - python-as-3.12
-      - glibc
-      - libgcc
+      - python-3.12-base
       - libstdc++
-      - zlib
+  options:
+    no-depends: true
 environment:
   contents:
     keyring:
@@ -26,43 +25,30 @@ environment:
       - busybox
       - rustup
       - gcc
-      - python3
-      - python3-dev
+      - python-as-3.12
+      - python-3.12-base
+      - python-3.12-base-dev
 pipeline:
-  - name: Install git
-    uses: git-checkout
-    with:
-      repository: https://github.com/AlphaSphereDotAI/vocalizr.git
-      # tag: ${{package.version}}
-      branch: main
-  # - name: Setup Directories
-  #   runs: |
-  #     mkdir -p ${{targets.destdir}}/usr/bin
-  #     mkdir -p ${{targets.destdir}}/usr/bin/pycrucible_payload
-  #     mkdir -p ${{targets.destdir}}/usr/share/vocalizr
-  # - name: link
-  #   runs: ln -s ${{targets.destdir}}/usr/bin/pycrucible_payload/ ${{targets.destdir}}/usr/share/vocalizr/
-  # - name: Build
-  #   runs: uvx pycrucible -e . -o ${{targets.destdir}}/usr/bin/vocalizr
-  # - name: Install dependencies
-  #   runs: |
-  #     export UV_PROJECT_ENVIRONMENT="${{targets.destdir}}/usr/bin/pycrucible_payload/.venv"
-  #     export UV_VENV_CLEAR=1
-  #     uv sync
-  # - name: Cleanup
-  #   runs: uv cache prune
-  # - name: Make vocalizr executable
-  #   runs: chmod +x "${{targets.destdir}}/usr/bin/vocalizr"
   - name: Build
     runs: |-
-      export UV_LINK_MODE=copy
-      export UV_NO_BUILD=1
-      export UV_NO_CACHE=1
-      export UV_NO_DEV=1
-      export UV_TOOL_BIN_DIR="${{targets.destdir}}/usr/bin"
-      export UV_TOOL_DIR="${{targets.destdir}}/usr/share/vocalizr"
-      mkdir -p $UV_TOOL_BIN_DIR
-      mkdir -p $UV_TOOL_DIR
-      uv tool install ${{package.name}} --python 3.12
-      uv cache clean
+      set -x
+      export UV_LINK_MODE="copy"
+      export UV_NO_BUILD="1"
+      export UV_NO_CACHE="1"
+      export UV_NO_DEV="1"
+      export UV_SYSTEM_PYTHON="1"
+      export UV_NO_MANAGED_PYTHON="1"
+      export UV_TOOL_BIN_DIR="/usr/bin"
+      export UV_TOOL_DIR="/usr/share"
+      export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
+      export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
+      uv tool install --no-cache ${{package.name}}
+      ${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
       rm $UV_TOOL_DIR/.lock
+      mkdir -p $TOOL_BIN_DIR $TOOL_DIR
+      ln -s "${UV_TOOL_DIR}/${{package.name}}/bin/${{package.name}}" "${TOOL_BIN_DIR}/${{package.name}}"
+      cp -r "${UV_TOOL_DIR}/${{package.name}}" "${TOOL_DIR}/${{package.name}}"
+      rm -rf "${UV_TOOL_DIR}/${{package.name}}"
+      rm -rf ~/.cache
+      # uv cache clea
+    # - uses: strip
