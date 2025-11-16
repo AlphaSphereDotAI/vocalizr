@@ -8,7 +8,6 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - curl
     - vocalizr@local
 cmd: /usr/bin/vocalizr
 archs:
