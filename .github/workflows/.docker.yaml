@@ -74,9 +74,17 @@ jobs:
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
         with:
           egress-policy: audit
-      - name: Free Disk Space
-        if: github.event_name != 'pull_request'
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
+      - name: Free Disk Space - Ubuntu Runners
+        uses: endersonmenezes/free-disk-space@v3
+        with:
+          remove_android: true
+          remove_dotnet: true
+          remove_haskell: true
+          remove_tool_cache: true
+          remove_swap: true
+          remove_packages_one_command: true
+          rm_cmd: "rmz"
+          remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell /usr/local/julia /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/gradle"
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       - name: Download APK artifact
@@ -170,9 +178,6 @@ jobs:
         image: ${{ needs.build_image.outputs.image_tag }}
         ports:
           - 7860:7860
-        options: >-
-          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/" --health-interval 10s
-          --health-timeout 10s --health-start-period 20s --health-retries 15
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
@@ -203,7 +208,7 @@ jobs:
     needs:
       - api_test
       - docker_scout
-    if: ${{ always() && !cancelled() && inputs.registry == 'ghcr.io' }}
+    if: ${{ inputs.registry == 'ghcr.io' }}
     runs-on: ubuntu-latest
     environment:
       name: docker_image
