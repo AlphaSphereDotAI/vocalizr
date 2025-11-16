@@ -104,12 +104,14 @@ jobs:
         with:
           tag: ${{ steps.meta.outputs.tags }}
           generic-user: mh0386
-          generic-pass: ${{ inputs.registry == 'ghcr.io' && secrets.GH_TOKEN || inputs.registry == 'docker.io' && secrets.TOKEN_KEY_DOCKER }}
+          generic-pass: ${{ inputs.registry == 'ghcr.io' && secrets.GH_TOKEN || inputs.registry == 'docker.io' && secrets.TOKEN_KEY_DOCKER
+            }}
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
         if: ${{ inputs.is_test == false }}
         with:
-          subject-name: ${{ inputs.registry == 'docker.io' && 'index.docker.io' || inputs.registry }}/${{ github.repository }}
+          subject-name: ${{ inputs.registry == 'docker.io' && 'index.docker.io' || inputs.registry }}/${{ github.repository
+            }}
           subject-digest: ${{ steps.apko.outputs.digest }}
           push-to-registry: true
       - name: Update Docker Hub Description
@@ -148,7 +150,8 @@ jobs:
         with:
           registry: ${{ inputs.registry }}
           username: mh0386
-          password: ${{ inputs.registry == 'ghcr.io' && secrets.GH_TOKEN || inputs.registry == 'docker.io' && secrets.TOKEN_KEY_DOCKER }}
+          password: ${{ inputs.registry == 'ghcr.io' && secrets.GH_TOKEN || inputs.registry == 'docker.io' && secrets.TOKEN_KEY_DOCKER
+            }}
       - name: Docker Scout
         uses: docker/scout-action@f8c776824083494ab0d56b8105ba2ca85c86e4de # v1
         continue-on-error: true
@@ -171,8 +174,8 @@ jobs:
         ports:
           - 7860:7860
         options: >-
-          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/" --health-interval 10s
-          --health-timeout 10s --health-start-period 20s --health-retries 15
+          --health-cmd "curl -o /dev/null -f -s -w 'Status: %{http_code}, Time: %{time_total}s' http://localhost:7860/" --health-interval
+          10s --health-timeout 10s --health-start-period 20s --health-retries 15
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
