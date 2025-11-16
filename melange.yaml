@@ -18,16 +18,9 @@ environment:
     repositories:
       - https://packages.wolfi.dev/os
     packages:
-      - ca-certificates-bundle
       - uv
       - build-base
-      - bash
-      - busybox
-      - rustup
-      - gcc
-      - python-as-3.12
       - python-3.12-base
-      - python-3.12-base-dev
 pipeline:
   - name: Build
     runs: |-
