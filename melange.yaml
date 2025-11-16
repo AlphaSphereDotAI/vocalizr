@@ -18,6 +18,7 @@ environment:
     repositories:
       - https://packages.wolfi.dev/os
     packages:
+      - ca-certificates-bundle
       - bash
       - uv
       - build-base
