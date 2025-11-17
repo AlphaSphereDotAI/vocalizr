@@ -7,7 +7,6 @@ package:
   dependencies:
     runtime:
       - python-3.12-base
-      - libstdc++
   options:
     no-depends: true
 environment:
