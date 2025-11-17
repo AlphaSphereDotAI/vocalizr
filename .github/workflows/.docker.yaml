@@ -32,7 +32,7 @@ jobs:
         with:
           egress-policy: audit
       - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - name: Log in to ${{ inputs.registry }} Registry
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3
         with:
@@ -86,7 +86,7 @@ jobs:
             /usr/local/julia /usr/local/aws-cli /usr/local/aws-sam-cli /usr/share/gradle
 
       - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - name: Get Python version from pyproject.toml
         id: get_python_version
         uses: mikefarah/yq@796317b885ae219215caa36e9bdacc87c9962c15 # v4.48.2
@@ -202,7 +202,7 @@ jobs:
       - name: Echo URL
         run: echo "Vocalizr available on localhost:${{ job.services.vocalizr.ports['7860'] }}"
       - name: Checkout repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - name: Install uv
         uses: astral-sh/setup-uv@5a7eac68fb9809dea845d802897dc5c723910fa3 # v7
         with:
