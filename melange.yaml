@@ -4,6 +4,9 @@ package:
   description: Voice Generator part of the Chatacter Backend
   copyright:
     - license: MIT
+  dependencies:
+    runtime:
+      - python3~=${{vars.python_version}}
   options:
     no-depends: true
 vars:
@@ -18,7 +21,7 @@ environment:
     packages:
       - busybox
       - uv
-      - build-base
+      - python3~=${{vars.python_version}}
 pipeline:
   - name: Build
     runs: |-
@@ -26,8 +29,9 @@ pipeline:
       export UV_LINK_MODE="copy"
       export UV_NO_BUILD="1"
       export UV_NO_CACHE="1"
-      export UV_NO_DEV="1"
-      export UV_PYTHON="${{vars.python_version}}"
+      export UV_NO_DEV="1" 
+      export UV_SYSTEM_PYTHON="1"
+      export UV_NO_MANAGED_PYTHON="1"
       export UV_TOOL_BIN_DIR="/usr/bin"
       export UV_TOOL_DIR="/usr/share"
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
