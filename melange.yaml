@@ -6,7 +6,7 @@ package:
     - license: MIT
   dependencies:
     runtime:
-      - python3~=${{vars.python_version}}
+      - python3~="${{vars.python_version}}"
   options:
     no-depends: true
 vars:
@@ -21,7 +21,7 @@ environment:
     packages:
       - busybox
       - uv
-      - python3~=${{vars.python_version}}
+      - python3~="${{vars.python_version}}"
 pipeline:
   - name: Build
     runs: |-
