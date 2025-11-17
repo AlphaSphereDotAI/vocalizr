@@ -6,9 +6,6 @@ contents:
     - https://packages.wolfi.dev/os
     - '@local ./work/packages'
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
-    - curl
     - vocalizr@local
 cmd: /usr/bin/vocalizr
 archs:
@@ -24,7 +21,6 @@ accounts:
   users:
     - username: nonroot
       uid: 10000
-      shell: /bin/sh
   run-as: nonroot
 work-dir: /home/nonroot
 paths:
