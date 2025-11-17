@@ -29,6 +29,7 @@ pipeline:
       export UV_NO_BUILD="1"
       export UV_NO_CACHE="1"
       export UV_NO_DEV="1"
+      export UV_PYTHON="${{vars.python_version}}"
       export UV_TOOL_BIN_DIR="/usr/bin"
       export UV_TOOL_DIR="/usr/share"
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
