@@ -6,9 +6,11 @@ package:
     - license: MIT
   dependencies:
     runtime:
-      - python-3.12-base
+      - python3~=${{vars.python_version}}
   options:
     no-depends: true
+vars:
+  python_version: 3.12
 environment:
   contents:
     keyring:
@@ -20,7 +22,7 @@ environment:
       - busybox
       - uv
       - build-base
-      - python-3.12-base
+      - python3~=${{vars.python_version}}
 pipeline:
   - name: Build
     runs: |-
@@ -43,5 +45,3 @@ pipeline:
       cp -r "${UV_TOOL_DIR}/${{package.name}}" "${TOOL_DIR}/${{package.name}}"
       rm -rf "${UV_TOOL_DIR}/${{package.name}}"
       rm -rf ~/.cache
-      # uv cache clea
-    # - uses: strip
