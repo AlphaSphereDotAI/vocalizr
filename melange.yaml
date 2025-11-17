@@ -10,7 +10,7 @@ package:
   options:
     no-depends: true
 vars:
-  python_version: 3.12
+  python_version: "3.12"
 environment:
   contents:
     keyring:
