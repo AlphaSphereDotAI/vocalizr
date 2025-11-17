@@ -4,9 +4,6 @@ package:
   description: Voice Generator part of the Chatacter Backend
   copyright:
     - license: MIT
-  dependencies:
-    runtime:
-      - python3~=${{vars.python_version}}
   options:
     no-depends: true
 vars:
