@@ -29,7 +29,7 @@ pipeline:
       export UV_LINK_MODE="copy"
       export UV_NO_BUILD="1"
       export UV_NO_CACHE="1"
-      export UV_NO_DEV="1" 
+      export UV_NO_DEV="1"
       export UV_SYSTEM_PYTHON="1"
       export UV_NO_MANAGED_PYTHON="1"
       export UV_TOOL_BIN_DIR="/usr/bin"
