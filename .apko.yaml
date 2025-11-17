@@ -21,7 +21,6 @@ accounts:
   users:
     - username: nonroot
       uid: 10000
-      shell: /bin/sh
   run-as: nonroot
 work-dir: /home/nonroot
 paths:
