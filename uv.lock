@@ -2154,7 +2154,7 @@ dev = [
     { name = "pytest-mergify", specifier = ">=2025.11.6.1" },
     { name = "ruff", specifier = ">=0.14.5" },
     { name = "ty", specifier = ">=0.0.1a26" },
-    { name = "uv-build", specifier = ">=0.9.9" },
+    { name = "uv-build", specifier = ">=0.9.10" },
 ]
 
 [[package]]
