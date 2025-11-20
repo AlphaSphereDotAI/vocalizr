@@ -18,6 +18,7 @@ environment:
     packages:
       - busybox
       - uv
+      - libstdc++
 pipeline:
   - name: Build
     runs: |-
