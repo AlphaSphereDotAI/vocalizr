@@ -44,3 +44,4 @@ pipeline:
       cp -r "${UV_TOOL_DIR}/${{package.name}}" "${TOOL_DIR}/${{package.name}}"
       rm -rf "${UV_TOOL_DIR}/${{package.name}}"
       rm -rf ~/.cache
+  - uses: strip
