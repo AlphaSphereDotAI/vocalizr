@@ -27,6 +27,7 @@ pipeline:
       export UV_NO_CACHE="1"
       export UV_NO_DEV="1"
       export UV_PYTHON_PREFERENCE="only-managed"
+      export UV_PYTHON=${{vars.python_version}}
       export UV_TOOL_BIN_DIR="/usr/bin"
       export UV_TOOL_DIR="/usr/share"
       export UV_PYTHON_BIN_DIR="${UV_TOOL_DIR}/${{package.name}}/python"
