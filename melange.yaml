@@ -6,10 +6,11 @@ package:
     - license: MIT
   dependencies:
     runtime:
-      - python-3.12-base
-      - libstdc++
+      - python-${{vars.python_version}}
   options:
     no-depends: true
+vars:
+  python_version: 3.12
 environment:
   contents:
     keyring:
@@ -18,16 +19,9 @@ environment:
     repositories:
       - https://packages.wolfi.dev/os
     packages:
-      - ca-certificates-bundle
-      - uv
-      - build-base
-      - bash
       - busybox
-      - rustup
-      - gcc
-      - python-as-3.12
-      - python-3.12-base
-      - python-3.12-base-dev
+      - uv
+      - python-${{vars.python_version}}
 pipeline:
   - name: Build
     runs: |-
@@ -42,7 +36,7 @@ pipeline:
       export UV_TOOL_DIR="/usr/share"
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
       export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
-      uv tool install --no-cache ${{package.name}}
+      uv tool install ${{package.name}}
       ${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
       rm $UV_TOOL_DIR/.lock
       mkdir -p $TOOL_BIN_DIR $TOOL_DIR
@@ -50,5 +44,3 @@ pipeline:
       cp -r "${UV_TOOL_DIR}/${{package.name}}" "${TOOL_DIR}/${{package.name}}"
       rm -rf "${UV_TOOL_DIR}/${{package.name}}"
       rm -rf ~/.cache
-      # uv cache clea
-    # - uses: strip
