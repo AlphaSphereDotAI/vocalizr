@@ -29,7 +29,7 @@ pipeline:
       export UV_PYTHON_PREFERENCE="only-managed"
       export UV_TOOL_BIN_DIR="/usr/bin"
       export UV_TOOL_DIR="/usr/share"
-      export UV_PYTHON_INSTALL_DIR="${UV_TOOL_DIR}/${{package.name}}/python"
+      export UV_PYTHON_BIN_DIR="${UV_TOOL_DIR}/${{package.name}}/python"
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
       export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
       uv python install ${{vars.python_version}}
