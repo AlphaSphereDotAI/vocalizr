@@ -22,7 +22,6 @@ pipeline:
   - name: Build
     runs: |-
       set -x
-      export UV_PYTHON="${{vars.python_version}}"
       export UV_LINK_MODE="copy"
       export UV_NO_BUILD="1"
       export UV_NO_CACHE="1"
@@ -33,8 +32,9 @@ pipeline:
       export UV_PYTHON_INSTALL_DIR="${UV_TOOL_DIR}/${{package.name}}/python"
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
       export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
+      uv python install ${{vars.python_version}}
       uv tool install --no-cache ${{package.name}}
-      #${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
+      ${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
       rm $UV_TOOL_DIR/.lock
       mkdir -p $TOOL_BIN_DIR $TOOL_DIR
       ln -s "${UV_TOOL_DIR}/${{package.name}}/bin/${{package.name}}" "${TOOL_BIN_DIR}/${{package.name}}"
