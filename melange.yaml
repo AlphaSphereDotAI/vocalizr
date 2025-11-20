@@ -27,7 +27,7 @@ pipeline:
   - name: Build
     runs: |-
       set -x
-      
+
       export UV_LINK_MODE="copy"
       export UV_NO_BUILD="1"
       export UV_NO_CACHE="1"
@@ -38,10 +38,10 @@ pipeline:
       export UV_TOOL_DIR="/usr/share"
       export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
       export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
-      
+
       uv tool install ${{package.name}}
       ${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
-      
+
       find ${UV_TOOL_DIR}/${{package.name}} -type d -name "__pycache__" -exec rm -rf {} +
       find ${UV_TOOL_DIR}/${{package.name}} -type d -name "tests" -exec rm -rf {} +
       rm $UV_TOOL_DIR/.lock
