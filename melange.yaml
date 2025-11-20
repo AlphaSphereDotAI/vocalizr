@@ -4,9 +4,6 @@ package:
   description: Voice Generator part of the Chatacter Backend
   copyright:
     - license: MIT
-  dependencies:
-    runtime:
-      - python-${{vars.python_version}}
   options:
     no-depends: true
 vars:
@@ -21,7 +18,6 @@ environment:
     packages:
       - busybox
       - uv
-      - python-${{vars.python_version}}
 pipeline:
   - name: Build
     runs: |-
