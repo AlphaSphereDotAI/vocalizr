@@ -36,4 +36,4 @@ paths:
     permissions: 0o777
 layering:
   strategy: origin
-  budget: 10
+  budget: 5
