@@ -1,0 +1,49 @@
+package:
+  name: vocalizr
+  version: 0.0.13
+  description: Voice Generator part of the Chatacter Backend
+  copyright:
+    - license: MIT
+  dependencies:
+    runtime:
+      - python-${{vars.python_version}}
+  options:
+    no-depends: true
+vars:
+  python_version: 3.12
+environment:
+  contents:
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+      - ./melange.rsa.pub
+    repositories:
+      - https://packages.wolfi.dev/os
+    packages:
+      - busybox
+      - uv
+      - python-${{vars.python_version}}
+pipeline:
+  - name: Build
+    runs: |-
+      set -x
+      export UV_LINK_MODE="copy"
+      export UV_NO_BUILD="1"
+      export UV_NO_CACHE="1"
+      export UV_NO_DEV="1"
+      export UV_SYSTEM_PYTHON="1"
+      export UV_NO_MANAGED_PYTHON="1"
+      export UV_TOOL_BIN_DIR="/usr/bin"
+      export UV_TOOL_DIR="/usr/share"
+      export TOOL_BIN_DIR="${{targets.destdir}}${UV_TOOL_BIN_DIR}"
+      export TOOL_DIR="${{targets.destdir}}${UV_TOOL_DIR}"
+      uv tool install ${{package.name}}
+      ${UV_TOOL_DIR}/${{package.name}}/bin/python -m spacy download en_core_web_sm
+      find ${UV_TOOL_DIR}/${{package.name}} -type d -name "__pycache__" -exec rm -rf {} +
+      find ${UV_TOOL_DIR}/${{package.name}} -type d -name "tests" -exec rm -rf {} +
+      rm $UV_TOOL_DIR/.lock
+      mkdir -p $TOOL_BIN_DIR $TOOL_DIR
+      ln -s "${UV_TOOL_DIR}/${{package.name}}/bin/${{package.name}}" "${TOOL_BIN_DIR}/${{package.name}}"
+      cp -r "${UV_TOOL_DIR}/${{package.name}}" "${TOOL_DIR}/${{package.name}}"
+      rm -rf "${UV_TOOL_DIR}/${{package.name}}"
+      rm -rf ~/.cache
+  - uses: strip
