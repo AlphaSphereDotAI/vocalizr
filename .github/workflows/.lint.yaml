@@ -34,7 +34,7 @@ jobs:
       - name: Apply linters fixes if exist
         run: $TRUNK_PATH fmt --all --no-progress
       - name: Commit and push applied linter fixes
-        uses: stefanzweifel/git-auto-commit-action@e2d505468267a3cb406af729d48d664de1f16393 # v6.0.2
+        uses: stefanzweifel/git-auto-commit-action@v7
         if: success() || failure()
         with:
           commit_message: "[Trunk] Apply linters fixes"
