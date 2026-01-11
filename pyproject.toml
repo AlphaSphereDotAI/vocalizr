@@ -44,7 +44,7 @@ dev = [
     "pytest-md>=0.2.0",
     "pytest-mergify>=2025.11.19.1",
     "pytest>=9.0.1",
-    "ruff>=0.14.6",
+    "ruff>=0.14.11",
     "ty>=0.0.1a27",
     "uv-build>=0.9.11",
 ]
