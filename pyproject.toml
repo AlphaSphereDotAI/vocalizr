@@ -3,14 +3,13 @@ name = "vocalizr"
 version = "0.1.0"
 description = "Voice Generator part of the Chatacter Backend"
 readme = "README.md"
-requires-python = ">=3.12, <3.13"
+requires-python = ">=3.13,<3.14"
 authors = [
     { name = "Mohamed Hisham Abdelzaher", email = "mohamed.hisham.abdelzaher@gmail.com" },
 ]
 keywords = ["audio", "kokoro", "voice"]
 classifiers = [
     "Environment :: GPU :: NVIDIA CUDA :: 12 :: 12.4",
-    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
@@ -49,12 +48,7 @@ dev = [
     "uv-build>=0.9.11",
 ]
 
-[tool.uv.sources]
-torch = [{ index = "pytorch-cu124" }]
-torchaudio = [{ index = "pytorch-cu124" }]
-
 [[tool.uv.index]]
-explicit = true
 name = "pytorch-cu124"
 url = "https://download.pytorch.org/whl/cu124"
 
