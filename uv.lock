@@ -1418,7 +1418,7 @@ wheels = [
 
 [[package]]
 name = "pytest-mergify"
-version = "2025.11.19.1"
+version = "2026.1.12.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "opentelemetry-exporter-otlp-proto-http" },
@@ -1427,9 +1427,9 @@ dependencies = [
     { name = "pytest-timeout" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/55/1b/c5b20c875043e4f6134719c6570c18362ce9e28f170124d1bfe93a0309a2/pytest_mergify-2025.11.19.1.tar.gz", hash = "sha256:10ec798d8c4910849280d7025c335f54b2b8e0d247635f201cc8daf44c6b9bcf", size = 25572, upload-time = "2025-11-19T09:34:37.79Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/36/b97d98451e7ac46800cbd73f51bf798aeb0514e820e836520d72e56bf682/pytest_mergify-2026.1.12.1.tar.gz", hash = "sha256:caa19e551f22a01457f59c10f75ae09094ea8dc49fe2062de37511fb71e0fc92", size = 77954, upload-time = "2026-01-12T11:58:46.457Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/46/1dfe7a8b25ce6592ea20ca217769f42b3df91eab0f18834abb56fb166586/pytest_mergify-2025.11.19.1-py3-none-any.whl", hash = "sha256:4f8055c11bd001918c37893085d997fceacb1ee5de6e61a3a066127bc2e46040", size = 31260, upload-time = "2025-11-19T09:34:36.323Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/ec/5fd70b050ed10cd138e971edfedd1a9385b3683e2ff6dee585cc0918dbc3/pytest_mergify-2026.1.12.1-py3-none-any.whl", hash = "sha256:66a68e58e66f85794f1a519a4c6238bc17cfb4fcaad38d610935fb171fb575fd", size = 32055, upload-time = "2026-01-12T11:58:45.095Z" },
 ]
 
 [[package]]
@@ -2235,7 +2235,7 @@ dev = [
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-emoji", specifier = ">=0.2.0" },
     { name = "pytest-md", specifier = ">=0.2.0" },
-    { name = "pytest-mergify", specifier = ">=2025.11.19.1" },
+    { name = "pytest-mergify", specifier = ">=2025.12.29.1" },
     { name = "ruff", specifier = ">=0.14.6" },
     { name = "ty", specifier = ">=0.0.1a27" },
     { name = "uv-build", specifier = ">=0.9.11" },
