@@ -13,7 +13,6 @@ def main() -> None:
         server_port=7860,
         debug=True,
         mcp_server=True,
-        show_api=True,
         enable_monitoring=True,
         show_error=True,
     )
