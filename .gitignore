@@ -6,3 +6,4 @@
 logs/
 results/
 pycrucible_payload/
+.vscode/settings.json
