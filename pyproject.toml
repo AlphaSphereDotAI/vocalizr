@@ -49,12 +49,7 @@ dev = [
     "uv-build>=0.9.11",
 ]
 
-[tool.uv.sources]
-torch = [{ index = "pytorch-cu124" }]
-torchaudio = [{ index = "pytorch-cu124" }]
-
 [[tool.uv.index]]
-explicit = true
 name = "pytorch-cu124"
 url = "https://download.pytorch.org/whl/cu124"
 
