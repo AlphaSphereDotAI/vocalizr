@@ -22,7 +22,7 @@ jobs:
       UV_COMPILE_BYTECODE: "1"
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
+        uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
         with:
           egress-policy: audit
       - name: Checkout repository
@@ -35,7 +35,7 @@ jobs:
             pyproject.toml
             uv.lock
       - name: Install uv
-        uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7
+        uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7
         if: steps.changed-files-dependency.outputs.only_changed == 'true'
         with:
           enable-cache: true
