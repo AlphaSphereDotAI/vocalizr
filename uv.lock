@@ -2248,7 +2248,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "gitpython", specifier = ">=3.1.45" },
-    { name = "gradio-client", specifier = ">=2.0.3" },
+    { name = "gradio-client", specifier = ">=2.1.0" },
     { name = "pycrucible", specifier = ">=0.4.3" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
