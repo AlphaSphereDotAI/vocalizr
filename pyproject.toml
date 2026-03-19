@@ -46,7 +46,7 @@ dev = [
     "pytest>=9.0.2",
     "ruff>=0.15.7",
     "ty>=0.0.24",
-    "uv-build>=0.10.11",
+    "uv-build>=0.10.12",
 ]
 
 [tool.uv.sources]
