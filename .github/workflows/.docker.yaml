@@ -41,7 +41,7 @@ jobs:
           password: ${{ inputs.registry == 'ghcr.io' && secrets.GH_TOKEN || inputs.registry == 'docker.io' && secrets.TOKEN_KEY_DOCKER
             }}
       - name: Validate build configuration
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         with:
           call: check
       - name: Job Summary (Success)
@@ -114,7 +114,7 @@ jobs:
             type=ref,event=tag
             type=ref,event=branch
       - name: Build and Push to ${{ inputs.registry }}
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         id: push
         with:
           push: true
