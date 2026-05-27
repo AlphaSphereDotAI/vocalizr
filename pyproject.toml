@@ -15,7 +15,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-    "gradio[mcp]>=6.15.0",
+    "gradio[mcp]>=6.15.1",
     "kokoro>=0.9.4",
     "pip>=26.1.1",
     "pyfiglet>=1.0.4",
@@ -42,7 +42,7 @@ dev = [
     "pytest-cov>=7.1.0",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
-    "pytest-mergify>=2026.4.7.1",
+    "pytest-mergify>=2026.5.27.1",
     "pytest>=9.0.3",
     "ruff>=0.15.14",
     "ty>=0.0.39",
