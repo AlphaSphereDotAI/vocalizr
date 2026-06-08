@@ -15,7 +15,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-    "gradio[mcp]>=6.16.0",
+    "gradio[mcp]>=6.17.3",
     "kokoro>=0.9.4",
     "pip>=26.1.2",
     "pyfiglet>=1.0.4",
