@@ -36,7 +36,7 @@ vocalizr = "vocalizr.__main__:main"
 
 [dependency-groups]
 dev = [
-    "gitpython>=3.1.56",
+    "gitpython>=3.1.57",
     "gradio-client>=2.5.0",
     "pycrucible>=0.4.6",
     "pytest-cov>=7.1.0",
@@ -44,7 +44,7 @@ dev = [
     "pytest-md>=0.2.0",
     "pytest-mergify>=2026.7.7.1",
     "pytest>=9.1.1",
-    "ruff>=0.15.22",
+    "ruff>=0.16.0",
     "ty>=0.0.63",
     "uv-build>=0.11.32",
 ]
