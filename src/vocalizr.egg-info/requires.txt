@@ -1,5 +1,0 @@
-gradio[mcp]>=5.49.1
-kokoro>=0.9.4
-pip>=25.3
-pyfiglet>=1.0.4
-soundfile>=0.13.1

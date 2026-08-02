@@ -15,11 +15,11 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-    "gradio[mcp]>=5.49.1",
+    "gradio[mcp]>=6.22.0",
     "kokoro>=0.9.4",
-    "pip>=25.3",
+    "pip>=26.2",
     "pyfiglet>=1.0.4",
-    "soundfile>=0.13.1",
+    "soundfile>=0.14.0",
 ]
 
 [project.urls]
@@ -36,17 +36,17 @@ vocalizr = "vocalizr.__main__:main"
 
 [dependency-groups]
 dev = [
-    "gitpython>=3.1.45",
-    "gradio-client>=1.13.3",
-    "pycrucible>=0.3.9",
-    "pytest-cov>=7.0.0",
+    "gitpython>=3.1.57",
+    "gradio-client>=2.6.0",
+    "pycrucible>=0.4.6",
+    "pytest-cov>=7.1.0",
     "pytest-emoji>=0.2.0",
     "pytest-md>=0.2.0",
-    "pytest-mergify>=2025.11.19.1",
-    "pytest>=9.0.1",
-    "ruff>=0.14.6",
-    "ty>=0.0.1a27",
-    "uv-build>=0.9.11",
+    "pytest-mergify>=2026.7.29.1",
+    "pytest>=9.1.1",
+    "ruff>=0.16.1",
+    "ty>=0.0.65",
+    "uv-build>=0.12.1",
 ]
 
 [tool.uv.sources]
