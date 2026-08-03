@@ -1,0 +1,39 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    - ./melange.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+    - '@local ./work/packages'
+  packages:
+    - vocalizr@local
+cmd: /usr/bin/vocalizr
+archs:
+  - amd64
+environment:
+  GRADIO_SERVER_PORT: 7860
+  GRADIO_SERVER_NAME: 0.0.0.0
+  HF_HOME: /home/nonroot/hf
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 10000
+  users:
+    - username: nonroot
+      uid: 10000
+  run-as: nonroot
+work-dir: /home/nonroot
+paths:
+  - path: /home/nonroot
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o777
+  - path: /usr/share/vocalizr
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o777
+layering:
+  strategy: origin
+  budget: 5
