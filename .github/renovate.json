@@ -6,7 +6,9 @@
     "labels": ["Lockfile", "dependencies"]
   },
   "osvVulnerabilityAlerts": true,
-  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "dependencyDashboard": {
+    "osvVulnerabilitySummary": "all"
+  },
   "packageRules": [
     {
       "matchManagers": ["pep621"],
